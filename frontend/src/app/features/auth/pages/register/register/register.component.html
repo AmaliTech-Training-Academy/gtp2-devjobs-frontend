@@ -1,24 +1,132 @@
-<div class="register-wrapper">
-  <!-- Toggle Role Buttons -->
-  <div class="role-toggle">
-    <button
-      [class.active]="selectedRole === 'seeker'"
-      (click)="switchRole('seeker')"
-    >
-      Job Seeker
-    </button>
-    <button
-      [class.active]="selectedRole === 'employer'"
-      (click)="switchRole('employer')"
-    >
-      Employer
-    </button>
-  </div>
+<div class="register-container">
+  <app-public-auth-navbar></app-public-auth-navbar>
 
-  <!-- Auth Form -->
-  <app-auth-form
-    [isRegister]="true"
-    [userType]="selectedRole"
-    (formSubmit)="onFormSubmit($event)"
-  ></app-auth-form>
+  <div class="register-content">
+    <!-- Left Section with Content -->
+    <div class="left-section">
+      <div class="content-list">
+        <!-- Job Seeker Content -->
+        <ng-container *ngIf="selectedRole === 'seeker'">
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Tailor your application with a custom cover letter and resume.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Use filters to narrow results by location, salary, job type, and
+              more.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Search anytime without logging in, but applying requires an
+              account.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Use keywords in the search barfor better results. <br /><br />
+              "Try keywords like 'frontend', 'manager', or 'remote' to quickly
+              find relevant jobs."
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Employer Content -->
+        <ng-container *ngIf="selectedRole === 'employer'">
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Enter the full legal name of your company as registered.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Provide a contact number for faster communication if needed.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Tell us how many employees work at your company to personalize
+              your dashboard experience.
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="icon">
+              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+            </div>
+            <div class="text">
+              Providing accurate company information helps build trust with job
+              seekers and ensures proper verification.
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- <div class="decorative-shape"></div> -->
+    </div>
+
+    <!-- Right Section with Form -->
+    <div class="right-section">
+      <div class="form-container">
+        <!-- Role Toggle -->
+        <div class="role-toggle">
+          <button
+            [class.active]="selectedRole === 'seeker'"
+            (click)="switchRole('seeker')"
+          >
+            Job seeker
+          </button>
+          <button
+            [class.active]="selectedRole === 'employer'"
+            (click)="switchRole('employer')"
+          >
+            Employer
+          </button>
+        </div>
+
+        <!-- Form Title -->
+        <div class="form-title">
+          <span *ngIf="selectedRole === 'seeker'">Create an account</span>
+          <span *ngIf="selectedRole === 'employer'"
+            >Create an employer account</span
+          >
+        </div>
+
+        <!-- Auth Form -->
+        <app-auth-form
+          [isRegister]="true"
+          [userType]="selectedRole"
+          (formSubmit)="onFormSubmit($event)"
+        ></app-auth-form>
+      </div>
+    </div>
+  </div>
 </div>
