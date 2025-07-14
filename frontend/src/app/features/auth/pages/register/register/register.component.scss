@@ -1,13 +1,16 @@
-.register-container {
+.register-container,
+.login-container {
   min-height: 100vh;
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
 }
 
-.register-content {
+.register-content,
+.login-content {
   flex: 1;
   display: flex;
+  flex-direction: row;
   max-width: 1350px;
   margin: 0 auto;
   position: relative;
@@ -124,6 +127,18 @@
         text-align: left;
       }
     }
+    .login-title {
+      padding: 8rem 3rem;
+      margin-bottom: 2rem;
+
+      .title {
+        margin-bottom: 40px;
+      }
+      .auth-form {
+        margin-top: 60px;
+        text-align: left;
+      }
+    }
   }
 }
 // Animations
@@ -159,29 +174,5 @@
 
   &.employer-enter {
     animation-name: fadeSlideInEmployer;
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .register-content {
-    flex-direction: column;
-  }
-
-  .left-section {
-    padding: 2rem 1rem;
-
-    .decorative-shape {
-      height: 100px;
-    }
-  }
-
-  .right-section {
-    padding: 1rem;
-    max-width: none;
-
-    .form-container {
-      padding: 1.5rem;
-    }
   }
 }

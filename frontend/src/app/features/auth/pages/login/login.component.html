@@ -10,7 +10,7 @@
             <img src="./assets/icons/bulb.png" alt="lamp-icon" />
           </div>
           <div class="text">
-            Welcome back! Login to find your next opportunity.
+            Tailor your application with a custom cover letter and resume.
           </div>
         </div>
 
@@ -19,11 +19,31 @@
             <img src="./assets/icons/bulb.png" alt="lamp-icon" />
           </div>
           <div class="text">
-            Stay up-to-date with new listings by saving job searches.
+            Use filters to narrow results by location, salary, job type, and
+            more.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Search anytime without logging in, but applying requires an account.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Use keywords in the search barfor better results. <br />
+            "Try keywords like 'frontend', 'manager', or 'remote' to quickly
+            find relevant jobs."
           </div>
         </div>
       </div>
-
       <div class="decorative-shape">
         <img src="./assets/icons/image 6.png" alt="" />
       </div>
@@ -31,12 +51,15 @@
 
     <div class="right-section">
       <div class="form-container">
-        <div class="form-title">Log into your account</div>
-        <div class="auth-form">
-          <app-auth-form
-            [isRegister]="false"
-            (formSubmit)="onLoginSubmit($event)"
-          ></app-auth-form>
+        <div class="form-title login-title">
+          <h3 class="title">Login</h3>
+
+          <div class="auth-form">
+            <app-auth-form
+              [isRegister]="false"
+              (formSubmit)="onLoginSubmit($event)"
+            ></app-auth-form>
+          </div>
         </div>
       </div>
     </div>

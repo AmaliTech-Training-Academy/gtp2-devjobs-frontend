@@ -15,7 +15,7 @@ import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-pu
     AuthPublicNavbarComponent,
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['../register/register/register.component.scss'],
 })
 export class LoginComponent {
   onLoginSubmit(formData: any) {
