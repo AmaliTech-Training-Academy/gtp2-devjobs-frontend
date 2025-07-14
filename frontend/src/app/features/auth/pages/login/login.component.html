@@ -1,1 +1,44 @@
-<p>login works!</p>
+<!-- login.component.html -->
+<div class="login-container">
+  <app-public-auth-navbar></app-public-auth-navbar>
+
+  <div class="login-content">
+    <div class="left-section">
+      <div class="content-list">
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Welcome back! Login to find your next opportunity.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Stay up-to-date with new listings by saving job searches.
+          </div>
+        </div>
+      </div>
+
+      <div class="decorative-shape">
+        <img src="./assets/icons/image 6.png" alt="" />
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="form-container">
+        <div class="form-title">Log into your account</div>
+        <div class="auth-form">
+          <app-auth-form
+            [isRegister]="false"
+            (formSubmit)="onLoginSubmit($event)"
+          ></app-auth-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
