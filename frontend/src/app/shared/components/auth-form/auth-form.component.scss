@@ -2,14 +2,15 @@
   width: 100%;
 
   .form-group {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    height: 80px;
   }
 
   .form-label {
     display: block;
-    color: #374151;
-    font-weight: 500;
-    font-size: 0.75rem;
+    color: #19202d;
+    font-weight: 700;
+    font-size: 1rem;
     margin-bottom: 0.25rem;
   }
 
@@ -25,31 +26,26 @@
       }
 
       .mat-mdc-form-field-flex {
-        background-color: #f9fafb;
-        border-radius: 8px;
         padding: 0 0.55rem;
-
-        border: 1px solid #e5e7eb;
+        border: none;
+        height: 48px;
         width: 100%;
 
         &:hover {
-          border-color: #d1d5db;
+          border-color: #d3d3d3;
         }
       }
 
       &.mat-focused {
         .mat-mdc-form-field-flex {
           border-color: #4f46e5;
-          box-shadow: 0 0 0 1px #4f46e5;
         }
       }
 
       .mat-mdc-input-element {
         color: #111827;
-        line-height: 1.2 !important;
-        height: 1.75rem !important;
-        font-size: 0.85rem !important;
-        padding: 0 !important;
+        line-height: 1;
+        font-size: 14px;
 
         &::placeholder {
           color: #9ca3af;
@@ -58,21 +54,19 @@
 
       .mat-mdc-form-field-error {
         color: #ef4444;
-        font-size: 0.875rem;
+        font-size: 0.775rem;
       }
 
-      // Adjust form field subscript (error message) spacing
       .mat-mdc-form-field-subscript-wrapper {
-        margin-top: 0.25rem;
+        margin-top: 0.15rem;
+        font-size: 14px;
       }
 
-      // Style prefix icons
       .mat-mdc-form-field-icon-prefix {
-        color: #6b7280;
-        margin-right: 0.5rem;
+        color: #515662;
+        margin-bottom: 0.5rem;
       }
 
-      // Style suffix icons (password visibility toggle)
       .mat-mdc-form-field-icon-suffix {
         color: #6b7280;
         margin-left: 0.5rem;
@@ -111,15 +105,15 @@
   // Material button override
   ::ng-deep .mat-mdc-button-base {
     &.mat-mdc-raised-button {
-      background-color: #4f46e5 !important;
+      background-color: #257b83 !important;
       color: white !important;
       border-radius: 8px !important;
       padding: 0.875rem 1.5rem !important;
       font-weight: 600 !important;
-      font-size: 1rem !important;
+      font-size: 0.8rem !important;
       height: auto !important;
       line-height: 1.5 !important;
-      margin-top: 1rem !important;
+      margin-top: 0.5rem !important;
 
       &:hover:not(:disabled) {
         background-color: #4338ca !important;

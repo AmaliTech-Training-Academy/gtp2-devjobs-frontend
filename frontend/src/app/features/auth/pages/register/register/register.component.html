@@ -9,7 +9,7 @@
         <ng-container *ngIf="selectedRole === 'seeker'">
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Tailor your application with a custom cover letter and resume.
@@ -18,7 +18,7 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Use filters to narrow results by location, salary, job type, and
@@ -28,7 +28,7 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Search anytime without logging in, but applying requires an
@@ -38,10 +38,10 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
-              Use keywords in the search barfor better results. <br /><br />
+              Use keywords in the search barfor better results. <br />
               "Try keywords like 'frontend', 'manager', or 'remote' to quickly
               find relevant jobs."
             </div>
@@ -52,7 +52,7 @@
         <ng-container *ngIf="selectedRole === 'employer'">
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Enter the full legal name of your company as registered.
@@ -61,7 +61,7 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Provide a contact number for faster communication if needed.
@@ -70,7 +70,7 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Tell us how many employees work at your company to personalize
@@ -80,7 +80,7 @@
 
           <div class="content-item">
             <div class="icon">
-              <img src="./assets/icons/Vector.png" alt="lamp-icon" />
+              <img src="./assets/icons/bulb.png" alt="lamp-icon" />
             </div>
             <div class="text">
               Providing accurate company information helps build trust with job
@@ -118,14 +118,16 @@
           <span *ngIf="selectedRole === 'employer'"
             >Create an employer account</span
           >
-        </div>
 
-        <!-- Auth Form -->
-        <app-auth-form
-          [isRegister]="true"
-          [userType]="selectedRole"
-          (formSubmit)="onFormSubmit($event)"
-        ></app-auth-form>
+          <!-- Auth Form -->
+          <div class="auth-form">
+            <app-auth-form
+              [isRegister]="true"
+              [userType]="selectedRole"
+              (formSubmit)="onFormSubmit($event)"
+            ></app-auth-form>
+          </div>
+        </div>
       </div>
     </div>
   </div>

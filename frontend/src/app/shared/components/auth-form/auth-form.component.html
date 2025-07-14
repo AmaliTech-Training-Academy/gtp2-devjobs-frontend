@@ -10,7 +10,9 @@
           placeholder="Enter your full name"
           required
         />
-        <mat-icon matPrefix>person</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/name.png" alt="name-icon" />
+        </mat-icon>
         <mat-error
           *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
         >
@@ -28,7 +30,9 @@
           placeholder="Enter your username"
           required
         />
-        <mat-icon matPrefix>alternate_email</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/username.png" alt="username-icon"
+        /></mat-icon>
         <mat-error
           *ngIf="form.get('username')?.invalid && form.get('username')?.touched"
         >
@@ -46,7 +50,9 @@
           placeholder="Enter your email"
           required
         />
-        <mat-icon matPrefix>mail</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/email.png" alt="email"
+        /></mat-icon>
         <mat-error
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
         >
@@ -67,7 +73,9 @@
           placeholder="Enter your company name"
           required
         />
-        <mat-icon matPrefix>business</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/name.png" alt="name-icon"
+        /></mat-icon>
         <mat-error
           *ngIf="
             form.get('companyName')?.invalid && form.get('companyName')?.touched
@@ -87,7 +95,9 @@
           placeholder="Enter your username"
           required
         />
-        <mat-icon matPrefix>alternate_email</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/username.png" alt="username-icon"
+        /></mat-icon>
         <mat-error
           *ngIf="form.get('username')?.invalid && form.get('username')?.touched"
         >
@@ -105,7 +115,9 @@
           placeholder="Enter your company email"
           required
         />
-        <mat-icon matPrefix>mail</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/email.png" alt="email"
+        /></mat-icon>
         <mat-error
           *ngIf="
             form.get('companyEmail')?.invalid &&
@@ -129,7 +141,9 @@
           placeholder="Enter your email"
           required
         />
-        <mat-icon matPrefix>mail</mat-icon>
+        <mat-icon matPrefix
+          ><img src="./assets/icons/email.png" alt="email"
+        /></mat-icon>
         <mat-error
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
         >
@@ -150,7 +164,7 @@
         placeholder="Enter your password"
         required
       />
-      <mat-icon matPrefix>lock</mat-icon>
+      <!-- <mat-icon matPrefix>lock</mat-icon> -->
       <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
