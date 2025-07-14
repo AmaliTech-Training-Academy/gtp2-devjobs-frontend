@@ -1,1 +1,24 @@
-<p>register works!</p>
+<div class="register-wrapper">
+  <!-- Toggle Role Buttons -->
+  <div class="role-toggle">
+    <button
+      [class.active]="selectedRole === 'seeker'"
+      (click)="switchRole('seeker')"
+    >
+      Job Seeker
+    </button>
+    <button
+      [class.active]="selectedRole === 'employer'"
+      (click)="switchRole('employer')"
+    >
+      Employer
+    </button>
+  </div>
+
+  <!-- Auth Form -->
+  <app-auth-form
+    [isRegister]="true"
+    [userType]="selectedRole"
+    (formSubmit)="onFormSubmit($event)"
+  ></app-auth-form>
+</div>

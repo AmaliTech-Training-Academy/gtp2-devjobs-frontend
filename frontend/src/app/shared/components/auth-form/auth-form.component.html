@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
-  <ng-container *ngIf="isRegister">
+  <!-- Job Seeker -->
+  <ng-container *ngIf="isRegister && userType === 'seeker'">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Full Name</mat-label>
       <input matInput formControlName="name" required />
@@ -9,13 +10,32 @@
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" required />
     </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required />
+      <mat-error *ngIf="form.get('email')?.invalid">Invalid email</mat-error>
+    </mat-form-field>
   </ng-container>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Email</mat-label>
-    <input matInput formControlName="email" required />
-    <mat-error *ngIf="form.get('email')?.invalid">Invalid email</mat-error>
-  </mat-form-field>
+  <!-- Employer -->
+  <ng-container *ngIf="isRegister && userType === 'employer'">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Company Name</mat-label>
+      <input matInput formControlName="companyName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Company Email</mat-label>
+      <input matInput formControlName="companyEmail" required />
+    </mat-form-field>
+  </ng-container>
+
+  <!-- Shared Fields -->
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Password</mat-label>
