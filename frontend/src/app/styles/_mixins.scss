@@ -1,0 +1,29 @@
+@use "./variables";
+@use "./fonts";
+
+@mixin button(
+  $text: white,
+  $bg-color: variables.$primary-color,
+  $btn-width: 178px,
+  $pad: 45px
+) {
+  border: none;
+  outline: none;
+  background-color: $bg-color;
+  color: $text;
+  width: $btn-width;
+  padding: 12px $pad;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  border-radius: 5px;
+  @include fonts.header4;
+}
+
+@mixin breakpoint($bp: 0) {
+  @media (max-width: $bp) {
+    @content;
+  }
+}
