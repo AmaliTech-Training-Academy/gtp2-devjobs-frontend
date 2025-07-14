@@ -50,12 +50,13 @@
     }
   }
 
-  //   .decorative-shape {
-  //     position: relative;
-  //     right: 20px;
-  //     transform: translateY(47.9%);
-  //     z-index: 1;
-  //   }
+  .decorative-shape {
+    position: fixed;
+    top: 64%;
+    left: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
 }
 
 .right-section {
@@ -71,7 +72,7 @@
 
     .role-toggle {
       display: flex;
-      margin: 0 30%;
+      margin: 0 20%;
       border-bottom: 1px solid #e5e7eb;
       width: 300px;
 
@@ -123,6 +124,41 @@
         text-align: left;
       }
     }
+  }
+}
+// Animations
+@keyframes fadeSlideInSeeker {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideInEmployer {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-form {
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+
+  &.seeker-enter {
+    animation-name: fadeSlideInSeeker;
+  }
+
+  &.employer-enter {
+    animation-name: fadeSlideInEmployer;
   }
 }
 

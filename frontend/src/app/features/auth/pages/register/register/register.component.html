@@ -90,7 +90,9 @@
         </ng-container>
       </div>
 
-      <!-- <div class="decorative-shape"></div> -->
+      <div class="decorative-shape">
+        <img src="./assets/icons/image 6.png" alt="" />
+      </div>
     </div>
 
     <!-- Right Section with Form -->
@@ -120,7 +122,13 @@
           >
 
           <!-- Auth Form -->
-          <div class="auth-form">
+          <div
+            class="auth-form animated-form"
+            [ngClass]="{
+              'seeker-enter': selectedRole === 'seeker',
+              'employer-enter': selectedRole === 'employer'
+            }"
+          >
             <app-auth-form
               [isRegister]="true"
               [userType]="selectedRole"

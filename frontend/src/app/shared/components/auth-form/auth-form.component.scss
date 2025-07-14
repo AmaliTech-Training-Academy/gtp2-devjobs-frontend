@@ -44,8 +44,10 @@
 
       .mat-mdc-input-element {
         color: #111827;
-        line-height: 1;
+        // line-height: 1;
         font-size: 14px;
+        display: flex;
+        justify-content: center;
 
         &::placeholder {
           color: #9ca3af;
@@ -64,12 +66,12 @@
 
       .mat-mdc-form-field-icon-prefix {
         color: #515662;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.2rem;
       }
 
       .mat-mdc-form-field-icon-suffix {
         color: #6b7280;
-        margin-left: 0.5rem;
+        margin-left: 0.2rem;
       }
     }
   }
