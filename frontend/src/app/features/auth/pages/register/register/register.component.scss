@@ -4,6 +4,7 @@
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
+  padding-top: 70px; // Account for fixed navbar on mobile
 }
 
 .register-content,
@@ -141,6 +142,93 @@
     }
   }
 }
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .register-container,
+  .login-container {
+    padding-top: 80px; // More space for mobile navbar
+  }
+
+  .register-content,
+  .login-content {
+    flex-direction: column;
+    bottom: 0;
+    padding: 1rem;
+  }
+
+  .left-section {
+    display: none; // Hide left section on mobile to match UI
+  }
+
+  .right-section {
+    flex: none;
+    max-width: 100%;
+    padding: 0;
+    justify-content: flex-start;
+
+    .form-container {
+      padding: 1rem;
+
+      .role-toggle {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .form-title {
+        width: 100%;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: none;
+        background: transparent;
+        font-size: 1.5rem;
+
+        .auth-form {
+          margin-top: 20px;
+        }
+      }
+
+      .login-title {
+        padding: 2rem 1rem;
+        margin-bottom: 1rem;
+
+        .auth-form {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container,
+  .login-container {
+    padding-top: 70px;
+  }
+
+  .right-section {
+    .form-container {
+      padding: 0.5rem;
+
+      .form-title {
+        font-size: 1.25rem;
+        padding: 1rem;
+      }
+
+      .role-toggle {
+        width: 100%;
+
+        button {
+          font-size: 13px;
+          padding: 2px 8px 7px 8px;
+        }
+      }
+    }
+  }
+}
+
 // Animations
 @keyframes fadeSlideInSeeker {
   0% {
