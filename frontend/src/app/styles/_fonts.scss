@@ -40,3 +40,9 @@
   line-height: 26px;
   color: #19202d;
 }
+@mixin bodyMedium {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28px;
+  color: #19202d;
+}

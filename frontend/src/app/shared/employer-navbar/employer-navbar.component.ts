@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button'
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-employer-navbar',
-  imports: [ ButtonModule ],
+  imports: [ RouterModule ],
   templateUrl: './employer-navbar.component.html',
   styleUrl: './employer-navbar.component.scss'
 })
