@@ -7,44 +7,12 @@
   background-color: white;
   padding: 40px;
 
-  .progress-bar {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-    gap: 120px;
-    align-items: center;
+  :host ::ng-deep .p-stepper .p-step-header {
+    @apply bg-white rounded-full border border-blue-500 text-blue-500 w-10 h-10 flex items-center justify-center;
+  }
 
-    .step {
-      width: 30px;
-      height: 30px;
-      border: 2px solid #d3d3d3;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 26px;
-      font-weight: bold;
-      color: #19202d;
-      position: relative;
-    }
-
-    .step.active {
-      border-color: variables.$primary-color;
-      color: variables.$primary-color;
-    }
-
-    .step::after {
-      content: "";
-      position: absolute;
-      top: 14px;
-      left: 100%;
-      width: 120px;
-      height: 2px;
-      background-color: #d3d3d3;
-      z-index: 1;
-    }
-
-    .step:last-child::after {
-      display: none;
-    }
+  :host ::ng-deep .p-stepper .p-step-header.p-highlight {
+    @apply bg-blue-600 text-white border-none;
   }
 
   .upload-container {

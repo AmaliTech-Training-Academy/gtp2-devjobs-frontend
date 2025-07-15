@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { StepperModule } from 'primeng/stepper';
+import { ButtonModule } from 'primeng/button';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-application-form',
-  imports: [MatStepperModule, MatIconModule, MatButtonModule],
+  imports: [StepperModule, ButtonModule],
   templateUrl: './application-form.component.html',
   styleUrl: './application-form.component.scss',
 })
