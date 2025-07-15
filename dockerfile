@@ -4,7 +4,7 @@ FROM node:18.20.2-alpine AS builder
 WORKDIR /app
 
 # Copy dependency files
-COPY package*.json ./
+COPY frontend/ /app
 
 # Install dependencies
 RUN npm install
@@ -19,10 +19,10 @@ RUN npm run build --prod
 FROM nginx:1.25-alpine
 
 # Copy Angular build output to Nginx html folder
-COPY --from=builder /app/dist/gtp2-devjobs-frontend /usr/share/nginx/html
+COPY --from=builder /app/dist/* /usr/share/nginx/html
 
 # Custom Nginx config (make sure nginx.conf is in devops folder)
-COPY devops/nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
