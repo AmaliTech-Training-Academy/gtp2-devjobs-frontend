@@ -13,6 +13,6 @@ body {
   height: 100%;
   font-family: $font-family;
   overflow-x: hidden;
-  background-color: variables.$body-bg;
+  background-color: $body-bg;
   color: #19202d;
 }

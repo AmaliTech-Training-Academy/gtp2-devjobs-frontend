@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
+import { BackButtonComponent } from '../../../../../shared/back-button/back-button.component';
 
 @Component({
   selector: 'app-forgot-password',
@@ -25,6 +26,7 @@ import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth
     RouterModule,
     MatIcon,
     AuthPublicNavbarComponent,
+    BackButtonComponent,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],

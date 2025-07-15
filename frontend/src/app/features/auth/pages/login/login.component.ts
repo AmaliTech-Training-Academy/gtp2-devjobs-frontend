@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthFormComponent } from '../../../../shared/components/auth-form/auth-form.component';
 import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
