@@ -1,0 +1,16 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  gap: 4rem;
+  justify-content: end;
+  flex-direction: column;
+  align-items: end;
+}
+
+.jobs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 4rem;
+  width: 100%;
+  justify-items: center;
+}
