@@ -1,0 +1,30 @@
+<div class="sort-filter-bar">
+  <span class="sort-label">Sort by:</span>
+
+  <p-select
+    class="sort-select"
+    [options]="sortByOptions"
+    [formControl]="sortByControl"
+    placeholder="Sort By"
+    [showClear]="false"
+    styleClass="p-inputtext-sm"
+  ></p-select>
+
+  <p-select
+    class="sort-select"
+    [options]="titleOptions"
+    [formControl]="titleControl"
+    placeholder="Title"
+    [showClear]="false"
+    styleClass="p-inputtext-sm"
+  ></p-select>
+
+  <p-select
+    class="sort-select"
+    [options]="dateOptions"
+    [formControl]="dateControl"
+    placeholder="Date"
+    [showClear]="false"
+    styleClass="p-inputtext-sm"
+  ></p-select>
+</div>
