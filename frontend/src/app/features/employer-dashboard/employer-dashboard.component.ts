@@ -4,7 +4,7 @@ import { EmployerSidebarComponent } from '../../shared/employer-sidebar/employer
 
 @Component({
   selector: 'app-employer-dashboard',
-  imports: [ EmployerNavbarComponent ],
+  imports: [ EmployerNavbarComponent, EmployerSidebarComponent ],
   templateUrl: './employer-dashboard.component.html',
   styleUrl: './employer-dashboard.component.scss'
 })

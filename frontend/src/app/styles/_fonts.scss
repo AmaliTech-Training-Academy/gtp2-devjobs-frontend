@@ -1,3 +1,6 @@
+@use './_variables' as *;
+
+
 @mixin regular {
   font-weight: 400;
   font-size: 16px;
@@ -24,4 +27,16 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 18px;
+}
+@mixin bodyB1Active {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  color: $primary-color;
+}
+@mixin bodyB1 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  color: #19202d;
 }

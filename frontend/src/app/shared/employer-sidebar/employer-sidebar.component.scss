@@ -1,0 +1,60 @@
+@use '../../styles/_fonts' as *;
+@use '../../styles/_variables' as *;
+
+
+.employer-sidebar {
+    // background-color: red;
+    background-color: $white;
+    min-height: 100vh;
+    width: 17%;
+    padding: 1.7rem 0.75rem;
+
+
+    article {
+        // background-color: green;
+        height: 55vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+
+    .nav-items {
+        height: 14.5rem;
+        // background-color: grey;
+    }
+
+
+    .nav-section {
+        display: flex;
+        justify-content: start;
+        gap: 1rem;
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+        width: 12rem;
+        height: 2.87rem;
+        padding: 0.625rem;
+        border-radius: 0.625rem;
+
+
+        &:hover {
+            background-color: $btn-light-blue;
+            @include bodyB1Active;
+            border-right: 3px solid $primary-color;
+        }
+
+    }
+
+    .sidebar-nav-item {
+        @include bodyB1;
+
+        &:hover {
+            @include bodyB1Active;
+        }
+
+
+    }
+
+
+
+}
