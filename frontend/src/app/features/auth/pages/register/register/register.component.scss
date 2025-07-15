@@ -1,0 +1,178 @@
+.register-container,
+.login-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-content,
+.login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  max-width: 1350px;
+  margin: 0 auto;
+  position: relative;
+  bottom: 6rem;
+  width: 100%;
+}
+
+.left-section {
+  flex: 1;
+  padding: 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  .content-list {
+    max-width: 400px;
+    margin: 0 50px;
+
+    .content-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      width: 470px;
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 1rem;
+        margin-top: 0.2rem;
+        flex-shrink: 0;
+      }
+
+      .text {
+        color: #19202d;
+        line-height: 2.5;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .decorative-shape {
+    position: fixed;
+    top: 64%;
+    left: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+}
+
+.right-section {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 900px;
+
+  .form-container {
+    padding: 2rem;
+
+    .role-toggle {
+      display: flex;
+      margin: 0 20%;
+      border-bottom: 1px solid #e5e7eb;
+      width: 300px;
+
+      button {
+        flex: 1;
+        padding: 2px 10px 7px 10px;
+        font-weight: 500;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #19202d;
+        position: relative;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+        &.active {
+          color: #4f46e5;
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4f46e5;
+          }
+        }
+
+        &:hover {
+          color: #4f46e5;
+        }
+      }
+    }
+
+    .form-title {
+      width: 95%;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #4f46e5;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: 1px solid #9daec2;
+      border-radius: 5px;
+      padding: 2rem 2.5rem;
+
+      .auth-form {
+        margin-top: 30px;
+        text-align: left;
+      }
+    }
+    .login-title {
+      padding: 8rem 3rem;
+      margin-bottom: 2rem;
+
+      .title {
+        margin-bottom: 40px;
+      }
+      .auth-form {
+        margin-top: 60px;
+        text-align: left;
+      }
+    }
+  }
+}
+// Animations
+@keyframes fadeSlideInSeeker {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideInEmployer {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-form {
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+
+  &.seeker-enter {
+    animation-name: fadeSlideInSeeker;
+  }
+
+  &.employer-enter {
+    animation-name: fadeSlideInEmployer;
+  }
+}

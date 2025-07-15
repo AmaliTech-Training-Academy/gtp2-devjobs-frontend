@@ -1,14 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-@use "./app/styles/variables";
 
+//import Kumbh Sans
+@use "./app/styles/variables";
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 html,
 body {
   height: 100%;
-}
-body {
-  margin: 0;
-  font-family: variables.$font-family;
-  background-color: variables.$body-bg;
-  color: #19202d;
-  box-sizing: border-box;
-}
+  font-family: "Kumbh Sans", sans-serif;
+  overflow-x: hidden;
+    background-color: variables.$body-bg;
+    color: #19202d;
+
+

@@ -1,3 +1,4 @@
+
 import { Component, inject } from '@angular/core';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 import { Router } from '@angular/router';
@@ -15,3 +16,4 @@ export class JobDetailsComponent {
     this.router.navigate(['/application-form']);
   }
 }
+
