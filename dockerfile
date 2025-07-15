@@ -3,23 +3,23 @@ FROM node:18.20.2-alpine AS builder
 
 WORKDIR /app
 
-# Copy dependency files
-COPY frontend/ /app
+# Copy package files first for better caching
+COPY frontend/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the source code
-COPY . .
+COPY frontend/ .
 
 # Build the Angular app for production
-RUN npm run build --prod
+RUN npm run build
 
 # Stage 2: Serve using Nginx
 FROM nginx:1.25-alpine
 
 # Copy Angular build output to Nginx html folder
-COPY --from=builder /app/dist/* /usr/share/nginx/html
+COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
 
 # Custom Nginx config (make sure nginx.conf is in devops folder)
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -28,7 +28,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-# Stage 3: Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s CMD curl -f http://localhost/ || exit 1
-# This healthcheck will ensure that the Nginx server is running and serving the Angular app
-# If the healthcheck fails, it will exit with a non-zero status, indicating an issue with the container.
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
