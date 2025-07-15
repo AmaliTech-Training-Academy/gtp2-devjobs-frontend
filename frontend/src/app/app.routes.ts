@@ -3,6 +3,14 @@ import { RegisterComponent } from './features/auth/pages/register/register/regis
 import { LoginComponent } from './features/auth/pages/login/login.component';
 
 export const routes: Routes = [
+   {
+    path: '',
+    loadComponent: () =>
+      import('./features/job-details/job-details.component').then(
+        (m) => m.JobDetailsComponent
+      ),
+
+  },
   {
     path: 'register',
     component: RegisterComponent,
@@ -11,4 +19,5 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+ 
 ];

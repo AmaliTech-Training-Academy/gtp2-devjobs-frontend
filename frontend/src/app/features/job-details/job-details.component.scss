@@ -1,0 +1,195 @@
+@use "../../styles//variables";
+@use "../../styles/fonts";
+@use "../../styles/mixins";
+
+.wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  display: grid;
+  gap: 20px;
+  box-sizing: border-box;
+
+  .back-wrapper {
+    width: 100%;
+    display: flex;
+    margin: 40px 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: pink;
+
+    .back {
+      // border: none
+      @include mixins.button(#19202d, transparent, 178px, 0px);
+    }
+  }
+
+  .details-wrapper {
+    margin-bottom: 40px;
+    display: grid;
+    gap: 12px;
+
+    .company-detail {
+      background-color: #ffffff;
+      padding-right: 40px;
+      min-height: 107px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .logo {
+        height: 107px;
+        width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        svg {
+          width: 107px;
+          height: 107px;
+        }
+        .company-name {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          h2,
+          p {
+            margin: 0;
+          }
+          h2 {
+            @include fonts.header2;
+          }
+        }
+      }
+
+      .salary {
+        font-weight: 600px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .value {
+          @include fonts.header2;
+        }
+      }
+
+      button {
+        @include mixins.button(
+          variables.$primary-color,
+          variables.$btn-light-blue,
+          164px,
+          14px
+        );
+      }
+    }
+
+    .job-description {
+      padding: 40px;
+      background-color: #ffffff;
+      display: grid;
+      gap: 50px;
+
+      .content {
+        display: grid;
+        gap: 75px;
+        strong {
+          @include fonts.header3;
+        }
+
+        .requirements,
+        .todo {
+          width: 100%;
+        }
+      }
+
+      header {
+        width: 100%;
+        margin-bottom: 40px;
+
+        .row2 {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .apply-btn {
+            @include mixins.button(white, variables.$primary-color);
+          }
+        }
+
+        .row3 {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+          span {
+            color: variables.$primary-color;
+          }
+        }
+
+        .row1 {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          .job-type {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .dot {
+              width: 8px;
+              height: 8px;
+              background-color: variables.$primary-color;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.custom-list {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 7px;
+      height: 4px;
+      background-color: variables.$primary-color;
+      border-radius: 50%;
+    }
+  }
+}
+.custom-ol-list {
+  counter-reset: list-counter;
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    counter-increment: list-counter;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 10px;
+
+    &::before {
+      content: counter(list-counter) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: variables.$primary-color;
+      font-weight: bold;
+      width: 20px;
+      display: inline-block;
+    }
+  }
+}
