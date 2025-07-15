@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-auth-form',
@@ -33,6 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatCheckboxModule,
   ],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
@@ -72,6 +74,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false],
     });
 
     if (this.isRegister) {
@@ -95,6 +98,9 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
           this.fb.control('', [Validators.required, Validators.email])
         );
       }
+    }
+    if (!this.isRegister) {
+      this.form.addControl('rememberMe', this.fb.control(false));
     }
   }
 

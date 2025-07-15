@@ -38,7 +38,7 @@
 
       &.mat-focused {
         .mat-mdc-form-field-flex {
-          border-color: #4f46e5;
+          border-color: #5964e0;
         }
       }
 
@@ -76,9 +76,27 @@
     }
   }
 
+  .remember-forgot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+
+    .forgot-password-link {
+      font-size: 0.85rem;
+      color: #4f46e5;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
   // Submit button styling
   .submit-button {
-    background-color: #4f46e5;
+    background-color: #5964e0;
     color: white;
     border: none;
     border-radius: 8px;
@@ -91,7 +109,7 @@
     margin-top: 1rem;
 
     &:hover:not(:disabled) {
-      background-color: #4338ca;
+      background-color: #5964e0;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     }
@@ -107,7 +125,7 @@
   // Material button override
   ::ng-deep .mat-mdc-button-base {
     &.mat-mdc-raised-button {
-      background-color: #257b83 !important;
+      background-color: #5964e0 !important;
       color: white !important;
       border-radius: 8px !important;
       padding: 0.875rem 1.5rem !important;

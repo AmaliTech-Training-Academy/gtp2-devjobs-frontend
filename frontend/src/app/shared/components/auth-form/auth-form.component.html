@@ -164,7 +164,7 @@
         placeholder="Enter your password"
         required
       />
-      <!-- <mat-icon matPrefix>lock</mat-icon> -->
+
       <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
@@ -174,6 +174,17 @@
         Password must be at least 6 characters
       </mat-error>
     </mat-form-field>
+
+    <!-- Remember Me and Forgot Password -->
+    <div class="remember-forgot" *ngIf="!isRegister">
+      <mat-checkbox formControlName="rememberMe" color="primary">
+        Remember me
+      </mat-checkbox>
+
+      <a routerLink="/forgot-password" class="forgot-password-link">
+        Forgot password?
+      </a>
+    </div>
   </div>
 
   <!-- Submit Button -->
