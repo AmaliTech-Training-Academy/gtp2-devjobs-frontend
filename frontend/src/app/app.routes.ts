@@ -3,6 +3,7 @@ import { RegisterComponent } from './features/auth/pages/register/register/regis
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { JobDetailsComponent } from './features/job-details/job-details.component';
 import { ApplicationFormComponent } from './features/application-form/application-form.component';
+import { EmployerDashboardComponent } from './features/employer-dashboard/employer-dashboard.component';
 
 export const routes: Routes = [
    {
@@ -27,5 +28,10 @@ export const routes: Routes = [
         (m) => m.ApplicationFormComponent
       ),
   },
+  {
+    path: 'employer-dashboard',
+    component: EmployerDashboardComponent,
+    title: 'Employer dashboard'
+  }
 
 ];
