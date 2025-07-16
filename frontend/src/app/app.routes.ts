@@ -8,33 +8,52 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
+
 export const routes: Routes = [
   {
     path: '',
-    component: RegisterComponent,
+    redirectTo: '/seeker/dashboard',
+    pathMatch: 'full',
   },
   {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'forgot-password',
-    component: ForgotPasswordComponent,
+    path: 'seeker/dashboard',
+    loadComponent: () =>
+      import(
+        './layouts/seeker/seeker-dashboard/seeker-dashboard.component'
+      ).then((m) => m.SeekerDashboardComponent),
+    canActivate: [],
+    children: [
+      {
+        path: '',
+        component: JobListComponent,
+        canActivate: [],
+        pathMatch: 'full',
+      },
+      { path: 'application-status', 
+              loadComponent: () => import('./features/jobs/application-status/application-status.component').then(m => m.ApplicationStatusComponent),
+                canActivate: []
+             },
+      {
+        path: 'job-details',
+        loadComponent: () =>
+          import('./features/job-details/job-details.component').then(
+            (m) => m.JobDetailsComponent
+          ),
+      },
+      {
+        path: 'application-form',
+        loadComponent: () =>
+          import('./features/application-form/application-form.component').then(
+            (m) => m.ApplicationFormComponent
+          ),
+      },
+    ],
   },
 
   {
-    path: 'employer',
-    component: EmployerLayoutComponent,
-    canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_EMPLOYER' },
-    children: [
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import(
-            './features/employer-dashboard/employer-dashboard.component'
-          ).then((m) => m.EmployerDashboardComponent),
+    path: 'register',
         title: 'Employer Dashboard',
+
       },
       {
         path: 'jobs',
@@ -62,6 +81,7 @@ export const routes: Routes = [
       },
     ],
   },
+
 
   {
     path: 'seeker/dashboard',
