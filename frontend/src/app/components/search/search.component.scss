@@ -12,6 +12,14 @@
   align-items: center;
   gap: 1rem;
 
+  @media (max-width: 480px) {
+    flex-direction: column;
+    background: transparent;
+    box-shadow: none;
+
+    
+  }
+
   .search-field {
     display: flex;
     align-items: center;
@@ -56,6 +64,11 @@
     gap: 0.5rem;
     box-shadow: none;
     transition: background 0.2s;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      
+    }
 
     .pi {
       font-size: 1.2rem;
