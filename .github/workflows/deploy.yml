@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Build and Deploy to ECS
-    runs-on: [self-hosted, linux]
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repo
