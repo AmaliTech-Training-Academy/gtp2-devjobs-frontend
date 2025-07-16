@@ -1,0 +1,45 @@
+<main class="employer-dashboard">
+    <h2 class="page-title">Home</h2>
+
+    <section class="stats-grid">
+        <app-stats-card  class="card card-1" />
+        <app-stats-card  class="card card-2"/>
+        <app-stats-card  class="card card-3"/>
+        <app-stats-card  class="card card-4"/>
+        <app-stats-card  class="card card-5" />
+    </section>
+
+
+    <section class="incoming-applications">
+        <h3>Recent Incoming Applications</h3>
+        <p>See all</p>
+    </section>
+
+
+    <section class="table-display">
+        <p-table [value]="applications" [tableStyle]="{ 'min-width': '50rem' }" class="data-table">
+            <ng-template #header>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Applicants</th>
+                    <th>Job Type</th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-application>
+                <tr>
+                    <td>{{ application.jobTitle }}</td>
+                    <td>{{ application.applicants }}</td>
+                    <td>{{ application.jobType }}</td>
+                    <td>{{ application.action }}</td>
+                </tr>
+            </ng-template>
+        </p-table>    
+
+    </section>
+
+
+
+
+
+</main>

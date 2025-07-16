@@ -1,0 +1,63 @@
+@use '../../styles/_variables' as *;
+@use '../../styles/_fonts' as *;
+
+
+.job-stat-card {
+    background-color: $white;
+    height: 10.75rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 0.45px 5px 0 rgba(166, 175, 195, 0.4);
+    border-radius: 5px;
+
+    .left {
+        width: 7rem;
+        height: 8.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+
+        .total-jobs-text {
+            @include bodyB1;
+        }
+
+        .job-count {
+            @include header1;
+            color: $dark-font-fol;
+        }
+
+        .monthly-addition {
+            @include bodyMedium;
+        }
+    }
+
+
+    .right {
+        width: 4rem;
+        height: 8.5rem;
+        // background-color: blue;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+
+        .briefcase-div {
+            background-color: $btn-light-blue;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .daily-addition {
+            @include bodyMedium;
+        }
+        
+    }
+
+
+
+}
