@@ -51,6 +51,26 @@ export class ApplicationFormComponent {
     });
   }
 
+  currentStep = 1;
+
+  goNext() {
+    if (this.currentStep < 5) {
+      this.currentStep++;
+    }
+  }
+
+  goBack() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+  getStepClass(step: number): string {
+    if (step < this.currentStep) return 'step-completed';
+    if (step === this.currentStep) return 'step-active';
+    return '';
+  }
+
   phoneIconSvg: string = `<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M3.54 2.40234C3.6 3.29234 3.75 4.16234 3.99 4.99234L2.79 6.19234C2.38 4.99234 2.12 3.72234 2.03 2.40234H3.54ZM13.4 14.4223C14.25 14.6623 15.12 14.8123 16 14.8723V16.3623C14.68 16.2723 13.41 16.0123 12.2 15.6123L13.4 14.4223ZM4.5 0.402344H1C0.45 0.402344 0 0.852344 0 1.40234C0 10.7923 7.61 18.4023 17 18.4023C17.55 18.4023 18 17.9523 18 17.4023V13.9123C18 13.3623 17.55 12.9123 17 12.9123C15.76 12.9123 14.55 12.7123 13.43 12.3423C13.33 12.3023 13.22 12.2923 13.12 12.2923C12.86 12.2923 12.61 12.3923 12.41 12.5823L10.21 14.7823C7.38 13.3323 5.06 11.0223 3.62 8.19234L5.82 5.99234C6.1 5.71234 6.18 5.32234 6.07 4.97234C5.7 3.85234 5.5 2.65234 5.5 1.40234C5.5 0.852344 5.05 0.402344 4.5 0.402344Z" fill="#586071"/>
 </svg>`;
@@ -108,6 +128,10 @@ export class ApplicationFormComponent {
 
   addEducation() {
     this.education.push(this.createEducation());
+  }
+
+  removeEducation(index: number) {
+    this.education.removeAt(index);
   }
 
   onResumeDragOver(event: DragEvent) {
@@ -177,6 +201,7 @@ export class ApplicationFormComponent {
   }
 
   submitForm() {
+    this.currentStep = 5;
     if (this.form.valid) {
       console.log(this.form.value);
     } else {

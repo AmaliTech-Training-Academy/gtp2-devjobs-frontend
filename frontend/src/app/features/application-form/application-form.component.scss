@@ -9,12 +9,57 @@
   padding: 40px;
   margin-bottom: 40px;
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  @include mixins.breakpoint(1200px) {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  // ::ng-deep .p-button {
+  //   @include mixins.button(variables.$primary-color, variables.$btn-light-blue);
+  // }
+
+  ::ng-deep .next-btn {
+    @include mixins.button(white, variables.$primary-color);
+  }
+
+  ::ng-deep .back-btn {
+    @include mixins.button(variables.$primary-color, variables.$btn-light-blue);
+  }
+
+  // ::ng-deep .step-custom {
+  //   .p-stepper-step {
+  //     .p-stepper-number {
+  //       border: 2px solid #d3d3d3;
+  //       background-color: white;
+  //       color: #19202d;
+  //     }
+  //   }
+
+  //   &.step-active .p-stepper-number {
+  //     background-color: #5964e0;
+  //     color: white;
+  //     border-color: #5964e0;
+  //   }
+
+  //   &.step-completed .p-stepper-number {
+  //     background-color: #5964e0;
+  //     color: white;
+  //     border-color: #5964e0;
+  //   }
+  // }
 
   .form-section {
     width: 704px;
     margin: auto;
     display: grid;
     gap: 42px;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
 
     .upload-container {
       @include fonts.regular;
@@ -71,11 +116,26 @@
 
   .add-more {
     @include mixins.button(variables.$primary-color, transparent, 184px, 39px);
+    margin: auto;
   }
 
   .experience-item {
     padding: 17px 45px;
     border: 2px solid #d3d3d3;
+    position: relative;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   }
 
   img {
@@ -100,6 +160,24 @@
     @include mixins.button(white, variables.$primary-color);
 
     p-button {
+      display: none;
+    }
+  }
+  .back-btn {
+    @include mixins.button(black, variables.$primary-color);
+  }
+
+  .navigations-mobile {
+    display: none;
+  }
+
+  @include mixins.breakpoint(1200px) {
+    .navigations-mobile {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-desktop {
       display: none;
     }
   }
