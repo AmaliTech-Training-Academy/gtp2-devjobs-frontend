@@ -13,8 +13,14 @@
                 <img [src]="field.iconSrc" [alt]="field.label + ' icon'" />
             </mat-icon>
 
-            <input matInput [type]="field.type" [formControlName]="field.controlName"
-                [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required />
+            <ng-container [ngSwitch]="field.type">
+                <textarea *ngSwitchCase="'textarea'" matInput [formControlName]="field.controlName"
+                    [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required
+                    rows="4"></textarea>
+
+                <input *ngSwitchDefault matInput [type]="field.type" [formControlName]="field.controlName"
+                    [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required />
+            </ng-container>
 
             <mat-error *ngIf="group.get(field.controlName)?.invalid && group.get(field.controlName)?.touched">
                 {{ field.label }} is required

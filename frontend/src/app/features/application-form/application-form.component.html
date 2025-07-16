@@ -167,27 +167,108 @@
                                 </svg>
                                 Add more
                             </button>
-                            <div class="flex pt-6 justify-between">
-                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
-                                    (onClick)="activateCallback(1)" />
-                                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                                    (onClick)="activateCallback(3)" />
-                            </div>
                         </div>
+                        <div class="flex pt-6 justify-between">
+                            <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
+                                (onClick)="activateCallback(1)" />
+                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                (onClick)="activateCallback(3)" />
+                        </div>
+
                     </ng-template>
                 </p-step-panel>
 
                 <p-step-panel [value]="3">
                     <ng-template #content let-activateCallback="activateCallback">
-                        <div class="flex flex-col h-48">
-                            <div
-                                class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                                Content III
+                        <div class="form-section group" formArrayName="education">
+                            <h3>Education</h3>
+
+                            <div class="experience-item" *ngFor="let edu of educationFormGroups; let i = index"
+                                [formGroupName]="i" class="experience-item">
+                                <app-reusable-form-group [group]="edu" [fields]="[
+                                    { label: 'School', controlName: 'school', type: 'text', placeholder: 'Type school name here' },
+                                    { label: 'Degree', controlName: 'degree', type: 'text', placeholder: 'Type degree here' },
+                                    { label: 'Field of Study', controlName: 'field', type: 'text', placeholder: 'Type field of study here' },
+                                    
+                                ]"></app-reusable-form-group>
+
+
                             </div>
+
+                            <button class="add-more" (click)="addEducation()">
+                                <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.5 5.40234H9.5V9.40234H5.5V11.4023H9.5V15.4023H11.5V11.4023H15.5V9.40234H11.5V5.40234ZM10.5 0.402344C4.99 0.402344 0.5 4.89234 0.5 10.4023C0.5 15.9123 4.99 20.4023 10.5 20.4023C16.01 20.4023 20.5 15.9123 20.5 10.4023C20.5 4.89234 16.01 0.402344 10.5 0.402344ZM10.5 18.4023C6.09 18.4023 2.5 14.8123 2.5 10.4023C2.5 5.99234 6.09 2.40234 10.5 2.40234C14.91 2.40234 18.5 5.99234 18.5 10.4023C18.5 14.8123 14.91 18.4023 10.5 18.4023Z"
+                                        fill="#5964E0" />
+                                </svg>
+                                Add more
+                            </button>
                         </div>
                         <div class="flex pt-6 justify-start">
-                            <p-button label="Back" icon="pi pi-arrow-left" iconPos="right"
+                            <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
                                 (onClick)="activateCallback(2)" />
+                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                (onClick)="activateCallback(4)" />
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <p-step-panel [value]="4">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-section group">
+                            <h3>Contact information</h3>
+
+                            <div class="experience-item">
+
+                                <app-reusable-form-group [group]="contact" [fields]="[
+                                    { label: 'Phone number', controlName: 'phone', type: 'text', placeholder: 'Type your phone number here', inlineSvg: phoneIconSvg},
+                                    { label: 'Email address', controlName: 'email', type: 'text', placeholder: 'Type email address', inlineSvg: emailIconSvg},
+                                    { label: 'Residential address', controlName: 'address', type: 'text', placeholder: 'Type your residential address here', inlineSvg: addressIconSvg},
+                                    
+                                ]"></app-reusable-form-group>
+                            </div>
+
+                        </div>
+                        <div class="flex pt-6 justify-start">
+                            <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
+                                (onClick)="activateCallback(3)" />
+                            <button class="submit-btn">
+                                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                    (onClick)="activateCallback(5)" />
+                                Submit
+                            </button>
+
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <p-step-panel [value]="5">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-section group">
+                            <img src="./assets/Done-rafiki.svg" />
+
+                            <div class="done">
+                                <p class="thanks">Thank you for applying for the Software engineer position at Scott</p>
+
+                                <div class="confirmation">
+                                    <p>We've sent a confirmation email to your registered address</p>
+                                    <p>You can check the status of your application anytime through your 'My
+                                        Applications' dashboard.</p>
+                                </div>
+
+                            </div>
+
+                            <button class="apply-more">
+                                Apply for more jobs
+                            </button>
+
+
+                        </div>
+                        <div class="flex pt-6 justify-start">
+                            <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
+                                (onClick)="activateCallback(4)" />
+
                         </div>
                     </ng-template>
                 </p-step-panel>

@@ -77,4 +77,30 @@
     padding: 17px 45px;
     border: 2px solid #d3d3d3;
   }
+
+  img {
+    width: 318px;
+    max-height: 237px;
+    margin: auto;
+  }
+
+  .done {
+    margin: auto;
+    text-align: center;
+
+    .thanks {
+      font-weight: 600;
+    }
+  }
+  .apply-more {
+    @include mixins.button(white, variables.$primary-color, 250px, 51px);
+    margin: auto;
+  }
+  .submit-btn {
+    @include mixins.button(white, variables.$primary-color);
+
+    p-button {
+      display: none;
+    }
+  }
 }
