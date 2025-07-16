@@ -23,7 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { RouterModule, RouterLink } from '@angular/router';
+import { RouterModule, RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-form',
@@ -37,7 +37,6 @@ import { RouterModule, RouterLink } from '@angular/router';
     MatIconModule,
     MatCheckboxModule,
     RouterModule,
-    RouterLink,
   ],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
@@ -50,7 +49,11 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   form!: FormGroup;
   hide = true;
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -113,5 +116,9 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  goToForgotPassword() {
+    this.router.navigate(['/forgot-password']);
   }
 }

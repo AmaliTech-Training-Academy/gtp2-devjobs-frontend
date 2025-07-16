@@ -9,7 +9,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
 import { BackButtonComponent } from '../../../../../shared/back-button/back-button.component';
@@ -27,6 +27,7 @@ import { BackButtonComponent } from '../../../../../shared/back-button/back-butt
     MatIcon,
     AuthPublicNavbarComponent,
     BackButtonComponent,
+    RouterModule,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
@@ -36,7 +37,7 @@ export class ForgotPasswordComponent {
   form!: FormGroup;
   hide: boolean = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.initForm();
   }
 
@@ -56,6 +57,8 @@ export class ForgotPasswordComponent {
     } else if (this.stage === 'success') {
       this.stage = 'new-password';
     }
+
+    this.router.navigateByUrl('/login');
   }
 
   onSubmit() {

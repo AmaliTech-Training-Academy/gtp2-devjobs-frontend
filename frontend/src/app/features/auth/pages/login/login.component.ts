@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthFormComponent } from '../../../../shared/components/auth-form/auth-form.component';
 import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
 import { RouterLink } from '@angular/router';
+import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/tooltip.component';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { RouterLink } from '@angular/router';
     FormsModule,
     AuthFormComponent,
     AuthPublicNavbarComponent,
+    TooltipComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['../register/register/register.component.scss'],

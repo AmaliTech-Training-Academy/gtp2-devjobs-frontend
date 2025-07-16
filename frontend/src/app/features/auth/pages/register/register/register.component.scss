@@ -70,6 +70,7 @@
   flex-direction: column;
   justify-content: center;
   max-width: 900px;
+  margin-top: 5rem;
 
   .form-container {
     padding: 2rem;
@@ -129,7 +130,7 @@
       }
     }
     .login-title {
-      padding: 8rem 3rem;
+      padding: 7rem 3rem;
       margin-bottom: 2rem;
 
       .title {
@@ -145,14 +146,23 @@
 
 // Mobile-first styles
 .mobile-register-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  max-width: 100%;
-
   .mobile-form-container {
     .info-section {
+      .tooltip-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      .tooltip-title {
+        display: flex;
+        text-align: center;
+        color: #19202d;
+        font-size: 1rem;
+        font-weight: 600;
+      }
       .info-trigger {
         display: flex;
         align-items: center;
@@ -163,7 +173,7 @@
         border-radius: 50%;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 0 auto;
+        border: none;
 
         mat-icon {
           color: #4f46e5;
@@ -355,18 +365,18 @@
 @media (max-width: 768px) {
   .register-container,
   .login-container {
-    padding-top: 80px; // More space for mobile navbar
+    padding-top: 80px;
   }
 
   .register-content,
   .login-content {
     flex-direction: column;
-    bottom: 0;
+
     padding: 1rem;
   }
 
   .left-section {
-    display: none; // Hide left section on mobile to match UI
+    display: none;
   }
 
   .right-section {
