@@ -1,12 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { NgClass, NgIf } from '@angular/common';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormArray,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReusableFormGroupComponent } from '../../shared/reusable-form-group/reusable-form-group.component';
 
 @Component({
   selector: 'app-application-form',
-  imports: [StepperModule, ButtonModule, NgIf],
+  imports: [
+    StepperModule,
+    ButtonModule,
+    ReusableFormGroupComponent,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
   templateUrl: './application-form.component.html',
   styleUrl: './application-form.component.scss',
 })
@@ -42,6 +55,10 @@ export class ApplicationFormComponent {
     return this.form.get('experiences') as FormArray;
   }
 
+  get experiencesFormGroups(): FormGroup[] {
+    return this.experiences.controls as FormGroup[];
+  }
+
   get education() {
     return this.form.get('education') as FormArray;
   }
@@ -64,6 +81,10 @@ export class ApplicationFormComponent {
 
   addExperience() {
     this.experiences.push(this.createExperience());
+  }
+
+  removeExperience(index: number) {
+    this.experiences.removeAt(index);
   }
 
   addEducation() {

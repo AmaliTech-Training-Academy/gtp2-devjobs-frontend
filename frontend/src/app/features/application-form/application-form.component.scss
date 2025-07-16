@@ -68,4 +68,13 @@
   .error {
     color: variables.$error;
   }
+
+  .add-more {
+    @include mixins.button(variables.$primary-color, transparent, 184px, 39px);
+  }
+
+  .experience-item {
+    padding: 17px 45px;
+    border: 2px solid #d3d3d3;
+  }
 }

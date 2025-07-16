@@ -1,0 +1,25 @@
+<div [formGroup]="group" class="form-section">
+    <div *ngFor="let field of fields">
+        <label class="form-label">{{field.label}}</label>
+        <mat-form-field appearance="outline" class="full-width">
+
+            <!-- Display inline SVG -->
+            <mat-icon matPrefix *ngIf="field.inlineSvg" [inline]="true">
+                <span [innerHTML]="getSanitizedSvg(field.inlineSvg)"></span>
+            </mat-icon>
+
+            <!-- OR display image -->
+            <mat-icon matPrefix *ngIf="field.iconSrc && !field.inlineSvg">
+                <img [src]="field.iconSrc" [alt]="field.label + ' icon'" />
+            </mat-icon>
+
+            <input matInput [type]="field.type" [formControlName]="field.controlName"
+                [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required />
+
+            <mat-error *ngIf="group.get(field.controlName)?.invalid && group.get(field.controlName)?.touched">
+                {{ field.label }} is required
+            </mat-error>
+
+        </mat-form-field>
+    </div>
+</div>

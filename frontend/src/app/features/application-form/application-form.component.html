@@ -1,174 +1,200 @@
-<div class="wrapper">
+<form [formGroup]="form">
 
-    <p-stepper [value]="1" class="basis-[50rem]" [linear]="true">
-        <p-step-list>
-            <p-step [value]="1"></p-step>
-            <p-step [value]="2"></p-step>
-            <p-step [value]="3"></p-step>
-            <p-step [value]="4"></p-step>
-            <p-step [value]="5"></p-step>
-        </p-step-list>
-        <p-step-panels>
-            <p-step-panel [value]="1">
-                <ng-template #content let-activateCallback="activateCallback">
-                    <div class="form-section">
+    <div class="wrapper">
 
-                        <div class="upload-container">
+        <p-stepper [value]="1" class="basis-[50rem]" [linear]="true">
+            <p-step-list>
+                <p-step [value]="1"></p-step>
+                <p-step [value]="2"></p-step>
+                <p-step [value]="3"></p-step>
+                <p-step [value]="4"></p-step>
+                <p-step [value]="5"></p-step>
+            </p-step-list>
+            <p-step-panels>
+                <p-step-panel [value]="1">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-section">
 
-                            <label class="field-label" for="coverLetterInput">Cover Letter</label>
-                            <div class="drop-zone" [class.hover]="isHoveringCoverLetter"
-                                (dragover)="onCoverLetterDragOver($event)" (dragleave)="onCoverLetterDragLeave($event)"
-                                (drop)="onCoverLetterDrop($event)" (click)="coverLetterInput.click()">
+                            <div class="upload-container">
 
-                                <input #coverLetterInput id="coverLetterInput" type="file" hidden
-                                    (change)="onFileSelect($event, 'coverLetter')" aria-label="Upload cover letter" />
-                                <div class="drop-content">
-                                    <svg width="77" height="53" viewBox="0 0 77 53" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M62.0812 20.2118C59.8996 9.14308 50.1783 0.833496 38.5 0.833496C29.2279 0.833496 21.175 6.09516 17.1646 13.7952C7.5075 14.8218 0 23.0031 0 32.9168C0 43.5364 8.63042 52.1668 19.25 52.1668H60.9583C69.8133 52.1668 77 44.9802 77 36.1252C77 27.6552 70.4229 20.7893 62.0812 20.2118ZM60.9583 45.7502H19.25C12.1596 45.7502 6.41667 40.0072 6.41667 32.9168C6.41667 26.3397 11.3254 20.8535 17.8383 20.1797L21.2712 19.8268L22.8754 16.7789C25.9233 10.9077 31.8908 7.25016 38.5 7.25016C46.9058 7.25016 54.1567 13.2177 55.7929 21.4631L56.7554 26.2756L61.6642 26.6285C66.6692 26.9493 70.5833 31.1522 70.5833 36.1252C70.5833 41.4189 66.2521 45.7502 60.9583 45.7502ZM25.6667 29.7085H33.8479V39.3335H43.1521V29.7085H51.3333L38.5 16.8752L25.6667 29.7085Z"
-                                            fill="#5964E0" />
-                                    </svg>
-                                    <ng-container *ngIf="!coverLetterFile">
-                                        <p class="instruction">Upload or drag cover letter here</p>
-                                    </ng-container>
-                                    <ng-container *ngIf="coverLetterFile">
-                                        <div class="file-preview">
-                                            <span class="file-name">
-                                                <svg width="16" height="21" viewBox="0 0 16 21" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M4 14.4023H12V16.4023H4V14.4023ZM4 10.4023H12V12.4023H4V10.4023ZM10 0.402344H2C0.9 0.402344 0 1.30234 0 2.40234V18.4023C0 19.5023 0.89 20.4023 1.99 20.4023H14C15.1 20.4023 16 19.5023 16 18.4023V6.40234L10 0.402344ZM14 18.4023H2V2.40234H9V7.40234H14V18.4023Z"
-                                                        fill="#586071" />
-                                                </svg>
+                                <label class="field-label" for="coverLetterInput">Cover Letter</label>
+                                <div class="drop-zone" [class.hover]="isHoveringCoverLetter"
+                                    (dragover)="onCoverLetterDragOver($event)"
+                                    (dragleave)="onCoverLetterDragLeave($event)" (drop)="onCoverLetterDrop($event)"
+                                    (click)="coverLetterInput.click()">
 
-                                                {{ coverLetterFile.name }}
-                                            </span>
-                                            <button class="remove-btn"
-                                                (click)="removeFile('coverLetter', $event); $event.stopPropagation()">
-                                                <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M14 1.81234L12.59 0.402344L7 5.99234L1.41 0.402344L0 1.81234L5.59 7.40234L0 12.9923L1.41 14.4023L7 8.81234L12.59 14.4023L14 12.9923L8.41 7.40234L14 1.81234Z"
-                                                        fill="#586071" />
-                                                </svg>
+                                    <input #coverLetterInput id="coverLetterInput" type="file" hidden
+                                        (change)="onFileSelect($event, 'coverLetter')"
+                                        aria-label="Upload cover letter" />
+                                    <div class="drop-content">
+                                        <svg width="77" height="53" viewBox="0 0 77 53" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M62.0812 20.2118C59.8996 9.14308 50.1783 0.833496 38.5 0.833496C29.2279 0.833496 21.175 6.09516 17.1646 13.7952C7.5075 14.8218 0 23.0031 0 32.9168C0 43.5364 8.63042 52.1668 19.25 52.1668H60.9583C69.8133 52.1668 77 44.9802 77 36.1252C77 27.6552 70.4229 20.7893 62.0812 20.2118ZM60.9583 45.7502H19.25C12.1596 45.7502 6.41667 40.0072 6.41667 32.9168C6.41667 26.3397 11.3254 20.8535 17.8383 20.1797L21.2712 19.8268L22.8754 16.7789C25.9233 10.9077 31.8908 7.25016 38.5 7.25016C46.9058 7.25016 54.1567 13.2177 55.7929 21.4631L56.7554 26.2756L61.6642 26.6285C66.6692 26.9493 70.5833 31.1522 70.5833 36.1252C70.5833 41.4189 66.2521 45.7502 60.9583 45.7502ZM25.6667 29.7085H33.8479V39.3335H43.1521V29.7085H51.3333L38.5 16.8752L25.6667 29.7085Z"
+                                                fill="#5964E0" />
+                                        </svg>
+                                        <ng-container *ngIf="!coverLetterFile">
+                                            <p class="instruction">Upload or drag cover letter here</p>
+                                        </ng-container>
+                                        <ng-container *ngIf="coverLetterFile">
+                                            <div class="file-preview">
+                                                <span class="file-name">
+                                                    <svg width="16" height="21" viewBox="0 0 16 21" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M4 14.4023H12V16.4023H4V14.4023ZM4 10.4023H12V12.4023H4V10.4023ZM10 0.402344H2C0.9 0.402344 0 1.30234 0 2.40234V18.4023C0 19.5023 0.89 20.4023 1.99 20.4023H14C15.1 20.4023 16 19.5023 16 18.4023V6.40234L10 0.402344ZM14 18.4023H2V2.40234H9V7.40234H14V18.4023Z"
+                                                            fill="#586071" />
+                                                    </svg>
 
-                                            </button>
-                                        </div>
-                                    </ng-container>
+                                                    {{ coverLetterFile.name }}
+                                                </span>
+                                                <button class="remove-btn"
+                                                    (click)="removeFile('coverLetter', $event); $event.stopPropagation()">
+                                                    <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M14 1.81234L12.59 0.402344L7 5.99234L1.41 0.402344L0 1.81234L5.59 7.40234L0 12.9923L1.41 14.4023L7 8.81234L12.59 14.4023L14 12.9923L8.41 7.40234L14 1.81234Z"
+                                                            fill="#586071" />
+                                                    </svg>
 
-                                    <button class="upload-btn" type="button"
-                                        (click)="coverLetterInput.click(); $event.stopPropagation()">
-                                        Upload cover letter
-                                    </button>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+
+                                        <button class="upload-btn" type="button"
+                                            (click)="coverLetterInput.click(); $event.stopPropagation()">
+                                            Upload cover letter
+                                        </button>
+                                    </div>
+
                                 </div>
-
-                            </div>
-                            <div *ngIf="form.get('coverLetter')?.invalid && form.get('coverLetter')?.touched"
-                                class="error">
-                                Cover letter is required.
-                            </div>
-                        </div>
-
-                        <div class="upload-container">
-
-                            <label class="field-label" for="resumeInput">Resume</label>
-                            <div class="drop-zone" [class.hover]="isHoveringResume"
-                                (dragover)="onResumeDragOver($event)" (dragleave)="onResumeDragLeave($event)"
-                                (drop)="onResumeDrop($event)" (click)="resumeInput.click()">
-
-                                <input #resumeInput id="resumeInput" type="file" hidden
-                                    (change)="onFileSelect($event, 'resume')" aria-label="Upload resume" />
-                                <div class="drop-content">
-                                    <svg width="77" height="53" viewBox="0 0 77 53" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M62.0812 20.2118C59.8996 9.14308 50.1783 0.833496 38.5 0.833496C29.2279 0.833496 21.175 6.09516 17.1646 13.7952C7.5075 14.8218 0 23.0031 0 32.9168C0 43.5364 8.63042 52.1668 19.25 52.1668H60.9583C69.8133 52.1668 77 44.9802 77 36.1252C77 27.6552 70.4229 20.7893 62.0812 20.2118ZM60.9583 45.7502H19.25C12.1596 45.7502 6.41667 40.0072 6.41667 32.9168C6.41667 26.3397 11.3254 20.8535 17.8383 20.1797L21.2712 19.8268L22.8754 16.7789C25.9233 10.9077 31.8908 7.25016 38.5 7.25016C46.9058 7.25016 54.1567 13.2177 55.7929 21.4631L56.7554 26.2756L61.6642 26.6285C66.6692 26.9493 70.5833 31.1522 70.5833 36.1252C70.5833 41.4189 66.2521 45.7502 60.9583 45.7502ZM25.6667 29.7085H33.8479V39.3335H43.1521V29.7085H51.3333L38.5 16.8752L25.6667 29.7085Z"
-                                            fill="#5964E0" />
-                                    </svg>
-                                    <ng-container *ngIf="!resumeFile">
-                                        <p class="instruction">Upload or drag resume here</p>
-                                    </ng-container>
-                                    <ng-container *ngIf="resumeFile">
-                                        <div class="file-preview">
-                                            <span class="file-name">
-                                                <svg width="16" height="21" viewBox="0 0 16 21" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M4 14.4023H12V16.4023H4V14.4023ZM4 10.4023H12V12.4023H4V10.4023ZM10 0.402344H2C0.9 0.402344 0 1.30234 0 2.40234V18.4023C0 19.5023 0.89 20.4023 1.99 20.4023H14C15.1 20.4023 16 19.5023 16 18.4023V6.40234L10 0.402344ZM14 18.4023H2V2.40234H9V7.40234H14V18.4023Z"
-                                                        fill="#586071" />
-                                                </svg>
-
-                                                {{ resumeFile.name }}
-                                            </span>
-                                            <button class="remove-btn"
-                                                (click)="removeFile('resume', $event); $event.stopPropagation()">
-                                                <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M14 1.81234L12.59 0.402344L7 5.99234L1.41 0.402344L0 1.81234L5.59 7.40234L0 12.9923L1.41 14.4023L7 8.81234L12.59 14.4023L14 12.9923L8.41 7.40234L14 1.81234Z"
-                                                        fill="#586071" />
-                                                </svg>
-
-                                            </button>
-                                        </div>
-                                    </ng-container>
-
-                                    <button class="upload-btn" type="button"
-                                        (click)="coverLetterInput.click(); $event.stopPropagation()">
-                                        Upload resume
-                                    </button>
+                                <div *ngIf="form.get('coverLetter')?.invalid && form.get('coverLetter')?.touched"
+                                    class="error">
+                                    Cover letter is required.
                                 </div>
+                            </div>
+
+                            <div class="upload-container">
+
+                                <label class="field-label" for="resumeInput">Resume</label>
+                                <div class="drop-zone" [class.hover]="isHoveringResume"
+                                    (dragover)="onResumeDragOver($event)" (dragleave)="onResumeDragLeave($event)"
+                                    (drop)="onResumeDrop($event)" (click)="resumeInput.click()">
+
+                                    <input #resumeInput id="resumeInput" type="file" hidden
+                                        (change)="onFileSelect($event, 'resume')" aria-label="Upload resume" />
+                                    <div class="drop-content">
+                                        <svg width="77" height="53" viewBox="0 0 77 53" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M62.0812 20.2118C59.8996 9.14308 50.1783 0.833496 38.5 0.833496C29.2279 0.833496 21.175 6.09516 17.1646 13.7952C7.5075 14.8218 0 23.0031 0 32.9168C0 43.5364 8.63042 52.1668 19.25 52.1668H60.9583C69.8133 52.1668 77 44.9802 77 36.1252C77 27.6552 70.4229 20.7893 62.0812 20.2118ZM60.9583 45.7502H19.25C12.1596 45.7502 6.41667 40.0072 6.41667 32.9168C6.41667 26.3397 11.3254 20.8535 17.8383 20.1797L21.2712 19.8268L22.8754 16.7789C25.9233 10.9077 31.8908 7.25016 38.5 7.25016C46.9058 7.25016 54.1567 13.2177 55.7929 21.4631L56.7554 26.2756L61.6642 26.6285C66.6692 26.9493 70.5833 31.1522 70.5833 36.1252C70.5833 41.4189 66.2521 45.7502 60.9583 45.7502ZM25.6667 29.7085H33.8479V39.3335H43.1521V29.7085H51.3333L38.5 16.8752L25.6667 29.7085Z"
+                                                fill="#5964E0" />
+                                        </svg>
+                                        <ng-container *ngIf="!resumeFile">
+                                            <p class="instruction">Upload or drag resume here</p>
+                                        </ng-container>
+                                        <ng-container *ngIf="resumeFile">
+                                            <div class="file-preview">
+                                                <span class="file-name">
+                                                    <svg width="16" height="21" viewBox="0 0 16 21" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M4 14.4023H12V16.4023H4V14.4023ZM4 10.4023H12V12.4023H4V10.4023ZM10 0.402344H2C0.9 0.402344 0 1.30234 0 2.40234V18.4023C0 19.5023 0.89 20.4023 1.99 20.4023H14C15.1 20.4023 16 19.5023 16 18.4023V6.40234L10 0.402344ZM14 18.4023H2V2.40234H9V7.40234H14V18.4023Z"
+                                                            fill="#586071" />
+                                                    </svg>
+
+                                                    {{ resumeFile.name }}
+                                                </span>
+                                                <button class="remove-btn"
+                                                    (click)="removeFile('resume', $event); $event.stopPropagation()">
+                                                    <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M14 1.81234L12.59 0.402344L7 5.99234L1.41 0.402344L0 1.81234L5.59 7.40234L0 12.9923L1.41 14.4023L7 8.81234L12.59 14.4023L14 12.9923L8.41 7.40234L14 1.81234Z"
+                                                            fill="#586071" />
+                                                    </svg>
+
+                                                </button>
+                                            </div>
+                                        </ng-container>
+
+                                        <button class="upload-btn" type="button"
+                                            (click)="coverLetterInput.click(); $event.stopPropagation()">
+                                            Upload resume
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div *ngIf="form.get('coverLetter')?.invalid && form.get('coverLetter')?.touched"
+                                    class="error">
+                                    Resume is required.
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="flex pt-6 justify-end">
+                            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                (onClick)="activateCallback(2)" />
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <p-step-panel [value]="2">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-section group" formArrayName="experiences">
+                            <h3>Experience</h3>
+
+                            <div class="experience-item" *ngFor="let exp of experiencesFormGroups; let i = index"
+                                [formGroupName]="i" class="experience-item">
+                                <app-reusable-form-group [group]="exp" [fields]="[
+                                    { label: 'Company', controlName: 'company', type: 'text', placeholder: 'Type company name here' },
+                                    { label: 'Job', controlName: 'job', type: 'text', placeholder: 'Type job title here' },
+                                    { label: 'Description', controlName: 'description', type: 'textarea', placeholder: 'Type description here' },
+                                    
+                                ]"></app-reusable-form-group>
+
+
+
 
                             </div>
-                            <div *ngIf="form.get('coverLetter')?.invalid && form.get('coverLetter')?.touched"
-                                class="error">
-                                Resume is required.
+
+                            <button class="add-more" (click)="addExperience()">
+                                <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.5 5.40234H9.5V9.40234H5.5V11.4023H9.5V15.4023H11.5V11.4023H15.5V9.40234H11.5V5.40234ZM10.5 0.402344C4.99 0.402344 0.5 4.89234 0.5 10.4023C0.5 15.9123 4.99 20.4023 10.5 20.4023C16.01 20.4023 20.5 15.9123 20.5 10.4023C20.5 4.89234 16.01 0.402344 10.5 0.402344ZM10.5 18.4023C6.09 18.4023 2.5 14.8123 2.5 10.4023C2.5 5.99234 6.09 2.40234 10.5 2.40234C14.91 2.40234 18.5 5.99234 18.5 10.4023C18.5 14.8123 14.91 18.4023 10.5 18.4023Z"
+                                        fill="#5964E0" />
+                                </svg>
+                                Add more
+                            </button>
+                            <div class="flex pt-6 justify-between">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
+                                    (onClick)="activateCallback(1)" />
+                                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
+                                    (onClick)="activateCallback(3)" />
                             </div>
                         </div>
+                    </ng-template>
+                </p-step-panel>
 
-                    </div>
-                    <div class="flex pt-6 justify-end">
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                            (onClick)="activateCallback(2)" />
-                    </div>
-                </ng-template>
-            </p-step-panel>
-
-            <p-step-panel [value]="2">
-                <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
-                        <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                            Content II
+                <p-step-panel [value]="3">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="flex flex-col h-48">
+                            <div
+                                class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+                                Content III
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex pt-6 justify-between">
-                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left"
-                            (onClick)="activateCallback(1)" />
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right"
-                            (onClick)="activateCallback(3)" />
-                    </div>
-                </ng-template>
-            </p-step-panel>
-
-            <p-step-panel [value]="3">
-                <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
-                        <div
-                            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                            Content III
+                        <div class="flex pt-6 justify-start">
+                            <p-button label="Back" icon="pi pi-arrow-left" iconPos="right"
+                                (onClick)="activateCallback(2)" />
                         </div>
-                    </div>
-                    <div class="flex pt-6 justify-start">
-                        <p-button label="Back" icon="pi pi-arrow-left" iconPos="right"
-                            (onClick)="activateCallback(2)" />
-                    </div>
-                </ng-template>
-            </p-step-panel>
-        </p-step-panels>
-    </p-stepper>
+                    </ng-template>
+                </p-step-panel>
+            </p-step-panels>
+        </p-stepper>
 
 
 
-</div>
+    </div>
+</form>
