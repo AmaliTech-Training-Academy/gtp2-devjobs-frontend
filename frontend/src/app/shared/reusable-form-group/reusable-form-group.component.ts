@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @Component({
   selector: 'app-reusable-form-group',
@@ -19,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
+    MatSelectModule
   ],
   templateUrl: './reusable-form-group.component.html',
   styleUrl: './reusable-form-group.component.scss',
@@ -32,7 +35,13 @@ export class ReusableFormGroupComponent {
     type: string;
     iconSrc?: string;
     inlineSvg?: string;
+    // categories?: string[]
   }[];
+
+
+
+  categories = ["Full time", "Part time", "Contract"]
+  
 
   constructor(private sanitizer: DomSanitizer) {}
 

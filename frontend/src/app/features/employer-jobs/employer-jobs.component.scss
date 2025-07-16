@@ -94,10 +94,18 @@
                 left: 1rem;
                 top: 0.8rem;
             }
+
+
+
         }
 
 
+
         /* table styling */
+        ::ng-deep .custom-table {
+            background-color: white !important;
+        }
+
         ::ng-deep .custom-table .p-datatable-thead > tr > th,
         ::ng-deep .custom-table .p-datatable-tbody > tr > td {
             padding: 1.2rem;
@@ -118,7 +126,6 @@
         ::ng-deep .p-button-text .pi {
             font-size: 1.2rem;
         }
-
 
 
     }

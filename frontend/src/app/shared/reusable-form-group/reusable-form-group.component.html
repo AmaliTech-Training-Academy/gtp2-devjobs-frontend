@@ -18,8 +18,21 @@
                     [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required
                     rows="4"></textarea>
 
+                <mat-select [formControlName]="field.controlName" *ngSwitchCase="'select'">
+                    <mat-option *ngFor="let cat of categories" [value]="cat">
+                        {{ cat }}
+                    </mat-option>
+                </mat-select>
+
+                <!-- <select [formControlName]="field.controlName" *ngSwitchCase="'select'">
+                    <option *ngFor="let cat of categories" [value]="cat">
+                        {{ cat }}
+                    </option>
+                </select>
+  -->
                 <input *ngSwitchDefault matInput [type]="field.type" [formControlName]="field.controlName"
                     [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required />
+
             </ng-container>
 
             <mat-error *ngIf="group.get(field.controlName)?.invalid && group.get(field.controlName)?.touched">
