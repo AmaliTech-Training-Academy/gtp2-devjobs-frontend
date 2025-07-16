@@ -1,0 +1,16 @@
+name: staging
+type: Environment
+
+network:
+  vpc:
+    enable_logs: true
+  
+  cdn:
+    certificate_arn: # Optional: Add your SSL certificate ARN for eu-west-1
+  
+count:
+  spot: 50 # Use 50% spot instances for cost savings
+
+variables:
+  LOG_LEVEL: info
+  AWS_DEFAULT_REGION: eu-west-1

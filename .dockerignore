@@ -1,31 +1,27 @@
-# Node modules
 node_modules
 npm-debug.log
-
-# Build outputs
-dist
-.tmp
-out-tsc
-
-# Environment files (if you keep local secrets)
+.git
+.gitignore
+README.md
 .env
-.env.local
-.env.*.local
-
-# OS/system files
+.nyc_output
+coverage
+.nyc_output
+.vscode
+.idea
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db
 
-# Git and editor
-.git
-.gitignore
-.vscode
-.idea
+# Angular specific
+frontend/dist
+frontend/node_modules
+frontend/.angular
+frontend/coverage
 
-# Logs
+# Build artifacts
 *.log
-
-# Docker-specific
-devops/
-Dockerfile
-docker-compose.yml
+*.tmp
+*.temp
