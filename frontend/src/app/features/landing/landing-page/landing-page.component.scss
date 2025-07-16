@@ -1,0 +1,16 @@
+.hero-section,
+.what-we-do,
+.cta-carousel,
+.job-categories,
+.footer {
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .hero-section,
+  .what-we-do,
+  .cta-carousel,
+  .job-categories {
+    padding: 4rem 3rem;
+  }
+}
