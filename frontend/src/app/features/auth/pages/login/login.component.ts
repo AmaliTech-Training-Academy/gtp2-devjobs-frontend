@@ -21,6 +21,7 @@ import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/
   styleUrls: ['../register/register/register.component.scss'],
 })
 export class LoginComponent {
+  isMobile = false;
   onLoginSubmit(formData: any) {
     console.log('Login Submitted:', formData);
     // authService.login(formData)
