@@ -6,6 +6,8 @@ import Lara from '@primeng/themes/lara';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,13 +17,13 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-          preset: Lara
-      }
-  }),
+        preset: Lara,
+      },
+    }),
 
     provideAnimations(),
 
-    provideHttpClient()
-
+    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };
