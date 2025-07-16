@@ -10,7 +10,14 @@ import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'landing',
+    loadComponent: () =>
+      import('./features/landing/landing-page/landing-page.component').then(
+        (m) => m.LandingPageComponent
+      ),
+  },
+  {
+    path: 'register',
     component: RegisterComponent,
   },
   {
@@ -108,6 +115,13 @@ export const routes: Routes = [
           ),
       },
     ],
+  },
+
+  //Redirects and wildcards
+  {
+    path: '',
+    redirectTo: '/landing',
+    pathMatch: 'full',
   },
   {
     path: '**',
