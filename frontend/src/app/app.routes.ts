@@ -5,6 +5,7 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { JobDetailsComponent } from './features/job-details/job-details.component';
 import { ApplicationFormComponent } from './features/application-form/application-form.component';
 
+
 import { EmployerDashboardComponent } from './features/employer-dashboard/employer-dashboard.component';
 import { EmployerLayoutComponent } from './features/employer-layout/employer-layout.component';
 import { EmployerJobsComponent } from './features/employer-jobs/employer-jobs.component';
@@ -12,6 +13,7 @@ import { EmployerApplicationsComponent } from './features/employer-applications/
 import { EmployerSettingsComponent } from './features/employer-settings/employer-settings.component';
 
 import { SeekerDashboardComponent } from './layouts/seeker/seeker-dashboard/seeker-dashboard.component';
+
 import { JobListComponent } from './features/jobs/job-list/job-list.component';
 
 
@@ -71,6 +73,10 @@ export const routes: Routes = [
         canActivate: [],
         children: [
             { path: '', component: JobListComponent,
+                canActivate: []
+             },
+            { path: 'application-status', 
+              loadComponent: () => import('./features/jobs/application-status/application-status.component').then(m => m.ApplicationStatusComponent),
                 canActivate: []
              },
         ],
