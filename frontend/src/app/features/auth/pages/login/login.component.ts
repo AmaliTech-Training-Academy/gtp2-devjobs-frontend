@@ -1,4 +1,3 @@
-// login.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +6,7 @@ import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-pu
 import { RouterModule, Router, RouterLink } from '@angular/router';
 import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/tooltip.component';
 import { Auth } from '../../../../core/services/authservice/auth.service';
+import { ToastService } from '../../../../shared/utils/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,12 @@ import { Auth } from '../../../../core/services/authservice/auth.service';
 export class LoginComponent {
   isMobile = false;
 
-  constructor(private router: Router, private authService: Auth) {}
+  constructor(
+    private router: Router,
+    private authService: Auth,
+    private toast: ToastService
+  ) {}
+
   ngOnInit(): void {
     this.checkScreenSize();
     window.addEventListener('resize', () => this.checkScreenSize());
@@ -40,11 +45,20 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (res) => {
         console.log('Login success:', res);
-        this.router.navigate(['/application-form']);
+        this.toast.success('Login successful!');
+
+        const user = this.authService.getCurrentUser();
+        if (user?.roles.includes('ROLE_EMPLOYER')) {
+          this.router.navigate(['/employer/dashboard']);
+        } else if (user?.roles.includes('ROLE_SEEKER')) {
+          this.router.navigate(['/seeker/dashboard']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (err) => {
+        this.toast.error('Login failed. Please check your credentials.');
         console.error('Login failed:', err);
-        
       },
     });
   }
