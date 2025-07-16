@@ -3,12 +3,16 @@
 @use "../../styles/mixins";
 
 .wrapper {
-  max-width: 1200px;
-  width: 100%;
+  width: 1200px;
+  // width: 100%;
   margin: auto;
   display: grid;
   gap: 20px;
   box-sizing: border-box;
+
+  @include mixins.breakpoint(1200px) {
+    width: 100%;
+  }
 
   .back-wrapper {
     width: 100%;
@@ -71,6 +75,11 @@
 
         .value {
           @include fonts.header2;
+        }
+      }
+      @include mixins.breakpoint(1200px) {
+        .salary {
+          display: none;
         }
       }
 
