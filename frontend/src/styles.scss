@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 //import Kumbh Sans
 @use "./app/styles/variables" as *;
+
+
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap");
+@import "primeicons/primeicons.css";
+
 
 * {
   margin: 0;
@@ -10,9 +16,12 @@
 }
 html,
 body {
+  max-width: 100%;
   height: 100%;
   font-family: $font-family;
   overflow-x: hidden;
+
   background-color: $body-bg;
+
   color: #19202d;
 }

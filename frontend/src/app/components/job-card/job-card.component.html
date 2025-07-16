@@ -1,0 +1,29 @@
+<p-card class="job-card">
+
+    <div class="job-card__logo">
+      <img src={{job.logo}} alt={{job.company}}>
+    </div>
+
+  
+  <div class="job-info">
+    <div class="job-card__meta">
+      <span class="job-card__time">{{job.postedAt}}</span>
+      <span class="job-card__dot"></span>
+      <span class="job-card__type">{{job.contract}}</span>
+    </div>
+
+    <div class="job-card__title">
+      {{job.position}}
+    </div>
+  
+    <div class="job-card__company">
+      <i class="pi pi-building job-card__icon"></i>
+      {{job.company}}
+    </div>
+  
+    <div class="job-card__location">
+      <i class="pi pi-map-marker job-card__icon"></i>
+      {{job.location}}
+    </div>
+  </div>
+</p-card> 
