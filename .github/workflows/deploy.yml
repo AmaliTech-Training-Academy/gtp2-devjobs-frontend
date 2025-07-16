@@ -1,4 +1,4 @@
-name: Deploy to ECS self hosted runner
+name: Deploy to ECS self hosted runner,with aws cli installed
 
 on:
   push:
