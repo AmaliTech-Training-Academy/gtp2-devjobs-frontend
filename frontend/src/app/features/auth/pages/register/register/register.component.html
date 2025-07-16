@@ -113,7 +113,69 @@
             Employer
           </button>
         </div>
+        <div class="mobile-register-content" *ngIf="isMobile">
+          <div class="mobile-form-container">
+            <!-- Info Tooltip -->
+            <div class="info-section">
+              <div class="info-trigger" (click)="toggleTooltip()">
+                <mat-icon>info</mat-icon>
+              </div>
 
+              <!-- Tooltip Content -->
+              <div class="tooltip-content" [class.active]="showTooltip">
+                <div class="tooltip-header">
+                  <span
+                    >Tips for
+                    {{
+                      selectedRole === "seeker" ? "Job Seekers" : "Employers"
+                    }}</span
+                  >
+                  <button class="close-tooltip" (click)="toggleTooltip()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+
+                <div class="tooltip-body">
+                  <p>{{ getCurrentTip() }}</p>
+
+                  <div class="tooltip-navigation">
+                    <button
+                      (click)="prevTip()"
+                      [disabled]="currentTipIndex === 0"
+                    >
+                      <mat-icon>arrow_back</mat-icon>
+                    </button>
+
+                    <div class="tip-indicators">
+                      <span
+                        *ngFor="
+                          let tip of selectedRole === 'seeker'
+                            ? seekerTips
+                            : employerTips;
+                          let i = index
+                        "
+                        [class.active]="i === currentTipIndex"
+                        class="indicator"
+                      ></span>
+                    </div>
+
+                    <button
+                      (click)="nextTip()"
+                      [disabled]="
+                        currentTipIndex ===
+                        (selectedRole === 'seeker' ? seekerTips : employerTips)
+                          .length -
+                          1
+                      "
+                    >
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Form Title -->
         <div class="form-title">
           <span *ngIf="selectedRole === 'seeker'">Create an account</span>
