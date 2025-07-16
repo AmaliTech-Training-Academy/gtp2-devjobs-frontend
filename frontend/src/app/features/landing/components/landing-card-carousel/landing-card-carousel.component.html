@@ -1,0 +1,29 @@
+<div class="cta-section">
+  <h2>
+    Start strong, stay confident this is your space to grow and land your best
+    fit job
+  </h2>
+
+  <div class="cards-wrapper">
+    <mat-card
+      class="card"
+      *ngFor="let card of visibleCards; let i = index"
+      [ngClass]="{
+        even: (currentStartIndex + i) % 2 === 1,
+        odd: (currentStartIndex + i) % 2 === 0
+      }"
+    >
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+    </mat-card>
+  </div>
+
+  <div class="navigation-buttons">
+    <button mat-icon-button (click)="previous()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button (click)="next()">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
