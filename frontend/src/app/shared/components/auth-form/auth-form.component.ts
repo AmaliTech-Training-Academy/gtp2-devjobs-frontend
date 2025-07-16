@@ -37,6 +37,7 @@ import { RouterModule, RouterLink, Router } from '@angular/router';
     MatIconModule,
     MatCheckboxModule,
     RouterModule,
+    RouterLink,
   ],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],

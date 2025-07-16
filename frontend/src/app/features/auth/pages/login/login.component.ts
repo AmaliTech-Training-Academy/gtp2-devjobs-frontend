@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthFormComponent } from '../../../../shared/components/auth-form/auth-form.component';
 import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
-import { RouterLink } from '@angular/router';
+import { RouterModule, Router, RouterLink } from '@angular/router';
 import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/tooltip.component';
 
 @Component({
@@ -16,14 +16,30 @@ import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/
     AuthFormComponent,
     AuthPublicNavbarComponent,
     TooltipComponent,
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['../register/register/register.component.scss'],
 })
 export class LoginComponent {
   isMobile = false;
+
+  constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkScreenSize());
+  }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
   onLoginSubmit(formData: any) {
     console.log('Login Submitted:', formData);
-    // authService.login(formData)
+    this.router.navigate(['/application-form']);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkScreenSize);
   }
 }

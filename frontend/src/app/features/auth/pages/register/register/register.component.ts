@@ -5,6 +5,7 @@ import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TooltipComponent } from '../../../../../shared/components/tooltip/tooltip/tooltip.component';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ import { TooltipComponent } from '../../../../../shared/components/tooltip/toolt
     MatIconModule,
     MatButtonModule,
     TooltipComponent,
+    RouterModule,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -26,6 +28,7 @@ export class RegisterComponent implements OnInit {
   showTooltip = false;
   currentTipIndex = 0;
 
+  constructor(private router: Router) {}
   ngOnInit() {
     this.checkScreenSize();
     window.addEventListener('resize', () => this.checkScreenSize());
@@ -42,6 +45,6 @@ export class RegisterComponent implements OnInit {
 
   onFormSubmit(formData: any) {
     console.log('Form submitted:', formData);
-    // Handle form submission logic here
+    this.router.navigate(['/register']);
   }
 }
