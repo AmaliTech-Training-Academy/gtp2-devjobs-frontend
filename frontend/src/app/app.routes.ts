@@ -4,6 +4,7 @@ import { RegisterComponent } from './features/auth/pages/register/register/regis
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { EmployerLayoutComponent } from './features/employer-layout/employer-layout.component';
 import { JobListComponent } from './features/jobs/job-list/job-list.component';
+import { ForgotPasswordComponent } from './features/auth/pages/forgot-password/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   {
