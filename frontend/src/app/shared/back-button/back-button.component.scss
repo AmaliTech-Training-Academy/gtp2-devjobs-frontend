@@ -10,3 +10,20 @@
     font-weight: 600;
   }
 }
+.go-back {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  color: #4f46e5;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+
+  mat-icon {
+    margin-right: 4px;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

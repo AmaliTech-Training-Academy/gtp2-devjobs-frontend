@@ -1,12 +1,17 @@
 .auth-navbar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background-color: white;
   border-bottom: 1px solid #e5e7eb;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+  height: 70px;
+  box-sizing: border-box;
 
   .nav-left {
     .logo {
@@ -58,38 +63,215 @@
       border: none;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: all 0.3s ease;
     }
 
     .loginbtn {
       color: #5964e0;
       background-color: #eff0fc;
+
+      &:hover {
+        background-color: #e0e7ff;
+      }
     }
 
     .signupbtn {
       background-color: #4338ca;
       color: white;
+
+      &:hover {
+        background-color: #3730a3;
+      }
     }
+  }
+
+  // Hide hamburger menu on desktop
+  .hamburger-menu {
+    display: none;
+  }
+
+  // Hide mobile menu elements on desktop
+  .mobile-menu,
+  .mobile-menu-overlay {
+    display: none;
   }
 }
 
+// Mobile styles
 @media (max-width: 768px) {
   .auth-navbar {
     padding: 1rem;
+    height: 60px;
 
-    .nav-center {
+    .nav-left {
+      flex: 1;
+
+      .logo {
+        font-size: 1.25rem;
+      }
+    }
+
+    // Hide desktop navigation and buttons
+    .nav-center,
+    .nav-right {
       display: none;
     }
 
-    .nav-right {
-      gap: 0.5rem;
+    // Show hamburger menu
+    .hamburger-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: #19202d;
+      border-radius: 8px;
+      transition: all 0.3s ease;
 
-      ::ng-deep {
-        .mat-mdc-button,
-        .mat-mdc-raised-button {
-          padding: 0.5rem 0.75rem !important;
-          font-size: 14px !important;
+      &:hover {
+        background-color: #f3f4f6;
+        color: #4f46e5;
+      }
+
+      &:active {
+        background-color: #e5e7eb;
+      }
+
+      mat-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    // Mobile menu overlay
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 999;
+      display: block;
+
+      &.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    // Mobile menu
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background-color: white;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1001;
+      padding: 1rem;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      display: block;
+
+      &.active {
+        right: 0;
+      }
+
+      .mobile-nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-top: 4rem;
+
+        li {
+          margin-bottom: 0.5rem;
+
+          a {
+            display: block;
+            padding: 1rem 0;
+            text-decoration: none;
+            color: #19202d;
+            font-weight: 400;
+            font-size: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: color 0.3s ease;
+            border-radius: 8px;
+
+            &:hover {
+              color: #4f46e5;
+              background-color: #f8fafc;
+            }
+
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+
+      .mobile-auth-buttons {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .btn {
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          font-size: 15px;
+          font-weight: 500;
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        .loginbtn {
+          color: #5964e0;
+          background-color: #eff0fc;
+
+          &:hover {
+            background-color: #e0e7ff;
+          }
+        }
+
+        .signupbtn {
+          background-color: #4338ca;
+          color: white;
+
+          &:hover {
+            background-color: #3730a3;
+          }
         }
       }
     }
   }
+}
+
+body {
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+}
+
+// Prevent scrolling when mobile menu is open
+body.mobile-menu-open {
+  overflow: hidden;
 }

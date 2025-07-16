@@ -1,0 +1,51 @@
+<div class="applications-container">
+  <h3>My Applications</h3>
+  <div class="applications-toolbar">
+    <span class="p-input-icon-left search-input-wrapper">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" placeholder="Filter by Name, date, status..." />
+    </span>
+    <div class="applications-filter">
+      <label>Filter</label>
+      <p-select
+        [options]="filterOptions"
+        [(ngModel)]="selectedFilter"
+        (ngModelChange)="applyFilter()"
+        placeholder="All"
+        styleClass="p-inputtext-sm"
+      ></p-select>
+    </div>
+  </div>
+
+  <p-table [value]="filteredApplications" class="applications-table">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Company</th>
+        <th>Position</th>
+        <th>Date Applied</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-app>
+      <tr>
+        <td>{{ app.company }}</td>
+        <td>{{ app.position }}</td>
+        <td>{{ app.dateApplied }}</td>
+        <td>
+          <span class="status-badge" [ngClass]="getStatusClass(app.status)">
+            <span class="dot" [ngClass]="app.status | lowercase"></span>
+            {{ app.status }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div class="applications-pagination">
+    <p-paginator
+      [rows]="5"
+      [totalRecords]="applications.length"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
+  </div>
+</div>

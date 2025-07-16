@@ -1,18 +1,31 @@
-<img src="assets/blue-bg.png" alt="">
+<app-seeker-nav></app-seeker-nav>
+<img src="assets/blue-bg.png" alt="background image" />
 <main class="container">
   <div class="tabs-and-search">
     <div class="tabs">
-      <a href="">Job Search</a>
-      <a href="">Application Status</a>
+      <a
+        [routerLink]="['/seeker/dashboard']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Job Search
+      </a>
+      <a
+        [routerLink]="['/seeker/dashboard/application-status']"
+        routerLinkActive="active"
+      >
+        Application Status
+      </a>
     </div>
+    @if(showSearch$ | async){
     <div class="search">
       <app-search></app-search>
     </div>
-
+    }
   </div>
 
   <div class="page">
-   <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 
   .

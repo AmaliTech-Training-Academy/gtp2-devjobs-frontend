@@ -1,24 +1,84 @@
 <nav class="auth-navbar">
   <div class="nav-left">
-    <a routerLink="/" class="logo">devJobs</a>
+    <a class="logo" routerLink="/">devJobs</a>
   </div>
 
+  <!-- Desktop Navigation -->
   <ul class="nav-center">
     <li><a routerLink="/">Home</a></li>
     <li><a routerLink="/search">Start a Search</a></li>
     <li><a routerLink="/jobs">Jobs List</a></li>
-    <li><a routerLink="/salary-estimate">Salary Estimate</a></li>
+    <li><a routerLink="/salary">Salary Estimate</a></li>
     <li>
       <a
         routerLink="/employer"
         style="color: #5964e0; text-decoration: underline"
-        >Employer?</a
       >
+        Employer?
+      </a>
     </li>
   </ul>
 
+  <!-- Desktop Auth Buttons -->
   <div class="nav-right">
-    <button class="loginbtn btn" routerLink="/login">Login</button>
-    <button class="signupbtn btn" routerLink="/register">Sign Up</button>
+    <button class="btn loginbtn" routerLink="/login">Login</button>
+    <button class="btn signupbtn" routerLink="/register">Sign Up</button>
+  </div>
+
+  <!-- Mobile Hamburger Menu -->
+  <button
+    class="hamburger-menu"
+    (click)="toggleMobileMenu()"
+    type="button"
+    aria-label="Toggle mobile menu"
+  >
+    <mat-icon>{{ isMobileMenuOpen ? "close" : "menu" }}</mat-icon>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    class="mobile-menu-overlay"
+    [class.active]="isMobileMenuOpen"
+    (click)="closeMobileMenu()"
+  ></div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+    <ul class="mobile-nav-links">
+      <li><a routerLink="/" (click)="closeMobileMenu()">Home</a></li>
+      <li>
+        <a routerLink="/search" (click)="closeMobileMenu()">Start a Search</a>
+      </li>
+      <li><a routerLink="/jobs" (click)="closeMobileMenu()">Jobs List</a></li>
+      <li>
+        <a routerLink="/salary" (click)="closeMobileMenu()">Salary Estimate</a>
+      </li>
+      <li>
+        <a
+          routerLink="/employer"
+          (click)="closeMobileMenu()"
+          style="color: #5964e0; text-decoration: underline"
+        >
+          Employer?
+        </a>
+      </li>
+    </ul>
+
+    <div class="mobile-auth-buttons">
+      <button
+        class="btn loginbtn"
+        routerLink="/login"
+        (click)="closeMobileMenu()"
+      >
+        Login
+      </button>
+      <button
+        class="btn signupbtn"
+        routerLink="/register"
+        (click)="closeMobileMenu()"
+      >
+        Sign Up
+      </button>
+    </div>
   </div>
 </nav>

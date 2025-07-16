@@ -1,0 +1,16 @@
+name: production
+type: Environment
+
+network:
+  vpc:
+    enable_logs: true
+  
+  cdn:
+    certificate_arn: # Add your SSL certificate ARN for HTTPS in eu-west-1
+  
+count:
+  spot: 0 # No spot instances in production
+
+variables:
+  LOG_LEVEL: warn
+  AWS_DEFAULT_REGION: eu-west-1

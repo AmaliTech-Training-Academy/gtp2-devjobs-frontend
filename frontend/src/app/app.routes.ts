@@ -25,6 +25,10 @@ export const routes: Routes = [
         canActivate: [],
         pathMatch: 'full',
       },
+      { path: 'application-status', 
+              loadComponent: () => import('./features/jobs/application-status/application-status.component').then(m => m.ApplicationStatusComponent),
+                canActivate: []
+             },
       {
         path: 'job-details',
         loadComponent: () =>
@@ -49,6 +53,18 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'application-form',
+    loadComponent: () =>
+      import('./features/application-form/application-form.component').then(
+        (m) => m.ApplicationFormComponent
+      ),
   },
 
   {
@@ -89,4 +105,6 @@ export const routes: Routes = [
       },
     ],
   },
+
+
 ];
