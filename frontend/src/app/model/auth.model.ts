@@ -26,3 +26,16 @@ export interface LoginResponse {
     user: User;
   };
 }
+
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    tokenType: string;
+    refreshToken: string;
+  } | null;
+  timestamp: string;
+  error: boolean;
+  errors: any;
+}
