@@ -1,14 +1,18 @@
 import { Routes } from '@angular/router';
+
 import { RegisterComponent } from './features/auth/pages/register/register/register.component';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { JobDetailsComponent } from './features/job-details/job-details.component';
 import { ApplicationFormComponent } from './features/application-form/application-form.component';
+
 import { EmployerDashboardComponent } from './features/employer-dashboard/employer-dashboard.component';
 import { EmployerLayoutComponent } from './features/employer-layout/employer-layout.component';
 import { EmployerJobsComponent } from './features/employer-jobs/employer-jobs.component';
 import { EmployerApplicationsComponent } from './features/employer-applications/employer-applications.component';
 import { EmployerSettingsComponent } from './features/employer-settings/employer-settings.component';
 
+import { SeekerDashboardComponent } from './layouts/seeker/seeker-dashboard/seeker-dashboard.component';
+import { JobListComponent } from './features/jobs/job-list/job-list.component';
 
 
 export const routes: Routes = [
@@ -60,5 +64,15 @@ export const routes: Routes = [
       }
     ]
 
-  }
+  },
+     {
+        path: 'seeker/dashboard', 
+        loadComponent: () => import('./layouts/seeker/seeker-dashboard/seeker-dashboard.component').then(m => m.SeekerDashboardComponent),
+        canActivate: [],
+        children: [
+            { path: '', component: JobListComponent,
+                canActivate: []
+             },
+        ],
+    },
 ];

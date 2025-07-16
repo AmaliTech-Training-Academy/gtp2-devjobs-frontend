@@ -1,0 +1,31 @@
+# Node modules
+node_modules
+npm-debug.log
+
+# Build outputs
+dist
+.tmp
+out-tsc
+
+# Environment files (if you keep local secrets)
+.env
+.env.local
+.env.*.local
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Git and editor
+.git
+.gitignore
+.vscode
+.idea
+
+# Logs
+*.log
+
+# Docker-specific
+devops/
+Dockerfile
+docker-compose.yml
