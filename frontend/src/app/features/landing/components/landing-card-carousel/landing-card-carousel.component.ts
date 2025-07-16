@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './landing-card-carousel.component.html',
-  styleUrl: './landing-card-carousel.component.scss',
+  styleUrls: ['./landing-card-carousel.component.scss'],
 })
 export class LandingCardCarouselComponent implements OnInit {
   currentStartIndex = 0;
@@ -59,25 +59,28 @@ export class LandingCardCarouselComponent implements OnInit {
       this.cardsPerView = 3;
     }
   }
+
   get visibleCards() {
-    return this.cards.slice(this.currentStartIndex, this.currentStartIndex + 3);
+    return this.cards.slice(
+      this.currentStartIndex,
+      this.currentStartIndex + this.cardsPerView
+    );
   }
 
   next(): void {
-    const nextIndex = this.currentStartIndex + 3;
+    const nextIndex = this.currentStartIndex + this.cardsPerView;
     if (nextIndex < this.cards.length) {
       this.currentStartIndex = nextIndex;
     }
   }
 
   previous(): void {
-    const prevIndex = this.currentStartIndex - 3;
+    const prevIndex = this.currentStartIndex - this.cardsPerView;
     if (prevIndex >= 0) {
       this.currentStartIndex = prevIndex;
     }
   }
 
-  // ----- Swipe support -----
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     this.touchStartX = event.changedTouches[0].screenX;
@@ -94,13 +97,11 @@ export class LandingCardCarouselComponent implements OnInit {
     const diff = this.touchStartX - this.touchEndX;
 
     if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        // Swiped left
-        this.next();
-      } else {
-        // Swiped right
-        this.previous();
-      }
+      diff > 0 ? this.next() : this.previous();
     }
+  }
+
+  getCardIndex(i: number): number {
+    return this.currentStartIndex + i;
   }
 }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AuthPublicNavbarComponent } from '../../../shared/components/auth-public-navbar/auth-public-navbar.component';
 import { LandingSearchComponent } from '../components/landing-search/landing-search.component';
 import { LandingWhatWeDoComponent } from '../components/landing-what-we-do/landing-what-we-do.component';
-import { LandingCardCarouselComponent } from "../components/landing-card-carousel/landing-card-carousel.component";
+import { LandingCardCarouselComponent } from '../components/landing-card-carousel/landing-card-carousel.component';
+import { LandingJobCategoriesComponent } from '../components/landing-job-categories/landing-job-categories.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -13,8 +14,9 @@ import { LandingCardCarouselComponent } from "../components/landing-card-carouse
     AuthPublicNavbarComponent,
     LandingSearchComponent,
     LandingWhatWeDoComponent,
-    LandingCardCarouselComponent
-],
+    LandingCardCarouselComponent,
+    LandingJobCategoriesComponent,
+  ],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
 })

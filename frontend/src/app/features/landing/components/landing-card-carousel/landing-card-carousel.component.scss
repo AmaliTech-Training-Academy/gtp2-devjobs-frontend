@@ -1,46 +1,52 @@
 .cta-section {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1rem;
+  max-width: 1200px;
+  margin: auto;
 
   h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
+    font-weight: 600;
   }
 
   .cards-wrapper {
     display: flex;
-    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
     margin-bottom: 1.5rem;
-  }
 
-  .card {
-    width: 100%;
-    max-width: 320px;
-    padding: 1.5rem;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    .card {
+      flex-shrink: 0;
+      min-width: 280px;
+      max-width: 320px;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      text-align: left;
 
-    &.even {
-      background-color: #3f51b5;
-      color: white;
-    }
+      &.even {
+        background-color: #3f51b5;
+        color: #fff;
+      }
 
-    &.odd {
-      background-color: #ffffff;
-      color: #000000;
-      border: 1px solid #e0e0e0;
-    }
+      &.odd {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #e0e0e0;
+      }
 
-    h3 {
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-    }
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+      }
 
-    p {
-      font-size: 0.95rem;
-      line-height: 1.4;
+      p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
     }
   }
 
@@ -51,12 +57,24 @@
 
     button {
       border-radius: 50%;
-      background-color: #e0e0e0;
+      background-color: #f0f0f0;
       color: #333;
 
       &:hover {
         background-color: #3f51b5;
-        color: white;
+        color: #fff;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cards-wrapper {
+      flex-direction: column;
+      align-items: center;
+
+      .card {
+        max-width: 90vw;
+        width: 100%;
       }
     }
   }

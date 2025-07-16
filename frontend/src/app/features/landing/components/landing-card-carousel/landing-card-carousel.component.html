@@ -9,8 +9,8 @@
       class="card"
       *ngFor="let card of visibleCards; let i = index"
       [ngClass]="{
-        even: (currentStartIndex + i) % 2 === 1,
-        odd: (currentStartIndex + i) % 2 === 0
+        even: getCardIndex(i) % 2 === 1,
+        odd: getCardIndex(i) % 2 === 0
       }"
     >
       <h3>{{ card.title }}</h3>
@@ -20,10 +20,10 @@
 
   <div class="navigation-buttons">
     <button mat-icon-button (click)="previous()">
-      <mat-icon>arrow_back</mat-icon>
+      <mat-icon>chevron_left</mat-icon>
     </button>
     <button mat-icon-button (click)="next()">
-      <mat-icon>arrow_forward</mat-icon>
+      <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
 </div>
