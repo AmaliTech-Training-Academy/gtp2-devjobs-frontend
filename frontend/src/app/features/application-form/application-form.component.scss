@@ -1,38 +1,71 @@
 @use "../../styles/variables";
 @use "../../styles/mixins";
+@use "../../styles/fonts";
 
 .wrapper {
   width: 1200px;
   margin: auto;
   background-color: white;
   padding: 40px;
+  margin-bottom: 40px;
+  margin-top: 20px;
 
-  :host ::ng-deep .p-stepper .p-step-header {
-    @apply bg-white rounded-full border border-blue-500 text-blue-500 w-10 h-10 flex items-center justify-center;
+  .form-section {
+    width: 704px;
+    margin: auto;
+    display: grid;
+    gap: 42px;
+
+    .upload-container {
+      @include fonts.regular;
+      label {
+        width: 100%;
+        @include fonts.header3;
+        margin-bottom: 20px;
+      }
+
+      .drop-zone {
+        background-color: variables.$grey;
+        border-radius: 10px;
+        padding: 30px;
+        // text-align: center;
+
+        .drop-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          gap: 15px;
+        }
+        .file-preview {
+          padding: 8px 12px;
+          display: flex;
+          justify-content: space-between;
+          background-color: #ffffff;
+          width: 377px;
+
+          .file-name {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+          }
+
+          .remove-btn {
+            background-color: transparent;
+            outline: none;
+            border: none;
+            cursor: pointer;
+          }
+        }
+        .upload-btn {
+          @include mixins.button(white, variables.$primary-color, 207px, 30px);
+          margin: auto;
+        }
+      }
+    }
   }
 
-  :host ::ng-deep .p-stepper .p-step-header.p-highlight {
-    @apply bg-blue-600 text-white border-none;
-  }
-
-  .upload-container {
-    max-width: 600px;
-    margin: 0 auto;
-
-    .upload-section {
-      margin-bottom: 30px;
-    }
-
-    .drop-box {
-      background-color: variables.$grey;
-      border-radius: 10px;
-      padding: 30px;
-      text-align: center;
-      position: relative;
-    }
-
-    button {
-      @include mixins.button(white, variables.$primary-color, 207px, 30px);
-    }
+  .error {
+    color: variables.$error;
   }
 }
