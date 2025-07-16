@@ -3,7 +3,8 @@ name: Deploy to ECS self hosted runner,with aws cli installed
 on:
   push:
     branches:
-      - feature/devops # or change to your desired branch
+      - feature/devops
+      - development # or change to your desired branch
 
 jobs:
   deploy:
