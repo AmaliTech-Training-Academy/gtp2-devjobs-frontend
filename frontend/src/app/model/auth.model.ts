@@ -12,6 +12,20 @@ export interface RegisterRequest {
   companyEmail?: string;
 }
 
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    tokenType: string;
+    refreshToken: string;
+    user?: any;
+  } | null;
+  timestamp: string;
+  error: boolean;
+  errors: string[] | null;
+}
+
 export interface User {
   id: number;
   name: string;
@@ -25,17 +39,4 @@ export interface LoginResponse {
     token: string;
     user: User;
   };
-}
-
-export interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    token: string;
-    tokenType: string;
-    refreshToken: string;
-  } | null;
-  timestamp: string;
-  error: boolean;
-  errors: any;
 }
