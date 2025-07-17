@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +23,7 @@ interface Field {
   type: string;
   placeholder: string;
   inlineSvg: string;
+  disabled?: boolean;
 }
 
 @Component({
@@ -23,16 +32,29 @@ interface Field {
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnChanges, OnInit {
   @Input() seekerProfile: SeekerProfile | null = null;
   @Input() employer: EmployerProfile | null = null;
-  @Input() type: 'employer' | 'seeker' = 'employer';
+  @Input() type: 'employer' | 'seeker' = 'seeker';
+  @Output() onSave = new EventEmitter<void>();
+  @Output() onCancel = new EventEmitter<void>();
 
   profileForm!: FormGroup;
   uploadedImage: string | ArrayBuffer | null = null;
 
-  constructor(private fb: FormBuilder) {
-    if (this.type === 'seeker') {
+  constructor(private fb: FormBuilder) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.generateFieldGroups();
+  }
+
+  ngOnInit(): void {
+    this.setprofileForm(this.type);
+    this.generateFieldGroups();
+  }
+
+  setprofileForm(type: string) {
+    if (type === 'seeker') {
       this.profileForm = this.fb.group({
         fullName: [
           this.seekerProfile?.fullname || '',
@@ -75,6 +97,10 @@ export class ProfileComponent {
   }
 
   icons = {
+    downSvg: `<svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.59 0.296875L6 4.87687L1.41 0.296875L0 1.70687L6 7.70687L12 1.70687L10.59 0.296875Z" fill="#586071"/>
+</svg>
+`,
     nameSvg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8 2C9.1 2 10 2.9 10 4C10 5.1 9.1 6 8 6C6.9 6 6 5.1 6 4C6 2.9 6.9 2 8 2ZM8 12C10.7 12 13.8 13.29 14 14H2C2.23 13.28 5.31 12 8 12ZM8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0ZM8 10C5.33 10 0 11.34 0 14V16H16V14C16 11.34 10.67 10 8 10Z" fill="#586071"/>
 </svg>
@@ -102,9 +128,11 @@ export class ProfileComponent {
 `,
   };
 
-  get fieldGroups() {
+  public fieldGroups: any[][] = [];
+
+  private generateFieldGroups(): void {
     if (this.type === 'seeker') {
-      return [
+      this.fieldGroups = [
         [
           {
             label: 'Full name',
@@ -128,6 +156,7 @@ export class ProfileComponent {
             type: 'email',
             placeholder: 'JohnDoe@gmail.com',
             inlineSvg: this.icons.emailSvg,
+            disabled: true,
           },
           {
             label: 'Location',
@@ -138,62 +167,64 @@ export class ProfileComponent {
           },
         ],
       ];
+    } else {
+      this.fieldGroups = [
+        [
+          {
+            label: 'Company name',
+            controlName: 'companyName',
+            type: 'text',
+            placeholder: 'Enter company name',
+            inlineSvg: this.icons.nameSvg,
+          },
+          {
+            label: 'Location',
+            controlName: 'location',
+            type: 'text',
+            placeholder: 'Type location here',
+            inlineSvg: this.icons.locationSvg,
+          },
+          {
+            label: 'Website',
+            controlName: 'website',
+            type: 'url',
+            placeholder: 'paste website link here',
+            inlineSvg: this.icons.linkSvg,
+          },
+          {
+            label: 'Email Address',
+            controlName: 'email',
+            type: 'email',
+            placeholder: 'amalitech@training.org',
+            inlineSvg: this.icons.emailSvg,
+            disabled: true,
+          },
+        ],
+        [
+          {
+            label: 'About Company',
+            controlName: 'about',
+            type: 'textarea',
+            placeholder: 'Type description here',
+          },
+          {
+            label: 'Company size',
+            controlName: 'size',
+            type: 'select',
+            placeholder: 'select company size',
+            inlineSvg: this.icons.downSvg,
+            options: ['1-10', '11-50', '51-200', '200+'],
+          },
+          {
+            label: 'Phone number',
+            controlName: 'phoneNumber',
+            type: 'text',
+            placeholder: 'Enter phone number',
+            inlineSvg: this.icons.numberSvg,
+          },
+        ],
+      ];
     }
-
-    return [
-      [
-        {
-          label: 'Company name',
-          controlName: 'companyName',
-          type: 'text',
-          placeholder: 'Enter company name',
-          inlineSvg: this.icons.nameSvg,
-        },
-        {
-          label: 'Location',
-          controlName: 'location',
-          type: 'text',
-          placeholder: 'Type location here',
-          inlineSvg: this.icons.locationSvg,
-        },
-        {
-          label: 'Website',
-          controlName: 'website',
-          type: 'url',
-          placeholder: 'paste website link here',
-          inlineSvg: this.icons.linkSvg,
-        },
-        {
-          label: 'Email Address',
-          controlName: 'email',
-          type: 'email',
-          placeholder: 'amalitech@training.org',
-          inlineSvg: this.icons.emailSvg,
-        },
-      ],
-      [
-        {
-          label: 'About Company',
-          controlName: 'about',
-          type: 'textarea',
-          placeholder: 'Type description here',
-        },
-        {
-          label: 'Company size',
-          controlName: 'size',
-          type: 'select',
-          placeholder: 'select company size',
-          // option: ['1-10', '11-50', '51-200', '200+'],
-        },
-        {
-          label: 'Phone number',
-          controlName: 'phoneNumber',
-          type: 'text',
-          placeholder: 'Enter phone number',
-          inlineSvg: this.icons.numberSvg,
-        },
-      ],
-    ];
   }
 
   onImageUpload(event: Event) {
@@ -207,7 +238,13 @@ export class ProfileComponent {
 
   onSubmit() {
     if (this.profileForm.valid) {
-      console.log(this.profileForm.getRawValue());
+      this.onSave.emit(this.profileForm.getRawValue());
+      console.log('values emitted');
     }
+  }
+
+  cancelForm() {
+    this.profileForm.reset();
+    this.onCancel.emit();
   }
 }

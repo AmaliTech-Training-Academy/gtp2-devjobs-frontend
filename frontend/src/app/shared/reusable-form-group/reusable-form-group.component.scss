@@ -13,18 +13,95 @@
 .full-width {
   width: 100%;
 }
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+.select-wrapper {
+  background-color: transparent;
+  border: 1px solid #111827;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  height: 54px;
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 25px;
 
+  p {
+    color: #515662;
+  }
+}
+.selection {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  overflow: hidden;
+  overflow-y: auto;
+  // padding: 12px 20px;
+  max-height: 161px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  max-height: 161px;
+  margin-top: 2px;
+
+  li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 20px;
+    // background-color: blue;
+    color: black;
+    border-bottom: 1px solid #9daec2;
+    height: 40px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: variables.$primary-color;
+    }
+  }
+}
+
+// .disabled {
+//   .mat-mdc-text-field-wrapper {
+//     background-color: #f3f4f6; // your disabled background
+//     border-color: #e5e7eb;
+//     cursor: not-allowed;
+//   }
+
+//   input,
+//   textarea {
+//     background-color: #f3f4f6;
+//     color: #6b7280;
+//   }
+// }
 // Custom styling for Material form fields
 ::ng-deep {
+  .cdk-overlay-container {
+    z-index: 9999 !important;
+  }
+  .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
+    padding-right: 0;
+    // border: 1px solid #d3d3d3;
+    // background-color: blue;
+  }
+
   .mat-mdc-form-field {
     .mat-mdc-form-field-label-wrapper {
       display: none;
     }
 
     .mat-mdc-form-field-flex {
-      padding: 0 0.55rem;
       border: none;
-      //   height: 48px;
       width: 100%;
 
       &:hover {
@@ -33,22 +110,23 @@
 
       textarea.mat-mdc-input-element {
         height: auto;
-        min-height: 100px !important;
+        min-height: 126px !important;
         resize: vertical;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
       }
     }
 
-    &.mat-focused {
-      .mat-mdc-form-field-flex {
-        border-color: variables.$primary-color;
-      }
-    }
+    // &.mat-focused {
+    //   .mat-mdc-form-field-flex {
+    //     // border-color: variables.$primary-colors
+    //   }
+    // }
 
     .mat-mdc-input-element {
+      padding: 0px;
+      margin: 0px;
       color: #111827;
-      // line-height: 1;
       font-size: 14px;
       display: flex;
       justify-content: center;
@@ -78,7 +156,4 @@
       margin-left: 0.2rem;
     }
   }
-}
-input {
-  border: 1px solid #d3d3d3 !important;
 }

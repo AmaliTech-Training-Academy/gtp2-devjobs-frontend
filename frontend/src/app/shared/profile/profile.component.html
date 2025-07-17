@@ -1,7 +1,7 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
     <div class="nav-btn">
-        <button>
+        <button class="active">
             Profile Management
         </button>
         <button>
@@ -51,8 +51,8 @@
     </div>
 
     <div class="button-row">
-        <button class="cancel">Cancel</button>
-        <button class="save">Save</button>
+        <button class="cancel" (click)="cancelForm()">Cancel</button>
+        <button class="save" (click)="onSubmit()">Save</button>
     </div>
 
 
