@@ -3,13 +3,19 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface RegisterRequest {
-  name?: string;
+export interface SeekerRegisterRequest {
+  fullName: string;
   username: string;
   email: string;
   password: string;
-  companyName?: string;
-  companyEmail?: string;
+}
+
+export interface EmployerRegisterRequest {
+  fullName?: string;
+  username: string;
+  companyEmail: string;
+  password: string;
+  companyName: string;
 }
 
 export interface AuthResponse {

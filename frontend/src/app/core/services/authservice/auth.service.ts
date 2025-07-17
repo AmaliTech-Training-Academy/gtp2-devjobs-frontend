@@ -4,10 +4,12 @@ import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/utils/toast/toast.service';
 import { environment } from '../../../../environments/environment';
+import { JwtHelper } from '../../../shared/utils/jwt-helper.util';
 import {
   AuthResponse,
-  RegisterRequest,
   LoginRequest,
+  SeekerRegisterRequest,
+  EmployerRegisterRequest,
 } from '../../../model/auth.model';
 
 @Injectable({
@@ -27,10 +29,41 @@ export class Auth {
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.base_Url}/auth/login`, { email, password })
+      .post<AuthResponse>(`${this.base_Url}/api/v1/auth/login`, {
+        email,
+        password,
+      })
       .pipe(
         tap((res) => {
           if (res.success && res.data) {
+            this.storeTokens(res.data.token, res.data.refreshToken);
+
+            const userFromToken = this.extractUserFromToken(res.data.token);
+            if (userFromToken) {
+              this.storeUser(userFromToken);
+            }
+
+            this.toast.success(res.message);
+          }
+        })
+      );
+  }
+
+  registerSeeker(data: SeekerRegisterRequest): Observable<AuthResponse> {
+    const payload = {
+      fullName: data.fullName,
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    };
+    return this.http
+      .post<AuthResponse>(
+        `${this.base_Url}/api/v1/auth/register/seeker`,
+        payload
+      )
+      .pipe(
+        tap((res) => {
+          if (res.success && res.data?.token) {
             this.storeTokens(res.data.token, res.data.refreshToken);
             this.toast.success(res.message);
           }
@@ -38,25 +71,21 @@ export class Auth {
       );
   }
 
-  registerSeeker(data: RegisterRequest): Observable<AuthResponse> {
+  registerEmployer(data: EmployerRegisterRequest): Observable<AuthResponse> {
+    const payload = {
+      username: data.username,
+      email: data.companyEmail,
+      password: data.password,
+      companyName: data.companyName,
+    };
     return this.http
-      .post<AuthResponse>(`${this.base_Url}/auth/register/seeker`, data)
+      .post<AuthResponse>(
+        `${this.base_Url}/api/v1/auth/register/employer`,
+        payload
+      )
       .pipe(
         tap((res) => {
-          if (res.success && res.data) {
-            this.storeTokens(res.data.token, res.data.refreshToken);
-            this.toast.success(res.message);
-          }
-        })
-      );
-  }
-
-  registerEmployer(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${this.base_Url}/auth/register/employer`, data)
-      .pipe(
-        tap((res) => {
-          if (res.success && res.data) {
+          if (res.success && res.data?.token) {
             this.storeTokens(res.data.token, res.data.refreshToken);
             this.toast.success(res.message);
           }
@@ -86,12 +115,32 @@ export class Auth {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    const token = this.getAccessToken();
+    return !!token && !JwtHelper.isTokenExpired(token);
   }
 
   hasRole(role: string): boolean {
-    const user = this.getCurrentUser();
-    return user?.roles?.includes(role);
+    const token = this.getAccessToken();
+    if (!token) return false;
+
+    const roles = JwtHelper.getRolesFromToken(token);
+    return roles.includes(role);
+  }
+
+  private extractUserFromToken(token: string): any {
+    try {
+      const decoded = JwtHelper.decodeToken(token);
+      if (!decoded) return null;
+
+      return {
+        id: decoded.sub,
+        email: decoded.email || decoded.sub,
+        roles: JwtHelper.getRolesFromToken(token),
+      };
+    } catch (error) {
+      console.error('Error extracting user from token:', error);
+      return null;
+    }
   }
 
   private storeTokens(accessToken: string, refreshToken: string): void {

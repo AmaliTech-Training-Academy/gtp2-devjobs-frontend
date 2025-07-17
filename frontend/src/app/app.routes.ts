@@ -76,7 +76,7 @@ export const routes: Routes = [
   {
     path: 'seeker/dashboard',
     canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_JOB_SEEKER' },
+    data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
     loadComponent: () =>
       import(
         './layouts/seeker/seeker-dashboard/seeker-dashboard.component'
@@ -105,7 +105,7 @@ export const routes: Routes = [
             (m) => m.ApplicationFormComponent
           ),
         canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
+        data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
       },
       {
         path: 'job-details',

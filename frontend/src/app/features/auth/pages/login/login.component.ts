@@ -7,6 +7,7 @@ import { RouterModule, Router, RouterLink } from '@angular/router';
 import { TooltipComponent } from '../../../../shared/components/tooltip/tooltip/tooltip.component';
 import { Auth } from '../../../../core/services/authservice/auth.service';
 import { ToastService } from '../../../../shared/utils/toast/toast.service';
+import { LoadingService } from '../../../../shared/utils/loading/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -24,11 +25,13 @@ import { ToastService } from '../../../../shared/utils/toast/toast.service';
 })
 export class LoginComponent {
   isMobile = false;
+  backendErrors: { [key: string]: string } | null = null;
 
   constructor(
     private router: Router,
     private authService: Auth,
-    private toast: ToastService
+    private toast: ToastService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -40,25 +43,118 @@ export class LoginComponent {
     this.isMobile = window.innerWidth <= 768;
   }
 
+  private parseBackendErrors(error: any): { [key: string]: string } | null {
+    const errors: { [key: string]: string } = {};
+
+    // Check if error response contains validation errors
+    if (error?.error?.errors) {
+      // Handle different error formats
+      if (Array.isArray(error.error.errors)) {
+        // Format: ["email: Email is already taken", "username: Username is required"]
+        error.error.errors.forEach((err: string) => {
+          const [field, message] = err.split(':').map((s) => s.trim());
+          if (field && message) {
+            errors[field] = message;
+          }
+        });
+      } else if (typeof error.error.errors === 'object') {
+        // Format: { email: "Email is already taken", username: "Username is required" }
+        Object.keys(error.error.errors).forEach((field) => {
+          errors[field] = error.error.errors[field];
+        });
+      }
+    }
+
+    // Check if error response contains validation details
+    if (error?.error?.details) {
+      Object.keys(error.error.details).forEach((field) => {
+        errors[field] = error.error.details[field];
+      });
+    }
+
+    // Handle specific field errors from message
+    if (error?.error?.message) {
+      const message = error.error.message.toLowerCase();
+
+      // Common validation patterns
+      if (message.includes('email') && message.includes('already')) {
+        errors['email'] = 'Email is already taken';
+      }
+      if (message.includes('username') && message.includes('already')) {
+        errors['username'] = 'Username is already taken';
+      }
+      if (
+        message.includes('invalid credentials') ||
+        message.includes('incorrect')
+      ) {
+        errors['email'] = 'Invalid email or password';
+        errors['password'] = 'Invalid email or password';
+      }
+      if (message.includes('user not found') || message.includes('not exist')) {
+        errors['email'] = 'User not found';
+      }
+      if (message.includes('password') && message.includes('incorrect')) {
+        errors['password'] = 'Incorrect password';
+      }
+    }
+
+    return Object.keys(errors).length > 0 ? errors : null;
+  }
+
   onLoginSubmit(formData: any): void {
     const { email, password } = formData;
+
+    // Clear previous errors
+    this.backendErrors = null;
+
+    this.loadingService.show();
     this.authService.login(email, password).subscribe({
       next: (res) => {
-        console.log('Login success:', res);
-        this.toast.success('Login successful!');
+        if (res.success && res.data) {
+          this.loadingService.hide();
+          this.toast.success(res.message || 'Login successful!');
 
-        const user = this.authService.getCurrentUser();
-        if (user?.roles.includes('ROLE_EMPLOYER')) {
-          this.router.navigate(['/employer/dashboard']);
-        } else if (user?.roles.includes('ROLE_SEEKER')) {
-          this.router.navigate(['/seeker/dashboard']);
+          // Get user from stored data (extracted from token)
+          const user = this.authService.getCurrentUser();
+          console.log('User after login:', user); // Debug log
+
+          if (user?.roles?.includes('ROLE_EMPLOYER')) {
+            this.router.navigate(['/employer/dashboard']);
+          } else if (user?.roles?.includes('ROLE_JOB_SEEKER')) {
+            this.router.navigate(['/seeker/dashboard']);
+          } else {
+            // Fallback - check roles directly from token
+            const hasEmployerRole = this.authService.hasRole('ROLE_EMPLOYER');
+            const hasSeekerRole = this.authService.hasRole('ROLE_JOB_SEEKER');
+
+            if (hasEmployerRole) {
+              this.router.navigate(['/employer/dashboard']);
+            } else if (hasSeekerRole) {
+              this.router.navigate(['/seeker/dashboard']);
+            } else {
+              console.warn('No valid role found, redirecting to landing');
+              this.router.navigate(['/landing']);
+            }
+          }
         } else {
-          this.router.navigate(['/']);
+          this.loadingService.hide();
+          this.toast.error(res.message || 'Login failed');
         }
       },
       error: (err) => {
-        this.toast.error('Login failed. Please check your credentials.');
-        console.error('Login failed:', err);
+        this.loadingService.hide();
+
+        // Parse backend errors for form display
+        this.backendErrors = this.parseBackendErrors(err);
+
+        // Show general error message if no specific field errors
+        if (!this.backendErrors) {
+          const errorMsg =
+            err?.error?.message || 'Login failed. Please try again.';
+          this.toast.error(errorMsg);
+        }
+
+        console.error('Login error:', err);
       },
     });
   }
