@@ -70,6 +70,23 @@ export const routes: Routes = [
             './features/employer-settings/employer-settings.component'
           ).then((m) => m.EmployerSettingsComponent),
         title: 'Employer Settings',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./shared/profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+            data: { type: 'employer' },
+          },
+          {
+            path: 'account-management',
+            loadComponent: () =>
+              import(
+                './shared/account-management/account-management.component'
+              ).then((m) => m.AccountManagementComponent),
+          },
+        ],
       },
     ],
   },
@@ -122,6 +139,20 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/landing',
     pathMatch: 'full',
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./shared/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./shared/account-management/account-management.component').then(
+        (m) => m.AccountManagementComponent
+      ),
   },
   {
     path: '**',
