@@ -11,7 +11,7 @@ import { CardModule } from 'primeng/card'
 export class StatsCardComponent {
   @Input() title = 'Total jobs';
   @Input() count = 50;
-  @Input() change = '+20 This month';
+  @Input() month = '+20 This month';
   @Input() today = '+2 Today';
   @Input() icon = 'pi-briefcase';
 

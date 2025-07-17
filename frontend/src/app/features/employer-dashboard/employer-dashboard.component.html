@@ -2,11 +2,11 @@
     <h2 class="page-title">Home</h2>
 
     <section class="stats-grid">
-        <app-stats-card  class="card card-1" />
-        <app-stats-card  class="card card-2"/>
-        <app-stats-card  class="card card-3"/>
-        <app-stats-card  class="card card-4"/>
-        <app-stats-card  class="card card-5" />
+        <app-stats-card [title]="'Total jobs'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'"  class="card card-1" />
+        <app-stats-card [title]="'Applied'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-2"/>
+        <app-stats-card [title]="'Rejected'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-3"/>
+        <app-stats-card [title]="'Reviewed'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-4"/>
+        <app-stats-card [title]="'Interviewed'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-5" />
     </section>
 
 
