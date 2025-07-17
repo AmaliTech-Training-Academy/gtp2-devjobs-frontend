@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { JobContentComponent } from '../../shared/job-content/job-content.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
 import { Auth } from '../../core/services/authservice/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-job-details',
-  imports: [BackButtonComponent, JobContentComponent, ActionModalComponent],
+  imports: [CommonModule,BackButtonComponent, JobContentComponent, ActionModalComponent],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.scss',
 })
