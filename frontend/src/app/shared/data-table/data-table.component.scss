@@ -1,0 +1,70 @@
+@use '../../styles/_fonts' as *;
+@use '../../styles/_variables' as *;
+
+
+
+.display-jobs {
+    .search-filter {
+        position: relative;
+
+
+        .search-input {
+            width: 28rem;
+            height: 3rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            padding: 1rem 3rem;
+            @include regular;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 0.8rem;
+        }
+
+    }
+
+
+
+    /* table styling */
+    ::ng-deep .custom-table {
+        background-color: white !important;
+    }
+
+    ::ng-deep .custom-table .p-datatable-thead > tr > th,
+    ::ng-deep .custom-table .p-datatable-tbody > tr > td {
+        padding: 1.2rem;
+        // border-bottom: 1px solid #e0e0e0;
+    }
+
+    ::ng-deep .custom-table .p-datatable {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    ::ng-deep .custom-table .p-paginator {
+        justify-content: end;
+        border-top: none;
+        padding-top: 1rem;
+    }
+
+    ::ng-deep .p-button-text .pi {
+        font-size: 1.2rem;
+    }
+
+    .popover-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        // z-index: 9999999
+
+        button {
+            width: 100%;
+            justify-content: flex-start;
+            padding-left: 0.5rem;
+        }
+    }
+
+
+}
