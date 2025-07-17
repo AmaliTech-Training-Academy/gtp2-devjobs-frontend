@@ -7,23 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ReusableFormGroupComponent } from '../reusable-form-group/reusable-form-group.component';
-
-interface SeekerProfile {
-  fullname: string;
-  phoneNumber: number;
-  email: string;
-  location: string;
-  image: File;
-}
-interface EmployerProfile {
-  companyName: string;
-  location: string;
-  website: string;
-  email: string;
-  about: string;
-  companySize: string;
-  number: string;
-}
+import { EmployerProfile, SeekerProfile } from '../../model/profile';
 
 interface Field {
   label: string;

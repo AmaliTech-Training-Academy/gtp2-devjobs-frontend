@@ -1,7 +1,8 @@
 @use "../../styles/variables";
 @use "../../styles/mixins";
 
-.profile-wrapper {
+form {
+  width: 100%;
   width: 100%;
   padding: 40px;
   background-color: transparent;
@@ -96,25 +97,36 @@
       display: grid;
     }
   }
-  .form-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 40px;
-    margin-top: 1.5rem;
+  //   .form-grid {
+  //     display: grid;
+  //     gap: 1rem;
+  //     grid-template-columns: 1fr 1fr;
+  //     column-gap: 40px;
+  //     margin-top: 1.5rem;
 
-    @include mixins.breakpoint(500px) {
-      grid-template-columns: 1fr;
-    }
+  //     @include mixins.breakpoint(500px) {
+  //       grid-template-columns: 1fr;
+  //     }
 
-    .form-field-wrapper {
-      width: 100%;
-    }
-  }
+  //     .form-field-wrapper {
+  //       width: 100%;
+  //     }
+  //   }
 
   .button-row {
-    //   margin-top: 2rem;
+    margin-top: 30px;
     display: flex;
     justify-content: flex-end;
+
+    @include mixins.breakpoint(500px) {
+      justify-content: center;
+    }
+
+    .cancel {
+      @include mixins.button(#3e424e, transparent);
+    }
+    .save {
+      @include mixins.button(white, variables.$primary-color, 107px, 45px);
+    }
   }
 }
