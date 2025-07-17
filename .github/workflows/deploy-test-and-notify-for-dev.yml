@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install system dependencies (Chrome for headless tests)
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y chromium-browser
