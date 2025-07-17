@@ -12,7 +12,7 @@
 
     <section class="incoming-applications">
         <h3>Recent Incoming Applications</h3>
-        <p>See all</p>
+        <p >See all</p>
     </section>
 
 
@@ -31,13 +31,16 @@
                     <td>{{ application.jobTitle }}</td>
                     <td>{{ application.applicants }}</td>
                     <td>{{ application.jobType }}</td>
-                    <td>{{ application.action }}</td>
+                    <td (click)="openJobDetailsModalForm()">{{ application.action }}</td>
                 </tr>
             </ng-template>
         </p-table>    
 
     </section>
 
+    @if( modalService.showJobDetailsFormModal ) {
+        <app-job-details-modal />
+    }
 
 
 

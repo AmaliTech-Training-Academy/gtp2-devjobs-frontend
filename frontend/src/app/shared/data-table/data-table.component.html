@@ -28,7 +28,7 @@
         </ng-template>
 
         <ng-template pTemplate="body" let-job>
-            <tr>
+            <tr (click)="onOpenModal()">
             <td>{{ job.title }}</td>
             <td>{{ job.type }}</td>
             <td>{{ job.date }}</td>

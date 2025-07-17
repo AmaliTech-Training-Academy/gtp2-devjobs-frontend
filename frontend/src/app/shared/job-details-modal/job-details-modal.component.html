@@ -1,17 +1,104 @@
 <main class="job-details-modal">
     <section class="modal">
-        <div class="details">
-            <div class="logo">
-                
+        <div class="header">
+            <div class="details">
+                <div class="logo">
+                    <h3 class="scoot-text">scoot</h3>
+                </div>
+
+                <div class="job-summary">
+                    <div class="job-time">
+                        <h3>5h ago</h3>
+                        <div class="icon-full-time">
+                            <svg class="dot-icon" width="9" height="8" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="4.03906" cy="4" r="4" fill="#5964E0"/>
+                            </svg>
+                        
+                            <h3>Full Time</h3>
+                        </div>
+                    </div>
+
+                    <h3 class="job-title">
+                        Senior Software Engineer
+                    </h3>
+
+                    <div class="meta-data">
+                        <div class="meta-data-item">
+                            <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.5391 4V0H0.539062V18H20.5391V4H10.5391ZM4.53906 16H2.53906V14H4.53906V16ZM4.53906 12H2.53906V10H4.53906V12ZM4.53906 8H2.53906V6H4.53906V8ZM4.53906 4H2.53906V2H4.53906V4ZM8.53906 16H6.53906V14H8.53906V16ZM8.53906 12H6.53906V10H8.53906V12ZM8.53906 8H6.53906V6H8.53906V8ZM8.53906 4H6.53906V2H8.53906V4ZM18.5391 16H10.5391V14H12.5391V12H10.5391V10H12.5391V8H10.5391V6H18.5391V16ZM16.5391 8H14.5391V10H16.5391V8ZM16.5391 12H14.5391V14H16.5391V12Z" fill="#586071"/>
+                            </svg>
+
+                            <h3>Scoot</h3>
+                        </div>
+
+                        <div class="meta-data-item">
+                            <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.53906 13H11.5391V12H12.5391C13.0891 12 13.5391 11.55 13.5391 11V8C13.5391 7.45 13.0891 7 12.5391 7H9.53906V6H13.5391V4H11.5391V3H9.53906V4H8.53906C7.98906 4 7.53906 4.45 7.53906 5V8C7.53906 8.55 7.98906 9 8.53906 9H11.5391V10H7.53906V12H9.53906V13ZM18.5391 0H2.53906C1.42906 0 0.549062 0.89 0.549062 2L0.539062 14C0.539062 15.11 1.42906 16 2.53906 16H18.5391C19.6491 16 20.5391 15.11 20.5391 14V2C20.5391 0.89 19.6491 0 18.5391 0ZM18.5391 14H2.53906V2H18.5391V14Z" fill="#586071"/>
+                            </svg>
+
+                            <h3>$9,600</h3>
+                        </div>
+
+                        <div class="meta-data-item">
+                            <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.53906 0C3.66906 0 0.539062 3.13 0.539062 7C0.539062 12.25 7.53906 20 7.53906 20C7.53906 20 14.5391 12.25 14.5391 7C14.5391 3.13 11.4091 0 7.53906 0ZM2.53906 7C2.53906 4.24 4.77906 2 7.53906 2C10.2991 2 12.5391 4.24 12.5391 7C12.5391 9.88 9.65906 14.19 7.53906 16.88C5.45906 14.21 2.53906 9.85 2.53906 7Z" fill="#586071"/>
+                            </svg>
+
+                            <h3 class="location-text">United Kingdom</h3>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="close-btn" (click)="closeJobDetailsFormModal()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM13.59 5L10 8.59L6.41 5L5 6.41L8.59 10L5 13.59L6.41 15L10 11.41L13.59 15L15 13.59L11.41 10L15 6.41L13.59 5Z" fill="#586071"/>
+                </svg>
+            </div>
+        </div>
+
+
+        <div class="content">
+            <h3>Requirements</h3>
+
+            <div class="requirements-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At error reprehenderit odio iste omnis consectetur cupiditate dicta quam asperiores esse eligendi expedita nam sapiente odit, molestias eaque quia! Quos, beatae.
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit cumque quisquam sunt perferendis quibusdam voluptatum earum explicabo facere minus? Eius maiores amet dolorum beatae exercitationem magnam quos fuga sapiente culpa!
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At error reprehenderit odio iste omnis consectetur cupiditate dicta quam asperiores esse eligendi expedita nam sapiente odit, molestias eaque quia! Quos, beatae.
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit cumque quisquam sunt perferendis quibusdam voluptatum earum explicabo facere minus? Eius maiores amet dolorum beatae exercitationem magnam quos fuga sapiente culpa!
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At error reprehenderit odio iste omnis consectetur cupiditate dicta quam asperiores esse eligendi expedita nam sapiente odit, molestias eaque quia! Quos, beatae.
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit cumque quisquam sunt perferendis quibusdam voluptatum earum explicabo facere minus? Eius maiores amet dolorum beatae exercitationem magnam quos fuga sapiente culpa!
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At error reprehenderit odio iste omnis consectetur cupiditate dicta quam asperiores esse eligendi expedita nam sapiente odit, molestias eaque quia! Quos, beatae.
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit cumque quisquam sunt perferendis quibusdam voluptatum earum explicabo facere minus? Eius maiores amet dolorum beatae exercitationem magnam quos fuga sapiente culpa!            
+            </div>
+
+            <div class="bullets-div">
+                <ul>
+                    <li>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.                   
+                    </li>
+
+                    <li>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.                   
+                    </li>
+
+                    <li>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.                   
+                     </li>
+
+                </ul>
             </div>
 
         </div>
 
-        <div class="close-btn">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM13.59 5L10 8.59L6.41 5L5 6.41L8.59 10L5 13.59L6.41 15L10 11.41L13.59 15L15 13.59L11.41 10L15 6.41L13.59 5Z" fill="#586071"/>
-            </svg>
-        </div>
+        
+
 
 
 

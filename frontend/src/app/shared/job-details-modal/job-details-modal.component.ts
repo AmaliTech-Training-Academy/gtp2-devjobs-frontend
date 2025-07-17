@@ -12,6 +12,15 @@ export class JobDetailsModalComponent {
 
   modalService = inject( ModalsServiceService) 
 
+
+  openJobDetailsFormModal() {
+    this.modalService.openJobDetailsFormModal()
+  }
+
+  closeJobDetailsFormModal() {
+    this.modalService.closeJobDetailsFormModal()
+  }
+
   
 
 }

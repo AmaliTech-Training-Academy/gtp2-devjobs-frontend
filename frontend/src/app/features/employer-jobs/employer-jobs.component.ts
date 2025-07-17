@@ -5,6 +5,7 @@ import { EmptyStateComponent } from '../../shared/empty-state/empty-state.compon
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { ModalsServiceService } from '../../core/services/modals-service.service';
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
+import { EmployerHttpRequestsService } from '../../core/services/employer-http-requests.service';
 
 @Component({
   selector: 'app-employer-jobs',
@@ -15,6 +16,7 @@ import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-det
 export class EmployerJobsComponent {
 
   modalService = inject( ModalsServiceService )
+  employerHttp = inject( EmployerHttpRequestsService )
 
  
 
@@ -35,6 +37,11 @@ export class EmployerJobsComponent {
 
   openJobCreationModal() {
     this.modalService.openCreateJobFormModal()
+  }
+
+
+  openJobDetailsFormModal() {
+    this.modalService.showJobDetailsFormModal = true
   }
 
 
