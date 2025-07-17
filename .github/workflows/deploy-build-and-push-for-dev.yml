@@ -26,6 +26,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies and build Angular app
+        working-directory: frontend
         run: |
           npm ci
           npm run build -- --configuration production
