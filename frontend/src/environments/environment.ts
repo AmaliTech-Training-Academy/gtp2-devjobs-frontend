@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://fake-api.devjobs.com/api',
+  apiUrl:
+    'http://gtp2-be-testing-alb-114080375.eu-central-1.elb.amazonaws.com/api',
 };
