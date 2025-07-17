@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SearchComponent } from '../../../components/search/search.component';
-import { RouterLink, RouterOutlet, ActivatedRoute, Router, NavigationEnd, Data, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterOutlet, ActivatedRoute, Router, NavigationEnd, RouterLinkActive } from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
 import { AsyncPipe } from '@angular/common';

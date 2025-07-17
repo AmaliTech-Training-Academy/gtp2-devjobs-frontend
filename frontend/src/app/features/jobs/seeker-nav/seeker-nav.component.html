@@ -6,7 +6,7 @@
     <ul class="nav-center">
       <li><a routerLink="/">Home</a></li>
       <li><a routerLink="/search">Start a Search</a></li>
-      <li><a routerLink="/jobs">Jobs List</a></li>
+      <li><a routerLink="seeker/dashboard">Jobs List</a></li>
       <li><a routerLink="/salary-estimate">Salary Estimate</a></li>
     </ul>
   
@@ -14,8 +14,28 @@
     <div class="nav-actions">
       <i class="pi pi-bell nav-icon"></i>
       <span class="profile-circle">RM</span>
-      <i class="pi pi-chevron-down nav-icon"></i>
+      <i class="pi pi-chevron-down nav-icon" [class.rotated]="showDropdown" (click)="toggleDropdown()"></i>
+      <div class="profile-dropdown" *ngIf="showDropdown">
+        <a class="dropdown-item" routerLink="/profile">
+          <i class="pi pi-user"></i> My Profile
+        </a>
+        <a class="dropdown-item" (click)="onLogoutClick()">
+          <i class="pi pi-sign-out"></i> Logout
+        </a>
+      </div>
     </div>
     
+    <app-action-modal
+      *ngIf="showLogoutModal"
+      class="logout-modal"
+      [open]="true"
+      title="Are you sure you want to Logout?"
+      message="You will be signed out of your account and redirected to the homepage."
+      [confirmText]="'Logout'"
+      [cancelText]="'Cancel'"
+      type="danger"
+      (onConfirm)="confirmLogout()"
+      (onCancel)="showLogoutModal = false"
+    ></app-action-modal>
   </nav>
   

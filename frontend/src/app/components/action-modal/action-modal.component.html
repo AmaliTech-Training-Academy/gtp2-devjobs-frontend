@@ -1,7 +1,5 @@
 <div
   class="modal-backdrop"
-  *ngIf="open"
-  @backdropFade
 >
   <div
     class="modal"
@@ -10,7 +8,6 @@
     aria-labelledby="modalTitle"
     aria-describedby="modalDesc"
     tabindex="-1"
-    @modalPop
   >
     <button *ngIf="showClose" class="close-btn" aria-label="Close" (click)="cancel()">&times;</button>
     <h2 id="modalTitle">{{ title }}</h2>
