@@ -36,8 +36,4 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          args: >-
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-              "text": ":x: *Frontend Dev CI:* Tests failed.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
-            }
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* Tests failed.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
