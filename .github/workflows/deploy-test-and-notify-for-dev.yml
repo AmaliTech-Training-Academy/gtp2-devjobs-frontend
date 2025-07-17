@@ -27,6 +27,7 @@ jobs:
 
       - name: Run Tests
         id: test
+        working-directory: frontend
         run: npm test
         continue-on-error: true
 
