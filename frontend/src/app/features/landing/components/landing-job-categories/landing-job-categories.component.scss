@@ -1,21 +1,22 @@
+@use "../../../../styles/fonts" as *;
+
 .categories-wrapper {
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  padding: 2rem 2rem;
+  max-width: 1350px;
   margin: 0 auto;
 
   h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
+    @include header1;
+    margin-bottom: 2rem;
     text-align: left;
-    color: #2c3e50;
+    color: #19202d;
   }
 
   .carousel-container {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
-    gap: 2rem;
+    gap: 4rem;
     padding: 1rem 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -26,7 +27,7 @@
 
     .card {
       min-width: 350px;
-      max-width: 350px;
+      max-width: 400px;
       flex-shrink: 0;
       border-radius: 16px;
       overflow: hidden;
@@ -45,6 +46,7 @@
         height: 200px;
         overflow: hidden;
         position: relative;
+        border-radius: 15px;
 
         img {
           width: 100%;
@@ -59,43 +61,26 @@
       }
 
       .card-content {
-        padding: 1.5rem;
+        padding: 1.5rem 0;
 
         h3 {
-          font-size: 1.125rem;
-          font-weight: 600;
+          @include header3;
+          text-align: left;
           margin-bottom: 0.75rem;
-          color: #2c3e50;
-          line-height: 1.4;
+          color: #19202d;
           min-height: 2.8rem;
         }
 
         p {
-          font-size: 0.9rem;
-          color: #64748b;
+          @include regular;
+          color: #586071;
           margin-bottom: 1.5rem;
-          line-height: 1.5;
           min-height: 3rem;
         }
 
         .author {
-          display: flex;
-          align-items: center;
-          font-size: 0.875rem;
-          color: #64748b;
-
-          .author-avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin-right: 0.5rem;
-            flex-shrink: 0;
-          }
-
-          span {
-            font-weight: 500;
-          }
+          @include header4;
+          color: #19202d;
         }
       }
     }
