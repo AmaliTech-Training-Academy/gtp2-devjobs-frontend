@@ -75,7 +75,7 @@ export const routes: Routes = [
   },
   {
     path: 'seeker/dashboard',
-    canActivate: [authGuard, roleGuard],
+    // canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'ROLE_JOB_SEEKER' },
     loadComponent: () =>
       import(
@@ -85,7 +85,7 @@ export const routes: Routes = [
       {
         path: '',
         component: JobListComponent,
-        canActivate: [authGuard, roleGuard],
+        // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
         pathMatch: 'full',
       },
@@ -95,7 +95,7 @@ export const routes: Routes = [
           import(
             './features/jobs/application-status/application-status.component'
           ).then((m) => m.ApplicationStatusComponent),
-        canActivate: [authGuard, roleGuard],
+        // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
@@ -104,7 +104,7 @@ export const routes: Routes = [
           import('./features/application-form/application-form.component').then(
             (m) => m.ApplicationFormComponent
           ),
-        canActivate: [authGuard, roleGuard],
+        // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
