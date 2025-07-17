@@ -21,6 +21,7 @@ export class JobDetailsModalComponent {
     this.modalService.closeJobDetailsFormModal()
   }
 
+
   
 
 }

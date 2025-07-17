@@ -1,0 +1,14 @@
+<section class="what-we-do-section">
+  <h2 class="section-title">What We do</h2>
+  <div class="card-grid">
+    <div class="feature-card" *ngFor="let card of cards">
+      <div class="icon-wrapper">
+        <img [src]="card.icon" alt="feature icon" />
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">{{ card.title }}</h3>
+        <p class="card-description">{{ card.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

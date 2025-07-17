@@ -26,6 +26,7 @@
         position: relative;
         overflow-y: auto;
         padding: 1.8rem 2.25rem;
+
         border-radius: 5px;
         // background-color: red;
 
@@ -35,6 +36,7 @@
 
     .close-btn {
         cursor: pointer;
+
     }
 
 
@@ -43,11 +45,14 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 1rem;
+
         // background-color: red;
+
     }
 
 
     .details {
+
         // justify-self: center;
         display: flex;
         width: 29rem;

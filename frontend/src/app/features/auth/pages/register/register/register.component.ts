@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TooltipComponent } from '../../../../../shared/components/tooltip/tooltip/tooltip.component';
 import { RouterModule, Router } from '@angular/router';
 import { Auth } from '../../../../../core/services/authservice/auth.service';
+import { ToastService } from '../../../../../shared/utils/toast/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,11 @@ export class RegisterComponent implements OnInit {
   showTooltip = false;
   currentTipIndex = 0;
 
-  constructor(private router: Router, private authService: Auth) {}
+  constructor(
+    private router: Router,
+    private authService: Auth,
+    private toast: ToastService
+  ) {}
   ngOnInit() {
     this.checkScreenSize();
     window.addEventListener('resize', () => this.checkScreenSize());
@@ -49,9 +54,11 @@ export class RegisterComponent implements OnInit {
       this.authService.registerSeeker(formData).subscribe({
         next: (res) => {
           console.log('Seeker registered:', res);
+          this.toast.success('Seeker registered successfully!');
           this.router.navigate(['/login']);
         },
         error: (err) => {
+          this.toast.error('Seeker registration failed. Try again.');
           console.error('Seeker registration failed:', err);
         },
       });
@@ -59,9 +66,11 @@ export class RegisterComponent implements OnInit {
       this.authService.registerEmployer(formData).subscribe({
         next: (res) => {
           console.log('Employer registered:', res);
+          this.toast.success('Employer registered successfully!');
           this.router.navigate(['/login']);
         },
         error: (err) => {
+          this.toast.error('Employer registration failed. Try again.');
           console.error('Employer registration failed:', err);
         },
       });

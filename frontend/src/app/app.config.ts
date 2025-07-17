@@ -3,10 +3,11 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
+
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
 import { withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideAnimations(),
-
+    provideNoopAnimations(),
     provideHttpClient(),
     provideHttpClient(withInterceptors([authInterceptor])),
   ],

@@ -6,10 +6,14 @@ import { EmployerSidebarComponent } from '../../shared/employer-sidebar/employer
 
 @Component({
   selector: 'app-employer-layout',
-  imports: [RouterModule, RouterOutlet, EmployerNavbarComponent, EmployerSidebarComponent],
+  standalone: true,
+  imports: [
+    RouterModule,
+    RouterOutlet,
+    EmployerNavbarComponent,
+    EmployerSidebarComponent,
+  ],
   templateUrl: './employer-layout.component.html',
-  styleUrl: './employer-layout.component.scss'
+  styleUrl: './employer-layout.component.scss',
 })
-export class EmployerLayoutComponent {
-
-}
+export class EmployerLayoutComponent {}

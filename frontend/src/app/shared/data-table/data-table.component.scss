@@ -26,6 +26,7 @@
     }
 
 
+
     .table-scroll-wrapper {
         width: 100%;
         overflow-x: auto;
@@ -33,10 +34,13 @@
 
 
 
+
     /* table styling */
     ::ng-deep .custom-table {
         background-color: white !important;
+
         min-width: 100%;
+
     }
 
     ::ng-deep .custom-table .p-datatable-thead > tr > th,
@@ -47,7 +51,9 @@
 
     ::ng-deep .custom-table .p-datatable {
         border-radius: 8px;
+
         // overflow: hidden;
+
     }
 
     ::ng-deep .custom-table .p-paginator {
@@ -60,14 +66,14 @@
         font-size: 1.2rem;
     }
 
+
     th, td {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
     }
 
-    
-
+   
     .popover-content {
         display: flex;
         flex-direction: column;
@@ -87,6 +93,7 @@
 
 
 
+
 @media (max-width: 600px) {
   ::ng-deep .custom-table .p-datatable-thead th,
   ::ng-deep .custom-table .p-datatable-tbody td {
@@ -94,3 +101,4 @@
     padding: 0.5rem;
   }
 }
+

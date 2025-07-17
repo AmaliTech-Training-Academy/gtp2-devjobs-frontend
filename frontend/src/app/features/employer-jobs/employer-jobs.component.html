@@ -15,7 +15,9 @@
 
 
     @if( jobs.length > 0 ) {
+
         <app-data-table [jobsArray]="jobs" [properties]="properties" [onOpenModal]="openJobDetailsFormModal.bind(this)" />
+
     }
 
 
@@ -28,6 +30,7 @@
     @if( modalService.showJobDetailsFormModal ) {
         <app-job-details-modal />
     }
+
 
 
 </main>

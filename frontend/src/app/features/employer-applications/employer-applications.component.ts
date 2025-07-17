@@ -1,4 +1,6 @@
+
 import { Component, OnInit } from '@angular/core';
+
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 
@@ -8,6 +10,7 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
   templateUrl: './employer-applications.component.html',
   styleUrl: './employer-applications.component.scss'
 })
+
 export class EmployerApplicationsComponent implements OnInit {
     applications: any[] = [
       {
@@ -88,6 +91,7 @@ export class EmployerApplicationsComponent implements OnInit {
     ngOnInit(): void {
       console.log( this.activeTab )
     }
+
 
 
 }

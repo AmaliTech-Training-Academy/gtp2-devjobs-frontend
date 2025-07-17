@@ -1,0 +1,105 @@
+@use 'sass:color';
+
+$danger: #e74c3c;
+$info: #2563eb;
+$warning: #f59e42;
+$default: #6b7280;
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 41, 59, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.18);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  position: relative;
+  outline: none;
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+  }
+  p {
+    color: #475569;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover {
+    color: #1e293b;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  .btn {
+    min-width: 100px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    outline: none;
+
+    &.cancel {
+      background: #f1f5f9;
+      color: #334155;
+      &:hover {
+        background: #e2e8f0;
+      }
+    }
+    &.confirm {
+      &.danger {
+        background: $danger;
+        color: #fff;
+        &:hover { background: color.scale($danger, $lightness: -10%); }
+      }
+      &.info {
+        background: $info;
+        color: #fff;
+        &:hover { background: color.scale($info, $lightness: -10%); }
+      }
+      &.warning {
+        background: $warning;
+        color: #fff;
+        &:hover { background: color.scale($warning, $lightness: -10%); }
+      }
+      &.default {
+        background: $default;
+        color: #fff;
+        &:hover { background: color.scale($default, $lightness: -10%); }
+      }
+    }
+  }
+}
+
+
+

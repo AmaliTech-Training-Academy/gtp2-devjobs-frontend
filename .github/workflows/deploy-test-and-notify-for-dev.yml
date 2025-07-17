@@ -1,0 +1,50 @@
+name: Test and Notify
+
+on:
+  workflow_call:
+    secrets:
+      SLACK_BOT_TOKEN:
+        required: true
+      SLACK_CHANNEL_ID:
+        required: true
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install Puppeteer Chromium
+        working-directory: frontend
+        run: |
+          npm install puppeteer
+          echo "CHROME_BIN=$(node -e \"console.log(require('puppeteer').executablePath())\")" >> $GITHUB_ENV
+
+      - name: Run Tests
+        id: test
+        working-directory: frontend
+        run: npm test
+        continue-on-error: true
+
+      - name: Notify Slack if tests fail
+        if: steps.test.outcome == 'failure'
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: >-
+            {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+              "text": ":x: *Frontend Dev CI:* Tests failed.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+            }

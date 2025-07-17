@@ -6,7 +6,9 @@
         </svg>
     </div>
 
+
     <div class="table-scroll-wrapper">
+
 
     <p-table
         [value]="jobsArray"
@@ -16,6 +18,7 @@
         [responsiveLayout]="'scroll'"
         class="custom-table"
         styleClass="data-table"
+
         [tableStyle]="{ 'min-width': '50rem' }"    
         >
         <ng-template pTemplate="header">
@@ -23,10 +26,14 @@
             @for( property of properties; track property ) {
                 <th>{{ property }}</th>
              }
+
+
+
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-job>
+
             <tr (click)="onOpenModal()">
             @for( property of properties; track property) {
                 <td>{{ job[property]}}</td>
@@ -43,14 +50,17 @@
 
             <!-- <td> -->
                 <!-- <button 
+
                     pButton 
                     type="button" 
                     icon="pi pi-ellipsis-v" 
                     class="p-button-text"
                     (click)="overlayPanel.toggle($event, job)"
                 >
-                </button> -->
-                <!-- <p-overlayPanel #overlayPanel [dismissable]="true">
+
+                </button>
+                <p-overlayPanel #overlayPanel [dismissable]="true">
+
                     <div class="popover-content">
                         <button
                             pButton
@@ -72,6 +82,7 @@
 
                         
                     </div>
+
                 </p-overlayPanel> -->
             <!-- </td> -->
 
