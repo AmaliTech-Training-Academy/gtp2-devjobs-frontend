@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://fake-api.devjobs.com/api',
+  apiUrl: process.env['NG_APP_BASE_URL'],
 };
