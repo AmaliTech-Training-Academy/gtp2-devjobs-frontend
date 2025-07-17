@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
-// import { ReusableFormGroupComponent } from '../reusable-form-group/reusable-form-group.component';
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ModalsServiceService } from '../../core/services/modals-service.service';
+import { EmployerHttpRequestsService } from '../../core/services/employer-http-requests.service';
+
 
 
 @Component({
@@ -13,6 +15,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './create-job-modal.component.scss'
 })
 export class CreateJobModalComponent {
+
+  modalService = inject( ModalsServiceService )
+  employerHttp = inject( EmployerHttpRequestsService )
+
+  destroyRef = inject( DestroyRef )
 
 
 
@@ -76,37 +83,25 @@ export class CreateJobModalComponent {
 
 
   postJob() {
+    // this.markFormGroupTouched( this.firstJobForm )
+    // this.markFormGroupTouched( this.secondJobForm )
+
     // if( this.firstJobForm.invalid || this.secondJobForm.invalid ) {
-    //   console.log("post job called")
-    //   this.firstJobForm.markAllAsTouched()
-    //   this.secondJobForm.markAllAsTouched()
     //   return
     // }
     // else {
-    //   const combinedJobData = {
-    //     ...this.firstJobForm.value,
-    //     ...this.secondJobForm.value
-    //   }
-
-    //   console.log( "combined data = ", combinedJobData )
-    // }
-
-
-    this.markFormGroupTouched( this.firstJobForm )
-    this.markFormGroupTouched( this.secondJobForm )
-
-    if( this.firstJobForm.invalid || this.secondJobForm.invalid ) {
-      return
-    }
-    else {
       const combinedJobData = {
         ...this.firstJobForm.value,
         ...this.secondJobForm.value
       }
 
       console.log( "combined data = ", combinedJobData )
-    }
+    // }
 
+
+    this.employerHttp.createNewJob(combinedJobData).subscribe({
+      next: ( newJob ) => console.log('job created', newJob)
+    })
 
   }
 
@@ -120,6 +115,12 @@ export class CreateJobModalComponent {
         control.updateValueAndValidity();
       }
     });
+  }
+
+
+
+  closeJobCreationModal() {
+    this.modalService.closeCreateJobFormModal()
   }
 
 

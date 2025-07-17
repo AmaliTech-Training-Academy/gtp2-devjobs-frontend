@@ -53,5 +53,18 @@
         font-size: 1.2rem;
     }
 
+    .popover-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        // z-index: 9999999
+
+        button {
+            width: 100%;
+            justify-content: flex-start;
+            padding-left: 0.5rem;
+        }
+    }
+
 
 }

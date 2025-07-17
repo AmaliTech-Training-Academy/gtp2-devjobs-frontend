@@ -35,9 +35,40 @@
             <td>\${{ job.salary }}</td>
             <td>{{ job.location }}</td>
             <td>
-                <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-text"></button>
+                <button 
+                    pButton 
+                    type="button" 
+                    icon="pi pi-ellipsis-v" 
+                    class="p-button-text"
+                    (click)="overlayPanel.toggle($event, job)"
+                >
+                </button>
+                <p-overlayPanel #overlayPanel [dismissable]="true">
+                    <div class="popover-content">
+                        <button
+                            pButton
+                            class="p-button-text"
+                            icon="pi pi-eye"
+                            label="View"
+                            (click)="viewJob(job)"
+                        >
+                        </button>
+
+                        <button
+                            pButton
+                            class="p-button-text"
+                            icon="pi pi-pencil"
+                            label="Edit"
+                            (click)="editJob(job)"
+                        >
+                    </button>
+
+                        
+                    </div>
+                </p-overlayPanel>
             </td>
             </tr>
         </ng-template>
     </p-table>
+
 </section>
