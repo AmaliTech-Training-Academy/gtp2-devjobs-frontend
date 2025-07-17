@@ -114,9 +114,7 @@ export class RegisterComponent implements OnInit {
       const remainingTime = Math.ceil(
         (this.rateLimitDelay - (now - this.lastSubmissionTime)) / 1000
       );
-      this.toast.error(
-        `Please wait ${remainingTime} seconds before trying again`
-      );
+      this.toast.rateLimitError(remainingTime);
       return false;
     }
     return true;
@@ -131,15 +129,13 @@ export class RegisterComponent implements OnInit {
     if (!this.checkRateLimit()) return;
 
     if (this.registrationAttempts >= this.maxRegistrationAttempts) {
-      this.toast.error(
-        `Maximum registration attempts (${this.maxRegistrationAttempts}) exceeded. Please try again later.`
-      );
+      this.toast.maxAttemptsError(this.maxRegistrationAttempts);
       return;
     }
 
     const validationError = this.validateFormData(formData);
     if (validationError) {
-      this.toast.error(validationError);
+      this.toast.validationError(validationError);
       return;
     }
 
@@ -163,12 +159,7 @@ export class RegisterComponent implements OnInit {
         this.loadingService.hide();
 
         if (res.success) {
-          this.toast.success(
-            res.message ||
-              `${
-                isSeeker ? 'Job seeker' : 'Employer'
-              } registered successfully! Please check your email to verify your account.`
-          );
+          this.toast.registrationSuccess(this.selectedRole);
           this.registrationAttempts = 0;
 
           this.router.navigate(['/login'], {
@@ -212,6 +203,16 @@ export class RegisterComponent implements OnInit {
           this.toast.error(errorMsg);
         }
 
+        if (err.status === 0 || err.status === 502 || err.status === 503) {
+          this.toast.networkError();
+          return;
+        }
+
+        if (err.status >= 500) {
+          this.toast.serverError();
+          return;
+        }
+
         if (this.registrationAttempts >= this.maxRegistrationAttempts - 2) {
           const remaining =
             this.maxRegistrationAttempts - this.registrationAttempts;
@@ -222,7 +223,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private sanitizeFormData(formData: any): any {
-    const sanitized = { ...formData }; //Trim whitespace from all string fields
+    const sanitized = { ...formData };
     Object.keys(sanitized).forEach((key) => {
       if (typeof sanitized[key] === 'string') {
         sanitized[key] = sanitized[key].trim();
