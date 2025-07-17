@@ -25,13 +25,11 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Install Chromium
+      - name: Install Puppeteer Chromium
+        working-directory: frontend
         run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
-
-      - name: Set CHROME_BIN environment variable
-        run: echo "CHROME_BIN=$(which chromium-browser)" >> $GITHUB_ENV
+          npm install puppeteer
+          echo "CHROME_BIN=$(node -e \"console.log(require('puppeteer').executablePath())\")" >> $GITHUB_ENV
 
       - name: Run Tests
         id: test
