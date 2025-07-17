@@ -3,7 +3,7 @@ name: Frontend Dev CI/CD
 on:
   push:
     branches:
-      - dev
+      - testing
 
 permissions:
   id-token: write
