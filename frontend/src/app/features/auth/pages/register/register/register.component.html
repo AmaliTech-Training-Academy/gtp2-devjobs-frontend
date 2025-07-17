@@ -98,6 +98,13 @@
     <!-- Right Section with Form -->
     <div class="right-section">
       <div class="form-container">
+        <div class="mobile-register-content" *ngIf="isMobile">
+          <div class="mobile-form-container">
+            <!-- Info Tooltip -->
+            <app-tooltip [selectedRole]="selectedRole"></app-tooltip>
+          </div>
+        </div>
+
         <!-- Role Toggle -->
         <div class="role-toggle">
           <button
@@ -113,7 +120,6 @@
             Employer
           </button>
         </div>
-
         <!-- Form Title -->
         <div class="form-title">
           <span *ngIf="selectedRole === 'seeker'">Create an account</span>

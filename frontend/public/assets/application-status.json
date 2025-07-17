@@ -1,0 +1,52 @@
+[
+    {
+      "jobId": 101,
+      "company": "Amalitech",
+      "position": "HR manager",
+      "dateApplied": "2025-12-05",
+      "status": "Applied"
+    },
+    {
+      "jobId": 102,
+      "company": "Hubtel",
+      "position": "Devops engineer",
+      "dateApplied": "2025-12-05",
+      "status": "Rejected"
+    },
+    {
+      "jobId": 103,
+      "company": "Google",
+      "position": "Software engineer",
+      "dateApplied": "2025-12-05",
+      "status": "Applied"
+    },
+    {
+      "jobId": 104,
+      "company": "Mind craft",
+      "position": "QA engineer",
+      "dateApplied": "2025-12-05",
+      "status": "Reviewed"
+    },
+    {
+      "jobId": 105,
+      "company": "Zara balls",
+      "position": "HR manager",
+      "dateApplied": "2025-12-05",
+      "status": "Applied"
+    },
+    {
+      "jobId": 106,
+      "company": "Cashier",
+      "position": "Cashier",
+      "dateApplied": "2025-12-05",
+      "status": "Interviewed"
+    },
+    {
+      "jobId": 107,
+      "company": "Amazon",
+      "position": "Front-end developer",
+      "dateApplied": "2025-12-05",
+      "status": "Applied"
+    }
+  ]
+  
