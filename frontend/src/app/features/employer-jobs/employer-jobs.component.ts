@@ -18,21 +18,91 @@ export class EmployerJobsComponent {
   modalService = inject( ModalsServiceService )
   employerHttp = inject( EmployerHttpRequestsService )
 
- 
+
+  properties: any [] = ["Job Title", "Job Type", "Date", "Salary", "Location", "Action"]
 
   jobs = [
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-    { title: "Senior Software Engineer", type: 'Full-time', date: '8/02/2025', salary: 9600, location: 'San francisco' },
-  ]
+    {
+      "Job Title": "Frontend Developer",
+      "Job Type": "Full-Time",
+      "Date": "2025-07-10",
+      "Salary": 60000,
+      "Location": "Accra, Ghana",
+      "Action": "View"
+    },
+    {
+      "Job Title": "Backend Engineer",
+      "Job Type": "Contract",
+      "Date": "2025-07-08",
+      "Salary": 70000,
+      "Location": "Kumasi, Ghana",
+      "Action": "View"
+    },
+    {
+      "Job Title": "UI/UX Designer",
+      "Job Type": "Part-Time",
+      "Date": "2025-07-05",
+      "Salary": 45000,
+      "Location": "Lagos, Nigeria",
+      "Action": "View"
+    },
+    {
+      "Job Title": "DevOps Engineer",
+      "Job Type": "Full-Time",
+      "Date": "2025-07-01",
+      "Salary": 80000,
+      "Location": "Nairobi, Kenya",
+      "Action": "View"
+    },
+    {
+      "Job Title": "Mobile Developer",
+      "Job Type": "Internship",
+      "Date": "2025-06-28",
+      "Salary": 20000,
+      "Location": "Cape Town, South Africa",
+      "Action": "View"
+    },
+    {
+      "Job Title": "Data Analyst",
+      "Job Type": "Full-Time",
+      "Date": "2025-06-25",
+      "Salary": 55000,
+      "Location": "Lusaka, Zambia",
+      "Action": "View"
+    },
+    {
+      "Job Title": "Project Manager",
+      "Job Type": "Contract",
+      "Date": "2025-06-22",
+      "Salary": 75000,
+      "Location": "Abuja, Nigeria",
+      "Action": "View"
+    },
+    {
+      "Job Title": "QA Tester",
+      "Job Type": "Part-Time",
+      "Date": "2025-06-20",
+      "Salary": 40000,
+      "Location": "Accra, Ghana",
+      "Action": "View"
+    },
+    {
+      "Job Title": "System Administrator",
+      "Job Type": "Full-Time",
+      "Date": "2025-06-18",
+      "Salary": 62000,
+      "Location": "Kigali, Rwanda",
+      "Action": "View"
+    },
+    {
+      "Job Title": "Machine Learning Engineer",
+      "Job Type": "Full-Time",
+      "Date": "2025-06-15",
+      "Salary": 90000,
+      "Location": "Johannesburg, South Africa",
+      "Action": "View"
+    }
+  ];
 
 
   openJobCreationModal() {

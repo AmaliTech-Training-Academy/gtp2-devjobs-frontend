@@ -3,6 +3,14 @@
 
 
 
+.dashboard-component {
+    margin: 1.9rem 4.6rem;
+    // background-color: green;
+    width: 100%;
+    flex: 1;
+}
+
+
 .employer-dashboard {
     .page-title {
         @include header3;

@@ -1,4 +1,4 @@
-<main class="employer-jobs">
+<main class="employer-jobs dashboard-component">
     <section class="header">
         <h3>Jobs</h3>
         <button (click)="openJobCreationModal()">
@@ -15,7 +15,7 @@
 
 
     @if( jobs.length > 0 ) {
-        <app-data-table [jobsArray]="jobs" [onOpenModal]="openJobDetailsFormModal.bind(this)" />
+        <app-data-table [jobsArray]="jobs" [properties]="properties" [onOpenModal]="openJobDetailsFormModal.bind(this)" />
     }
 
 

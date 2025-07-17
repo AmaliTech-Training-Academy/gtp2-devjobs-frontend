@@ -6,6 +6,8 @@
         </svg>
     </div>
 
+    <div class="table-scroll-wrapper">
+
     <p-table
         [value]="jobsArray"
         [paginator]="true"
@@ -14,36 +16,41 @@
         [responsiveLayout]="'scroll'"
         class="custom-table"
         styleClass="data-table"
-
-    >
+        [tableStyle]="{ 'min-width': '50rem' }"    
+        >
         <ng-template pTemplate="header">
             <tr>
-            <th>Job Title</th>
-            <th>Job Type</th>
-            <th>Date</th>
-            <th>Salary</th>
-            <th>Location</th>
-            <th>Action</th>
+            @for( property of properties; track property ) {
+                <th>{{ property }}</th>
+             }
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-job>
             <tr (click)="onOpenModal()">
-            <td>{{ job.title }}</td>
-            <td>{{ job.type }}</td>
-            <td>{{ job.date }}</td>
-            <td>\${{ job.salary }}</td>
-            <td>{{ job.location }}</td>
-            <td>
-                <button 
+            @for( property of properties; track property) {
+                <td>{{ job[property]}}</td>
+            }
+            </tr>
+        </ng-template>
+    </p-table>
+        </div>
+
+
+</section>
+
+
+
+            <!-- <td> -->
+                <!-- <button 
                     pButton 
                     type="button" 
                     icon="pi pi-ellipsis-v" 
                     class="p-button-text"
                     (click)="overlayPanel.toggle($event, job)"
                 >
-                </button>
-                <p-overlayPanel #overlayPanel [dismissable]="true">
+                </button> -->
+                <!-- <p-overlayPanel #overlayPanel [dismissable]="true">
                     <div class="popover-content">
                         <button
                             pButton
@@ -65,10 +72,6 @@
 
                         
                     </div>
-                </p-overlayPanel>
-            </td>
-            </tr>
-        </ng-template>
-    </p-table>
+                </p-overlayPanel> -->
+            <!-- </td> -->
 
-</section>

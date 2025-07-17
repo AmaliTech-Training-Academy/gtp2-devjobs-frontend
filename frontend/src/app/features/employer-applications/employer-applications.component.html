@@ -1,1 +1,53 @@
-<p>employer-applications works!</p>
+<main class="employer-applications">
+    <section class="tabs">
+        <div class="tab-item" [class.active]="activeTab === 'incoming'" (click)="setActive('incoming')">
+            <h3>Incoming Applications</h3>
+        </div>
+
+        <div class="tab-item" [class.active]="activeTab === 'statuses'" (click)="setActive('statuses')">
+            <h3>Application Statuses</h3>
+        </div>
+    </section>
+    <hr class="custom-rule"/>
+
+    @if( showSecondActiveTab === true ) {
+        <section class="secondTabs">
+            <div class="second-tab-item" [class.active]="secondActiveTab === 'reviewed'" (click)="setSecondActiveTab('reviewed')">
+                <h3>Reviewed</h3>
+            </div>
+
+            <div class="second-tab-item" [class.active]="secondActiveTab === 'interviewed'" (click)="setSecondActiveTab('interviewed')">
+                <h3>Interviewed</h3>
+            </div>
+
+            <div class="second-tab-item" [class.active]="secondActiveTab === 'rejected'" (click)="setSecondActiveTab('rejected')">
+                <h3>Rejected</h3>
+            </div>
+        </section>
+        <hr class="second-custom-rule"/>
+    }
+
+
+    @if( activeTab === 'incoming' && applications.length === 0) {
+        <section class="no-applications">
+            <app-empty-state [header]="'No application received yet'" 
+                             [subHeader]="'Applications received will appear here'" />
+        </section>
+    }
+
+
+    @if( activeTab === 'incoming' && applications.length > 0 ) {
+        <section class="applications-available">
+            <app-data-table [jobsArray]="applications" [properties]="properties">
+            </app-data-table>
+        </section>
+    }
+
+   
+
+
+
+
+
+
+</main>
