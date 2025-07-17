@@ -7,6 +7,10 @@
     border-bottom: 1px solid #e5e7eb;
     position: relative;
     z-index: 10;
+
+    .menu-icon {
+      display: none;
+    }
   
     .nav-left {
       .logo {
@@ -76,6 +80,7 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
+
   }
 
   .nav-icon {
@@ -124,4 +129,26 @@
       }
     }
   }
+
+@media (max-width: 480px) {
+  .auth-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    .nav-left {
+      flex: 0 0 auto;
+    }
+    .menu-icon {
+      display: block;
+      font-size: 1.7rem;
+      color: #6366f1;
+      cursor: pointer;
+    }
+    .nav-center,
+    .nav-actions {
+      display: none !important;
+    }
+  }
+}
   

@@ -1,10 +1,10 @@
-<p-card class="job-card">
+
+<p-card class="job-card" (click)="onCardClick()">
 
     <div class="job-card__logo">
       <img src={{job.logo}} alt={{job.company}}>
     </div>
 
-  
   <div class="job-info">
     <div class="job-card__meta">
       <span class="job-card__time">{{job.postedAt}}</span>
@@ -15,15 +15,15 @@
     <div class="job-card__title">
       {{job.position}}
     </div>
-  
+
     <div class="job-card__company">
       <i class="pi pi-building job-card__icon"></i>
       {{job.company}}
     </div>
-  
+
     <div class="job-card__location">
       <i class="pi pi-map-marker job-card__icon"></i>
       {{job.location}}
     </div>
   </div>
-</p-card> 
+</p-card>

@@ -8,6 +8,7 @@ import { SeekerNavComponent } from '../../../features/jobs/seeker-nav/seeker-nav
 
 @Component({
   selector: 'app-seeker-dashboard',
+  standalone: true,
   imports: [SearchComponent, SeekerNavComponent, RouterOutlet, RouterLink, AsyncPipe, RouterLinkActive],
   templateUrl: './seeker-dashboard.component.html',
   styleUrl: './seeker-dashboard.component.scss'
