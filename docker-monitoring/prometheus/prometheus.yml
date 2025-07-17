@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'cloudwatch-exporter'
+    static_configs:
+      - targets: ['cloudwatch-exporter:9106']
+
+  # Add ECS service discovery for your DevJobs frontend
+  - job_name: 'ecs-devjobs'
+    ec2_sd_configs:
+      - region: eu-west-1
+        port: 80
+        filters:
+          - name: tag:aws:cloudformation:stack-name
+            values: ['devjobs-*']
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_aws_ecs_cluster]
+        regex: devjobs-.*
+        action: keep
+      - source_labels: [__meta_ec2_tag_Name]
+        target_label: instance
+      - source_labels: [__meta_ec2_availability_zone]
+        target_label: az
