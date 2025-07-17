@@ -1,17 +1,10 @@
 <div class="container">
-    <app-sort-filter></app-sort-filter>
-    <div class="jobs-list">
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-        <app-job-card></app-job-card>
-    </div>
+  <app-sort-filter></app-sort-filter>
+  <div class="jobs-list">
+    @if (jobs$ | async; as jobs) {
+         @for(job of jobs; track job.id) {
+<app-job-card [job]="job"></app-job-card>
+    } 
+}
+  </div>
 </div>

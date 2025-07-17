@@ -11,6 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 
 
+
 @Component({
   selector: 'app-reusable-form-group',
   imports: [
@@ -20,8 +21,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule,
     MatSelectModule
+
   ],
   templateUrl: './reusable-form-group.component.html',
   styleUrl: './reusable-form-group.component.scss',
@@ -42,6 +43,7 @@ export class ReusableFormGroupComponent {
 
   categories = ["Full time", "Part time", "Contract"]
   
+
 
   constructor(private sanitizer: DomSanitizer) {}
 

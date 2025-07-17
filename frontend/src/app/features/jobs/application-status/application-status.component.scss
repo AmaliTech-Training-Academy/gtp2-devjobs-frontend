@@ -1,0 +1,130 @@
+.applications-container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem 2.5rem;
+  max-width: 100%
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #23293b;
+  }
+
+  .applications-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1.5rem;
+
+    .search-input-wrapper {
+      max-width: 350px;
+      margin-right: 1.5rem;
+    }
+
+    .p-input-icon-left {
+      display: flex;
+      align-items: center;
+      flex: 1 1 0;
+      max-width: 350px;
+      input {
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
+
+    .applications-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      label {
+        font-weight: 500;
+        color: #23293b;
+      }
+      .p-select {
+        min-width: 90px;
+      }
+    }
+  }
+
+  .applications-table {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px #e0e0e0;
+    th {
+      font-weight: 600;
+      color: #23293b;
+      background: #fff;
+      border: none;
+    }
+    td {
+      background: #fff;
+      border: none;
+      font-size: 1rem;
+      color: #23293b;
+    }
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 20px;
+    padding: 0.25rem 1.25rem 0.25rem 0.75rem;
+    min-width: 100px;
+    justify-content: center;
+
+    &.applied {
+      background: #f1f5ff;
+      color: #6366f1;
+    }
+    &.rejected {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+    &.reviewed {
+      background: #fef9c3;
+      color: #23293b;
+    }
+    &.interviewed {
+      background: #dcfce7;
+      color: #22c55e;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      &.applied { background: #6366f1; }
+      &.rejected { background: #ef4444; }
+      &.reviewed { background: #23293b; }
+      &.interviewed { background: #22c55e; }
+    }
+  }
+
+}
+
+.search-input-wrapper {
+  display: block;
+  width: 100%;
+  position: relative;
+  .p-inputtext {
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding-left: 2.2rem;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    height: 44px;
+  }
+  .pi {
+    left: 0.8rem;
+    color: #6b7280;
+    font-size: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

@@ -1,0 +1,100 @@
+[
+    {
+      "id": 1,
+      "company": "Scoot",
+      "companyUrl": "scoot.com",
+      "logo": "assets/logos/scoot.png",
+      "postedAt": "5h ago",
+      "contract": "Full Time",
+      "position": "Senior Software Engineer",
+      "location": "United Kingdom",
+      "salary": "$65,000",
+      "applyLink": "#",
+      "companyWebsite": "https://scoot.com",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna...",
+      "requirements": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      },
+      "role": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "company": "Scoot",
+      "companyUrl": "scoot.com",
+      "logo": "assets/logos/scoot.png",
+      "postedAt": "5h ago",
+      "contract": "Full Time",
+      "position": "Senior Software Engineer",
+      "location": "United Kingdom",
+      "salary": "$65,000",
+      "applyLink": "#",
+      "companyWebsite": "https://scoot.com",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna...",
+      "requirements": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      },
+      "role": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "company": "Scoot",
+      "companyUrl": "scoot.com",
+      "logo": "assets/logos/scoot.png",
+      "postedAt": "5h ago",
+      "contract": "Full Time",
+      "position": "Senior Software Engineer",
+      "location": "United Kingdom",
+      "salary": "$65,000",
+      "applyLink": "#",
+      "companyWebsite": "https://scoot.com",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna...",
+      "requirements": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      },
+      "role": {
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit...",
+        "items": [
+          "Morbi interdum mollis sapien. Sed",
+          "Phasellus lacinia magna a ullamcorper laoreet, lectus arcu pulvinar risus",
+          "Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna. Etiam pellentesque mauris ut lectus.",
+          "Morbi interdum mollis sapien. Sed"
+        ]
+      }
+    }
+
+  ]
+  

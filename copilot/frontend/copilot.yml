@@ -1,0 +1,33 @@
+name: frontend
+type: Load Balanced Web Service
+
+http:
+  healthcheck: '/'
+  
+image:
+  build: './Dockerfile'
+
+cpu: 256
+memory: 512
+count:
+  min: 1
+  max: 10
+  cooldown:
+    scale_in_cooldown: 300s
+    scale_out_cooldown: 120s
+  target_cpu: 70
+  target_memory: 80
+
+network:
+  vpc:
+    enable_logs: true
+    placement: 'public'
+
+variables:
+  NODE_ENV: production
+  AWS_DEFAULT_REGION: eu-west-1
+
+secrets:
+  # Add any secrets here if needed
+  # API_KEY:
+  #   from_cfn_output: MyApiKeyOutput
