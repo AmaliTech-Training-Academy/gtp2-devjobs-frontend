@@ -65,7 +65,7 @@ export class DataTableComponent {
     console.log("row clicked")
   }
 
-  @Input() jobsArray: any = []
+  // @Input() jobsArray: any = []
   @Input() fields: string [] = []
 
 

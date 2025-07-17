@@ -1,6 +1,5 @@
 
 import { Component, OnInit } from '@angular/core';
-
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 

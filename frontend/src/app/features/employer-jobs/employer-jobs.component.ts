@@ -11,7 +11,7 @@ import { EmployerHttpRequestsService } from '../../core/services/employer-http-r
 
 @Component({
   selector: 'app-employer-jobs',
-  imports: [ ButtonModule, CreateJobModalComponent, EmptyStateComponent, DataTableComponent, JobDetailsModalComponent ],
+  imports: [ ButtonModule, CreateJobModalComponent, EmptyStateComponent, JobDetailsModalComponent, DataTableComponent ],
   templateUrl: './employer-jobs.component.html',
   styleUrl: './employer-jobs.component.scss'
 })
@@ -106,11 +106,6 @@ export class EmployerJobsComponent {
       "Action": "View"
     }
   ];
-
-
-  openJobCreationModal() {
-    this.modalService.openCreateJobFormModal()
-  }
 
 
   openJobDetailsFormModal() {
