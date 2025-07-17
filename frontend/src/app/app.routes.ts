@@ -104,6 +104,13 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'profile',
+    loadComponent: () =>
+      import('./shared/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '/unauthorized',
     pathMatch: 'full',

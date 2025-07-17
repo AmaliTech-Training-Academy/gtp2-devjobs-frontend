@@ -1,0 +1,120 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+
+.profile-wrapper {
+  width: 100%;
+  padding: 40px;
+  background-color: transparent;
+
+  .nav-btn {
+    margin-bottom: 40px;
+
+    @include mixins.breakpoint(500px) {
+      text-align: center;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      padding: 10px;
+
+      font-weight: 600px;
+      font-size: 16px;
+    }
+    .active {
+      border-bottom: variables.$primary-color !important;
+    }
+  }
+
+  .instruction {
+    width: 500px;
+
+    @include mixins.breakpoint(500px) {
+      width: 100%;
+      text-align: left;
+    }
+  }
+  .upload-section {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    @include mixins.breakpoint(500px) {
+      flex-direction: column;
+    }
+
+    .img-section {
+      .upload-avatar {
+        display: inline-block;
+        width: 148px;
+        height: 148px;
+        border-radius: 50%;
+        background: #9daec2;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+
+        input[type="file"] {
+          display: none;
+        }
+
+        // .svg {
+        //   z-index: 20;
+        // }
+
+        .placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  .profile-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    margin-top: 1.5rem;
+
+    @include mixins.breakpoint(500px) {
+      grid-template-columns: 1fr;
+    }
+
+    .column {
+      display: grid;
+    }
+  }
+  .form-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    margin-top: 1.5rem;
+
+    @include mixins.breakpoint(500px) {
+      grid-template-columns: 1fr;
+    }
+
+    .form-field-wrapper {
+      width: 100%;
+    }
+  }
+
+  .button-row {
+    //   margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
