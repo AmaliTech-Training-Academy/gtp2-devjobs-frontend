@@ -3,10 +3,10 @@ import { ButtonModule } from 'primeng/button';
 import { CreateJobModalComponent } from '../../shared/create-job-modal/create-job-modal.component';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
-import { ModalsServiceService } from '../../core/services/modals-service.service';
+import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
 
-import { EmployerHttpRequestsService } from '../../core/services/employer-http-requests.service';
+import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 
 
 @Component({
