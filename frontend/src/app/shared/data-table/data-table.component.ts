@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { PopoverModule } from 'primeng/popover'
 import { OverlayPanelModule } from 'primeng/overlaypanel'
 
-import { ModalsServiceService } from '../../core/services/modals-service.service';
+import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 
 
 

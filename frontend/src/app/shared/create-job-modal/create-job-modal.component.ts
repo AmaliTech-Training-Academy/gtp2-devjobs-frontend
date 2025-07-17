@@ -3,8 +3,9 @@ import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ModalsServiceService } from '../../core/services/modals-service.service';
-import { EmployerHttpRequestsService } from '../../core/services/employer-http-requests.service';
+import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
+import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
+import { CreateJobPayload } from '../../model/job';
 
 
 
@@ -26,7 +27,7 @@ export class CreateJobModalComponent {
   firstJobForm = new FormGroup({
     jobTitle: new FormControl('', Validators.required),
     jobType: new FormControl('', Validators.required),
-    salary: new FormControl('', Validators.required),
+    salary: new FormControl('', [Validators.required, Validators.min(1)]),
     companyName: new FormControl('', Validators.required),
     location: new FormControl('', Validators.required)
 
@@ -79,29 +80,62 @@ export class CreateJobModalComponent {
     }
   }
 
+
+// const jobDetails = this.getAdditionalJobData().value;
+
+// jobDetails.forEach((group: any, index: number) => {
+//   console.log(`Job #${index + 1} - Title:`, group.title);
+//   console.log(`Job #${index + 1} - Description:`, group.description);
+// });
+
+
+  extractAdditionalJobData() {
+    return this.secondJobForm.get('additionalJobDetails') as FormArray
+  }
+
   
 
 
   postJob() {
-    // this.markFormGroupTouched( this.firstJobForm )
-    // this.markFormGroupTouched( this.secondJobForm )
+    this.markFormGroupTouched( this.firstJobForm )
+    this.markFormGroupTouched( this.secondJobForm )
 
-    // if( this.firstJobForm.invalid || this.secondJobForm.invalid ) {
-    //   return
-    // }
-    // else {
-      const combinedJobData = {
-        ...this.firstJobForm.value,
-        ...this.secondJobForm.value
+    if( this.firstJobForm.invalid || this.secondJobForm.invalid ) {
+      return
+    }
+    else {
+
+      const formArray = this.extractAdditionalJobData()
+
+      const secondGroup = formArray.at(0) as FormGroup
+
+      const title = secondGroup.get('title')?.value
+
+      const description = secondGroup.get('description')?.value
+
+
+      const combinedJobData: CreateJobPayload = {
+        companyId: "68749670496346",
+        title: this.firstJobForm.value.jobTitle!,
+        employmentType: this.firstJobForm.value.jobType!,
+        salary: Number(this.firstJobForm.value.salary!),
+        location: this.firstJobForm.value.location!,
+        companyName: this.firstJobForm.value.companyName!,
+        description: description,
+        currency: 'USD',
+        applicationDeadline: new Date('2025-08-19').toISOString()
+
       }
 
       console.log( "combined data = ", combinedJobData )
-    // }
+
+      this.employerHttp.createNewJob(combinedJobData).subscribe({
+        next: ( newJob ) => console.log('job created', newJob)
+      })
+
+    }
 
 
-    this.employerHttp.createNewJob(combinedJobData).subscribe({
-      next: ( newJob ) => console.log('job created', newJob)
-    })
 
   }
 
