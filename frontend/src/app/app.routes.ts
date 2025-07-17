@@ -4,12 +4,20 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ForgotPasswordComponent } from './features/auth/pages/forgot-password/forgot-password/forgot-password.component';
 import { EmployerLayoutComponent } from './features/employer-layout/employer-layout.component';
 import { JobListComponent } from './features/jobs/job-list/job-list.component';
+import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'landing',
+    loadComponent: () =>
+      import('./features/landing/landing-page/landing-page.component').then(
+        (m) => m.LandingPageComponent
+      ),
+  },
+  {
+    path: 'register',
     component: RegisterComponent,
   },
   {
@@ -19,6 +27,11 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+  },
+
+  {
+    path: 'unauthorized',
+    component: UnathorizedComponent,
   },
   {
     path: 'employer',
@@ -102,6 +115,13 @@ export const routes: Routes = [
           ),
       },
     ],
+  },
+
+  //Redirects and wildcards
+  {
+    path: '',
+    redirectTo: '/landing',
+    pathMatch: 'full',
   },
   {
     path: '**',
