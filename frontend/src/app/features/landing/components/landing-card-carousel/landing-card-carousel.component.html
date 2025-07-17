@@ -1,0 +1,43 @@
+<div class="cta-section">
+  <h2>
+    Start <span class="highlight-strong">strong</span>, stay
+    <span class="highlight-confident">confident</span> this is your
+    <span class="highlight-space">space</span> to
+    <span class="highlight-grow">grow</span> and
+    <span class="highlight-land">land</span> your
+    <span class="highlight-best">best fit job</span>.
+  </h2>
+
+  <div class="cards-wrapper">
+    <mat-card
+      class="card"
+      *ngFor="let card of visibleCards; let i = index"
+      [ngClass]="{
+        'card-blue': getCardIndex(i) % 2 === 0,
+        'card-white': getCardIndex(i) % 2 === 1
+      }"
+    >
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+    </mat-card>
+  </div>
+
+  <div class="navigation-buttons">
+    <button
+      mat-icon-button
+      class="nav-btn"
+      (click)="previous()"
+      [disabled]="currentStartIndex === 0"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="nav-btn"
+      (click)="next()"
+      [disabled]="currentStartIndex + cardsPerView >= cards.length"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

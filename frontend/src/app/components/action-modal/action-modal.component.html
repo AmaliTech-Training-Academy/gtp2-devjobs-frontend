@@ -1,0 +1,20 @@
+<div
+  class="modal-backdrop"
+>
+  <div
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-describedby="modalDesc"
+    tabindex="-1"
+  >
+    <button *ngIf="showClose" class="close-btn" aria-label="Close" (click)="cancel()">&times;</button>
+    <h2 id="modalTitle">{{ title }}</h2>
+    <p id="modalDesc">{{ message }}</p>
+    <div class="modal-actions">
+      <button type="button" class="btn cancel" (click)="cancel()">{{ cancelText }}</button>
+      <button type="button" class="btn confirm" [ngClass]="type" (click)="confirm()">{{ confirmText }}</button>
+    </div>
+  </div>
+</div>

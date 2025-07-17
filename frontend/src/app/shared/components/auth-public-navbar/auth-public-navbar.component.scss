@@ -1,7 +1,8 @@
 .auth-navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  gap: 9rem;
   padding: 1rem 2rem;
   background-color: white;
   border-bottom: 1px solid #e5e7eb;
@@ -188,11 +189,54 @@
         right: 0;
       }
 
+      // Mobile menu header with close button
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 1rem;
+
+        .mobile-menu-title {
+          font-weight: 600;
+          font-size: 1.125rem;
+          color: #19202d;
+        }
+
+        .mobile-close-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #6b7280;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #f3f4f6;
+            color: #4f46e5;
+          }
+
+          &:active {
+            background-color: #e5e7eb;
+          }
+
+          mat-icon {
+            font-size: 1.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+      }
+
       .mobile-nav-links {
         list-style: none;
         margin: 0;
         padding: 0;
-        margin-top: 4rem;
 
         li {
           margin-bottom: 0.5rem;

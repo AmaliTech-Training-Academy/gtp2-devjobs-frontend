@@ -28,6 +28,11 @@
   font-size: 14px;
   line-height: 18px;
 }
+@mixin header5 {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+}
 @mixin bodyB1Active {
   font-weight: 600;
   font-size: 16px;

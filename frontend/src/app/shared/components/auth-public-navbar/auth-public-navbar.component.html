@@ -44,6 +44,19 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+    <!-- Mobile Menu Header with Close Button -->
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">Menu</span>
+      <button
+        class="mobile-close-btn"
+        (click)="closeMobileMenu()"
+        type="button"
+        aria-label="Close mobile menu"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
     <ul class="mobile-nav-links">
       <li><a routerLink="/" (click)="closeMobileMenu()">Home</a></li>
       <li>
