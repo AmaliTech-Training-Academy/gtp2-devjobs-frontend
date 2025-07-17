@@ -32,12 +32,12 @@ jobs:
 
       - name: Notify Slack if tests fail
         if: steps.test.outcome == 'failure'
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          payload: |
+          args: >-
             {
               "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
               "text": ":x: *Frontend Dev CI:* Tests failed.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
