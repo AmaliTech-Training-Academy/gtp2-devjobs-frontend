@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { StatsCardComponent } from '../../shared/stats-card/stats-card.component';
 import { TableModule } from 'primeng/table'
+import { ModalsServiceService } from '../../core/services/modals-service.service';
+import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
+
 
 @Component({
   selector: 'app-employer-dashboard',
-  imports: [ StatsCardComponent, TableModule ],
+  imports: [ StatsCardComponent, TableModule, JobDetailsModalComponent ],
   templateUrl: './employer-dashboard.component.html',
   styleUrl: './employer-dashboard.component.scss'
 })
 export class EmployerDashboardComponent {
+
+  modalService = inject( ModalsServiceService )
+
+  openJobDetailsModalForm() {
+    console.log("see all clicked")
+    this.modalService.showJobDetailsFormModal = true 
+  }
 
 applications = [
   {

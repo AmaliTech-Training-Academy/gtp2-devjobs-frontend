@@ -13,7 +13,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -21,14 +21,21 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser
+          echo "CHROME_BIN=/usr/bin/chromium-browser" >> $GITHUB_ENV
+
+      - name: Install Node.js dependencies
         working-directory: frontend
         run: npm ci
 
-      - name: Run Tests
+      - name: Run Angular Tests in Headless Chrome
         id: test
         working-directory: frontend
-        run: npm test
+        run: |
+          npm run test -- --watch=false --browsers=ChromeHeadless
         continue-on-error: true
 
       - name: Notify Slack if tests fail
@@ -37,4 +44,9 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* Tests failed.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
+          args: >-
+            {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+              "text": ":x: *Frontend Dev CI:* Tests failed.
+              🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+            }
