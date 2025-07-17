@@ -1,18 +1,18 @@
+@use "../../../../styles/fonts" as *;
+
 .landing-search {
-  padding: 4rem 1rem;
+  margin: 3rem 1rem 1rem;
   background-color: #fff;
 
   .search-container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     text-align: center;
 
     .headline {
-      font-size: 2.5rem;
-      font-weight: 700;
+      @include header1;
       color: #19202d;
       margin-bottom: 1rem;
-      line-height: 1.2;
       text-align: left;
 
       .highlight {
@@ -21,124 +21,125 @@
     }
 
     .subtext {
+      @include header3;
       text-align: left;
-      color: #6b7280;
+      color: #515662;
       margin: 0 0 2rem;
-      font-size: 1.125rem;
-      line-height: 1.6;
+
       max-width: 600px;
 
       margin-right: auto;
     }
-
-    .search-form {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0;
-      background-color: #f8fafc;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-
-      .search-fields {
-        display: flex;
-        flex: 1;
-        gap: 1rem;
-        max-width: 70rem;
-      }
-
-      .search-input {
-        flex: 1;
-
-        ::ng-deep .mat-mdc-form-field-outline {
-          background-color: white;
-          border-radius: 0;
-        }
-
-        ::ng-deep .mat-mdc-form-field-outline-start {
-          border-radius: 0;
-        }
-
-        ::ng-deep .mat-mdc-form-field-outline-end {
-          border-radius: 0;
-        }
-
-        ::ng-deep .mat-mdc-form-field-outline-thick {
-          border-width: 1px;
-          border-color: #e5e7eb;
-        }
-
-        ::ng-deep .mat-mdc-form-field-outline-thin {
-          border-width: 1px;
-          border-color: #e5e7eb;
-        }
-
-        ::ng-deep .mat-mdc-text-field-wrapper {
-          padding: 0;
-        }
-
-        ::ng-deep .mat-mdc-form-field-infix {
-          padding: 16px 12px;
-          min-height: 24px;
-        }
-
-        ::ng-deep .mat-mdc-form-field-icon-prefix {
-          color: #6b7280;
-          margin-right: 8px;
-        }
-
-        ::ng-deep input {
-          font-size: 1rem;
-
-          &::placeholder {
-            color: #9ca3af;
-          }
-        }
-      }
-
-      .position-input {
-        ::ng-deep .mat-mdc-form-field-outline-start {
-          border-radius: 6px 0 0 6px;
-        }
-      }
-
-      .location-input {
-        ::ng-deep .mat-mdc-form-field-outline-end {
-          border-radius: 0 6px 6px 0;
-        }
-      }
-
-      .search-button {
-        height: 56px;
-        padding: 0 2rem;
-        font-weight: 600;
-        background-color: #5964e0;
-        color: white;
-        border-radius: 6px;
-        margin-left: 1rem;
-        min-width: 120px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        .button-text {
-          display: inline;
-        }
-
-        mat-icon {
-          font-size: 20px;
-          width: 20px;
-          height: 20px;
-        }
-
-        &:hover {
-          background-color: #4338ca;
-        }
-      }
-    }
   }
 }
+//     .search-form {
+//       display: flex;
+//       align-items: flex-start;
+//       justify-content: center;
+//       gap: 0;
+//       background-color: #f8fafc;
+//       border-radius: 8px;
+//       padding: 1rem;
+//       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+//       .search-fields {
+//         display: flex;
+//         flex: 1;
+//         gap: 1rem;
+//         max-width: 70rem;
+//       }
+
+//       .search-input {
+//         flex: 1;
+
+//         ::ng-deep .mat-mdc-form-field-outline {
+//           background-color: white;
+//           border-radius: 0;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-outline-start {
+//           border-radius: 0;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-outline-end {
+//           border-radius: 0;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-outline-thick {
+//           border-width: 1px;
+//           border-color: #e5e7eb;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-outline-thin {
+//           border-width: 1px;
+//           border-color: #e5e7eb;
+//         }
+
+//         ::ng-deep .mat-mdc-text-field-wrapper {
+//           padding: 0;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-infix {
+//           padding: 16px 12px;
+//           min-height: 24px;
+//         }
+
+//         ::ng-deep .mat-mdc-form-field-icon-prefix {
+//           color: #6b7280;
+//           margin-right: 8px;
+//         }
+
+//         ::ng-deep input {
+//           font-size: 1rem;
+
+//           &::placeholder {
+//             color: #9ca3af;
+//           }
+//         }
+//       }
+
+//       .position-input {
+//         ::ng-deep .mat-mdc-form-field-outline-start {
+//           border-radius: 6px 0 0 6px;
+//         }
+//       }
+
+//       .location-input {
+//         ::ng-deep .mat-mdc-form-field-outline-end {
+//           border-radius: 0 6px 6px 0;
+//         }
+//       }
+
+//       .search-button {
+//         height: 56px;
+//         padding: 0 2rem;
+//         font-weight: 600;
+//         background-color: #5964e0;
+//         color: white;
+//         border-radius: 6px;
+//         margin-left: 1rem;
+//         min-width: 120px;
+//         display: flex;
+//         align-items: center;
+//         gap: 8px;
+
+//         .button-text {
+//           display: inline;
+//         }
+
+//         mat-icon {
+//           font-size: 20px;
+//           width: 20px;
+//           height: 20px;
+//         }
+
+//         &:hover {
+//           background-color: #4338ca;
+//         }
+//       }
+//     }
+//   }
+// }
 
 // Tablet styles
 @media (max-width: 1024px) {

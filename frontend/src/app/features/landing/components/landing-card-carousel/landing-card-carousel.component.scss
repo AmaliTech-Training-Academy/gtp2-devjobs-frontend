@@ -1,15 +1,15 @@
+@use "../../../../styles/fonts" as *;
+
 .cta-section {
-  text-align: center;
-  padding: 4rem 1rem;
-  max-width: 1200px;
+  padding: 4rem 0;
+  max-width: 1300px;
   margin: auto;
   background-color: #f8f9fa;
 
   h2 {
-    font-size: 2.5rem;
+    @include header1;
     margin-bottom: 3rem;
-    font-weight: 600;
-    line-height: 1.3;
+    margin-left: 1.5rem;
     color: #333;
 
     // Highlight colors for specific words
@@ -36,16 +36,16 @@
   .cards-wrapper {
     display: flex;
     gap: 1.5rem;
-    justify-content: center;
+    width: 1300px;
     margin-bottom: 3rem;
     overflow: hidden;
 
     .card {
       flex-shrink: 0;
-      min-width: 300px;
-      max-width: 350px;
+      min-width: 385px;
+      max-width: 229px;
       border-radius: 24px;
-      padding: 2rem;
+      padding: 1.5rem;
       transition: all 0.3s ease;
       text-align: left;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -56,38 +56,37 @@
         color: #fff;
 
         h3 {
+          @include header2;
           color: #fff;
         }
 
         p {
+          @include regular;
           color: rgba(255, 255, 255, 0.9);
         }
       }
 
       &.card-white {
-        background-color: #ffffff;
+        background-color: #eff0fc;
         color: #333;
         border: 1px solid #e5e7eb;
 
         h3 {
-          color: #1f2937;
+          @include header2;
+          color: #3d3d3d;
         }
 
         p {
-          color: #6b7280;
+          @include regular;
+          color: #19202d;
         }
       }
 
       h3 {
-        font-size: 1.5rem;
         margin-bottom: 1rem;
-        font-weight: 600;
-        line-height: 1.4;
       }
 
       p {
-        font-size: 1rem;
-        line-height: 1.6;
         margin: 0;
       }
 
