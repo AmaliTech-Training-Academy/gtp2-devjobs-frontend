@@ -36,7 +36,7 @@ export class ProfileComponent implements OnChanges, OnInit {
   @Input() seekerProfile: SeekerProfile | null = null;
   @Input() employer: EmployerProfile | null = null;
   @Input() type: 'employer' | 'seeker' = 'seeker';
-  @Output() onSave = new EventEmitter<void>();
+  @Output() onSave = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<void>();
 
   profileForm!: FormGroup;

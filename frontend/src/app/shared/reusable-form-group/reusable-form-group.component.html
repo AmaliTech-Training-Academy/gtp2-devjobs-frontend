@@ -41,18 +41,6 @@
             </button>
 
             <ul class="selection" *ngIf="this.dropdownOpen">
-                <!-- <li (click)="selectOption(field.controlName, '1-10')">
-                    1-10
-                </li>
-                <li (click)="selectOption(field.controlName, '11-50')">
-                    1-10
-                </li>
-                <li (click)="selectOption(field.controlName, '51-200')">
-                    1-10
-                </li>
-                <li (click)="selectOption(field.controlName, '200+')">
-                    200+
-                </li> -->
                 <li *ngFor="let option of field.options; let i = index"
                     (click)="selectOption(field.controlName, option)">
 

@@ -111,6 +111,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'settings',
+    loadComponent: () =>
+      import('./shared/account-management/account-management.component').then(
+        (m) => m.AccountManagementComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '/unauthorized',
     pathMatch: 'full',
