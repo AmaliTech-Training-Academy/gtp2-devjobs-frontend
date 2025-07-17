@@ -34,13 +34,7 @@ export class LandingCardCarouselComponent implements OnInit {
     },
     {
       title: 'Stand Out With Tailored Applications',
-      description:
-        'We personalize your applications to match employer expectations.',
-    },
-    {
-      title: 'Stay Notified About New Openings',
-      description:
-        'Get alerts for new roles that match your skillset instantly.',
+      description: 'We understand that no two projects are alike.',
     },
   ];
 

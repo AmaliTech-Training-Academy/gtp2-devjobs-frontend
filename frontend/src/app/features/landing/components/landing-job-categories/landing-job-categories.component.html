@@ -3,12 +3,14 @@
 
   <div class="carousel-container" #carousel>
     <div class="card" *ngFor="let card of cards">
-      <img [src]="card.image" alt="Category image" />
+      <div class="card-image">
+        <img [src]="card.image" alt="Category image" />
+      </div>
       <div class="card-content">
         <h3>{{ card.title }}</h3>
         <p>{{ card.description }}</p>
         <div class="author">
-          <mat-icon>person</mat-icon>
+          <div class="author-avatar"></div>
           <span>Author: {{ card.author }}</span>
         </div>
       </div>
@@ -16,10 +18,18 @@
   </div>
 
   <div class="navigation">
-    <button mat-icon-button (click)="scroll(carousel, 'left')">
+    <button
+      mat-icon-button
+      (click)="scroll(carousel, 'left')"
+      class="nav-button"
+    >
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="scroll(carousel, 'right')">
+    <button
+      mat-icon-button
+      (click)="scroll(carousel, 'right')"
+      class="nav-button"
+    >
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>

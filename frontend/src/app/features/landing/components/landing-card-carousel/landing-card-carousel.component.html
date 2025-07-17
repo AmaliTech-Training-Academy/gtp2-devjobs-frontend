@@ -1,7 +1,11 @@
 <div class="cta-section">
   <h2>
-    Start strong, stay confident this is your space to grow and land your best
-    fit job
+    Start <span class="highlight-strong">strong</span>, stay
+    <span class="highlight-confident">confident</span> this is your
+    <span class="highlight-space">space</span> to
+    <span class="highlight-grow">grow</span> and
+    <span class="highlight-land">land</span> your
+    <span class="highlight-best">best fit job</span>.
   </h2>
 
   <div class="cards-wrapper">
@@ -9,8 +13,8 @@
       class="card"
       *ngFor="let card of visibleCards; let i = index"
       [ngClass]="{
-        even: getCardIndex(i) % 2 === 1,
-        odd: getCardIndex(i) % 2 === 0
+        'card-blue': getCardIndex(i) % 2 === 0,
+        'card-white': getCardIndex(i) % 2 === 1
       }"
     >
       <h3>{{ card.title }}</h3>
@@ -19,10 +23,20 @@
   </div>
 
   <div class="navigation-buttons">
-    <button mat-icon-button (click)="previous()">
+    <button
+      mat-icon-button
+      class="nav-btn"
+      (click)="previous()"
+      [disabled]="currentStartIndex === 0"
+    >
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="next()">
+    <button
+      mat-icon-button
+      class="nav-btn"
+      (click)="next()"
+      [disabled]="currentStartIndex + cardsPerView >= cards.length"
+    >
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>

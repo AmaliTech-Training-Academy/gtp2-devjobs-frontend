@@ -1,51 +1,99 @@
 .cta-section {
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: 4rem 1rem;
   max-width: 1200px;
   margin: auto;
+  background-color: #f8f9fa;
 
   h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     font-weight: 600;
+    line-height: 1.3;
+    color: #333;
+
+    // Highlight colors for specific words
+    .highlight-strong {
+      color: #6366f1;
+    }
+    .highlight-confident {
+      color: #6366f1;
+    }
+    .highlight-space {
+      color: #6366f1;
+    }
+    .highlight-grow {
+      color: #6366f1;
+    }
+    .highlight-land {
+      color: #6366f1;
+    }
+    .highlight-best {
+      color: #6366f1;
+    }
   }
 
   .cards-wrapper {
     display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 3rem;
+    overflow: hidden;
 
     .card {
       flex-shrink: 0;
-      min-width: 280px;
-      max-width: 320px;
-      border-radius: 12px;
-      padding: 1.5rem;
+      min-width: 300px;
+      max-width: 350px;
+      border-radius: 24px;
+      padding: 2rem;
       transition: all 0.3s ease;
       text-align: left;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: none;
 
-      &.even {
-        background-color: #3f51b5;
+      &.card-blue {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
         color: #fff;
+
+        h3 {
+          color: #fff;
+        }
+
+        p {
+          color: rgba(255, 255, 255, 0.9);
+        }
       }
 
-      &.odd {
+      &.card-white {
         background-color: #ffffff;
-        color: #000000;
-        border: 1px solid #e0e0e0;
+        color: #333;
+        border: 1px solid #e5e7eb;
+
+        h3 {
+          color: #1f2937;
+        }
+
+        p {
+          color: #6b7280;
+        }
       }
 
       h3 {
-        font-size: 1.2rem;
-        margin-bottom: 0.8rem;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
       }
 
       p {
-        font-size: 0.95rem;
-        line-height: 1.5;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
       }
     }
   }
@@ -55,26 +103,91 @@
     justify-content: center;
     gap: 1rem;
 
-    button {
+    .nav-btn {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background-color: #f0f0f0;
-      color: #333;
+      background-color: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #e5e7eb;
 
-      &:hover {
-        background-color: #3f51b5;
+      .mat-icon {
+        font-size: 24px;
+      }
+
+      &:hover:not([disabled]) {
+        background-color: #6366f1;
         color: #fff;
+        border-color: #6366f1;
+      }
+
+      &[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
       }
     }
   }
 
+  // Tablet breakpoint
+  @media (max-width: 1024px) {
+    padding: 3rem 1rem;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .cards-wrapper {
+      gap: 1rem;
+
+      .card {
+        min-width: 280px;
+        max-width: 320px;
+        padding: 1.5rem;
+      }
+    }
+  }
+
+  // Mobile breakpoint
   @media (max-width: 768px) {
+    padding: 2rem 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+
     .cards-wrapper {
       flex-direction: column;
       align-items: center;
+      gap: 1rem;
 
       .card {
-        max-width: 90vw;
+        max-width: 100%;
         width: 100%;
+        min-width: unset;
+        padding: 1.5rem;
+
+        h3 {
+          font-size: 1.3rem;
+          margin-bottom: 0.8rem;
+        }
+
+        p {
+          font-size: 0.95rem;
+        }
+      }
+    }
+
+    .navigation-buttons {
+      .nav-btn {
+        width: 44px;
+        height: 44px;
+
+        .mat-icon {
+          font-size: 20px;
+        }
       }
     }
   }

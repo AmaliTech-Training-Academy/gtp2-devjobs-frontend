@@ -4,22 +4,47 @@
       Find your <span class="highlight">new job</span> today
     </h1>
     <p class="subtext">
-      Thousands of jobs in the computer, engineering and technology sectors are waiting for you.
+      Thousands of jobs in the computer, engineering and technology sectors are
+      waiting for you.
     </p>
 
     <form class="search-form" (ngSubmit)="onSearch()">
-      <mat-form-field appearance="outline" class="search-input">
-        <mat-icon matPrefix>search</mat-icon>
-        <input matInput placeholder="What position are you looking for?" [(ngModel)]="keywords" name="keywords" />
-      </mat-form-field>
+      <div class="search-fields">
+        <mat-form-field
+          appearance="outline"
+          class="search-input position-input"
+        >
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            placeholder="Filter by title, companies, salary…"
+            [(ngModel)]="keywords"
+            name="keywords"
+          />
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="search-input">
-        <mat-icon matPrefix>location_on</mat-icon>
-        <input matInput placeholder="Location" [(ngModel)]="location" name="location" />
-      </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="search-input location-input"
+        >
+          <mat-icon matPrefix>location_on</mat-icon>
+          <input
+            matInput
+            placeholder="Enter location"
+            [(ngModel)]="location"
+            name="location"
+          />
+        </mat-form-field>
+      </div>
 
-      <button mat-flat-button color="primary" class="search-button" type="submit">
-        Search
+      <button
+        mat-flat-button
+        color="primary"
+        class="search-button"
+        type="submit"
+      >
+        <mat-icon>search</mat-icon>
+        <span class="button-text">Search</span>
       </button>
     </form>
   </div>

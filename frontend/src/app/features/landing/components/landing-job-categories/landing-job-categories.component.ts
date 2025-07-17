@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-landing-job-categories',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './landing-job-categories.component.html',
   styleUrls: ['./landing-job-categories.component.scss'],
 })
-export class LandingJobCategoriesComponent {
+export class LandingJobCategoriesComponent implements OnInit {
+  @ViewChild('carousel', { static: false }) carousel!: ElementRef;
+
   currentIndex = 0;
+  isDesktop = true;
 
   cards = [
     {
@@ -50,10 +54,31 @@ export class LandingJobCategoriesComponent {
     },
   ];
 
+  ngOnInit() {
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkScreenSize());
+  }
+
+  checkScreenSize() {
+    this.isDesktop = window.innerWidth > 768;
+  }
+
   scroll(container: HTMLElement, direction: 'left' | 'right') {
-    const scrollAmount = 340;
-    direction === 'left'
-      ? (container.scrollLeft -= scrollAmount)
-      : (container.scrollLeft += scrollAmount);
+    if (this.isDesktop) {
+      const scrollAmount = 370; // Card width + gap
+      direction === 'left'
+        ? (container.scrollLeft -= scrollAmount)
+        : (container.scrollLeft += scrollAmount);
+    } else {
+      // For mobile, scroll by full container width
+      const scrollAmount = container.scrollWidth / this.cards.length;
+      direction === 'left'
+        ? (container.scrollLeft -= scrollAmount)
+        : (container.scrollLeft += scrollAmount);
+    }
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', () => this.checkScreenSize());
   }
 }

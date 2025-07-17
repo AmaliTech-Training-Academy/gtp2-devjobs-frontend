@@ -5,6 +5,7 @@ import { LandingSearchComponent } from '../components/landing-search/landing-sea
 import { LandingWhatWeDoComponent } from '../components/landing-what-we-do/landing-what-we-do.component';
 import { LandingCardCarouselComponent } from '../components/landing-card-carousel/landing-card-carousel.component';
 import { LandingJobCategoriesComponent } from '../components/landing-job-categories/landing-job-categories.component';
+import { FooterComponent } from '../components/footer/footer.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -16,6 +17,7 @@ import { LandingJobCategoriesComponent } from '../components/landing-job-categor
     LandingWhatWeDoComponent,
     LandingCardCarouselComponent,
     LandingJobCategoriesComponent,
+    FooterComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
