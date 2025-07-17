@@ -70,6 +70,23 @@ export const routes: Routes = [
             './features/employer-settings/employer-settings.component'
           ).then((m) => m.EmployerSettingsComponent),
         title: 'Employer Settings',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./shared/profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+            data: { type: 'employer' },
+          },
+          {
+            path: 'account-management',
+            loadComponent: () =>
+              import(
+                './shared/account-management/account-management.component'
+              ).then((m) => m.AccountManagementComponent),
+          },
+        ],
       },
     ],
   },

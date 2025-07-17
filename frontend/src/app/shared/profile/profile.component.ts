@@ -38,6 +38,7 @@ export class ProfileComponent implements OnChanges, OnInit {
   @Input() type: 'employer' | 'seeker' = 'seeker';
   @Output() onSave = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<void>();
+  @Output() onSkills = new EventEmitter<void>();
 
   profileForm!: FormGroup;
   uploadedImage: string | ArrayBuffer | null = null;
@@ -239,7 +240,6 @@ export class ProfileComponent implements OnChanges, OnInit {
   onSubmit() {
     if (this.profileForm.valid) {
       this.onSave.emit(this.profileForm.getRawValue());
-      console.log('values emitted');
     }
   }
 

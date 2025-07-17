@@ -1,61 +1,66 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<div class="wrapper">
 
-    <div class="nav-btn">
-        <button class="active">
-            Profile Management
-        </button>
-        <button>
-            Skill & Account Management
-        </button>
-    </div>
 
-    <div class="upload-section">
-        <div class="img-section">
-            <label class="upload-avatar">
-                <input type="file" accept="image/*" (change)="onImageUpload($event)" />
-                <ng-container *ngIf="uploadedImage; else placeholder">
-                    <img [src]="uploadedImage" alt="Profile Image" />
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+        <div class="nav-btn">
+            <button class="active">
+                Profile Management
+            </button>
+            <button (click)="onSkills.emit()">
+                Skill & Account Management
+            </button>
+        </div>
+
+        <div class="upload-section">
+            <div class="img-section">
+                <label class="upload-avatar">
+                    <input type="file" accept="image/*" (change)="onImageUpload($event)" />
+                    <ng-container *ngIf="uploadedImage; else placeholder">
+                        <img [src]="uploadedImage" alt="Profile Image" />
+                    </ng-container>
+                    <ng-template #placeholder>
+
+                        <div class="placeholder">
+                            <svg width="21" height="19" viewBox="0 0 21 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.6196 2.5L14.4496 4.5H18.4996V16.5H2.49963V4.5H6.54963L8.37963 2.5H12.6196ZM13.4996 0.5H7.49963L5.66963 2.5H2.49963C1.39963 2.5 0.499634 3.4 0.499634 4.5V16.5C0.499634 17.6 1.39963 18.5 2.49963 18.5H18.4996C19.5996 18.5 20.4996 17.6 20.4996 16.5V4.5C20.4996 3.4 19.5996 2.5 18.4996 2.5H15.3296L13.4996 0.5ZM10.4996 7.5C12.1496 7.5 13.4996 8.85 13.4996 10.5C13.4996 12.15 12.1496 13.5 10.4996 13.5C8.84963 13.5 7.49963 12.15 7.49963 10.5C7.49963 8.85 8.84963 7.5 10.4996 7.5ZM10.4996 5.5C7.73963 5.5 5.49963 7.74 5.49963 10.5C5.49963 13.26 7.73963 15.5 10.4996 15.5C13.2596 15.5 15.4996 13.26 15.4996 10.5C15.4996 7.74 13.2596 5.5 10.4996 5.5Z"
+                                    fill="#586071" />
+                            </svg>
+                            <div>Upload</div>
+                        </div>
+                    </ng-template>
+                </label>
+            </div>
+
+            <div class="instruction">
+
+                <h2>Upload profile picture here</h2>
+                <p class="hint">
+                    For best results, upload a square-shaped image (200×200 pixels or larger) in PNG or JPEG format
+                    with a maximum file size of 2MB to represent your profile.
+                </p>
+            </div>
+
+
+        </div>
+
+        <div class="profile-grid">
+            <div class="column" *ngFor="let group of fieldGroups">
+                <ng-container *ngFor="let field of group">
+                    <app-reusable-form-group [group]="profileForm" [fields]="[field]"></app-reusable-form-group>
                 </ng-container>
-                <ng-template #placeholder>
-
-                    <div class="placeholder">
-                        <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12.6196 2.5L14.4496 4.5H18.4996V16.5H2.49963V4.5H6.54963L8.37963 2.5H12.6196ZM13.4996 0.5H7.49963L5.66963 2.5H2.49963C1.39963 2.5 0.499634 3.4 0.499634 4.5V16.5C0.499634 17.6 1.39963 18.5 2.49963 18.5H18.4996C19.5996 18.5 20.4996 17.6 20.4996 16.5V4.5C20.4996 3.4 19.5996 2.5 18.4996 2.5H15.3296L13.4996 0.5ZM10.4996 7.5C12.1496 7.5 13.4996 8.85 13.4996 10.5C13.4996 12.15 12.1496 13.5 10.4996 13.5C8.84963 13.5 7.49963 12.15 7.49963 10.5C7.49963 8.85 8.84963 7.5 10.4996 7.5ZM10.4996 5.5C7.73963 5.5 5.49963 7.74 5.49963 10.5C5.49963 13.26 7.73963 15.5 10.4996 15.5C13.2596 15.5 15.4996 13.26 15.4996 10.5C15.4996 7.74 13.2596 5.5 10.4996 5.5Z"
-                                fill="#586071" />
-                        </svg>
-                        <div>Upload</div>
-                    </div>
-                </ng-template>
-            </label>
+            </div>
         </div>
 
-        <div class="instruction">
-
-            <h2>Upload profile picture here</h2>
-            <p class="hint">
-                For best results, upload a square-shaped image (200×200 pixels or larger) in PNG or JPEG format
-                with a maximum file size of 2MB to represent your profile.
-            </p>
+        <div class="button-row">
+            <button class="cancel" (click)="cancelForm()">Cancel</button>
+            <button class="save" (click)="onSubmit()">Save</button>
         </div>
 
 
-    </div>
-
-    <div class="profile-grid">
-        <div class="column" *ngFor="let group of fieldGroups">
-            <ng-container *ngFor="let field of group">
-                <app-reusable-form-group [group]="profileForm" [fields]="[field]"></app-reusable-form-group>
-            </ng-container>
-        </div>
-    </div>
-
-    <div class="button-row">
-        <button class="cancel" (click)="cancelForm()">Cancel</button>
-        <button class="save" (click)="onSubmit()">Save</button>
-    </div>
 
 
-
-
-</form>
+    </form>
+</div>

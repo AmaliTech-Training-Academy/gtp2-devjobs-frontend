@@ -1,6 +1,9 @@
 @use "../../styles/variables";
 @use "../../styles/mixins";
 
+.wrapper {
+  width: 100%;
+}
 form {
   width: 100%;
   padding: 40px;
