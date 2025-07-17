@@ -1,13 +1,12 @@
-
+@use "../../styles/fonts" as *;
 
 .search-bar {
   width: 100%;
   box-sizing: border-box;
-  padding: 1rem;
+
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0 0 0 1px #e0e0e0;
-
+  border: none;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -16,8 +15,6 @@
     flex-direction: column;
     background: transparent;
     box-shadow: none;
-
-    
   }
 
   .search-field {
@@ -33,6 +30,7 @@
     height: 48px;
 
     .p-inputtext {
+      @include regular;
       border: none;
       box-shadow: none;
       width: 100%;
@@ -41,6 +39,7 @@
       background: transparent;
       height: 48px;
       line-height: 48px;
+      color: #515662;
     }
 
     .pi {
@@ -51,7 +50,7 @@
 
   .search-btn {
     height: 48px;
-    min-width: 120px;
+    min-width: 224px;
     font-weight: 600;
     font-size: 1rem;
     border-radius: 5px;
@@ -67,14 +66,14 @@
 
     @media (max-width: 480px) {
       width: 100%;
-      
     }
 
     .pi {
       font-size: 1.2rem;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: #4f46e5;
     }
   }

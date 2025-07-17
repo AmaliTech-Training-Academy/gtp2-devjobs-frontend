@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../shared/utils/toast/toast.service';
 
 export interface AuthResponse {
   success: boolean;
@@ -17,6 +19,8 @@ export class Auth {
   private readonly accessTokenKey = 'access_token';
   private readonly refreshTokenKey = 'refresh_token';
   private readonly userKey = 'user';
+
+  constructor(private router: Router, private toast: ToastService) {}
 
   // Simulated login
   login(email: string, password: string): Observable<AuthResponse> {
@@ -119,6 +123,9 @@ export class Auth {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
     localStorage.removeItem(this.userKey);
+
+    this.toast.success('You have been logged out successfully.');
+    this.router.navigate(['/login']);
   }
 
   getAccessToken(): string | null {

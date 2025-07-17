@@ -3,10 +3,9 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-employer-navbar',
-  imports: [ RouterModule ],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './employer-navbar.component.html',
-  styleUrl: './employer-navbar.component.scss'
+  styleUrl: './employer-navbar.component.scss',
 })
-export class EmployerNavbarComponent {
-
-}
+export class EmployerNavbarComponent {}
