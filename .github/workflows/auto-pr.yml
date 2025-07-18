@@ -22,7 +22,7 @@ jobs:
       - name: Checkout develop branch
         uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: development
 
       - name: Create branch from develop
         run: |
