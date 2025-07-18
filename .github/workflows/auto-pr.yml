@@ -46,9 +46,56 @@ jobs:
         uses: abinoda/slack-action@master
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        # .github/workflows/auto-pr.yml
+name: Auto PR from develop to testing on PR merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  id-token: write
+  contents: read
+
+jobs:
+  create-pr:
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v6
         with:
-          args: >-
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-              "text": ":white_check_mark: *Backend Dev CI:* PR from development to testing has been created successfully.\n🔗 <${{ steps.create_pr.outputs.pull-request-url }}|View Pull Request> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
-            }
+          source: develop
+          target: testing
+          title: "Auto PR: Merge develop into testing"
+          body: |
+            This PR was automatically created by a GitHub Action after a PR was merged into develop.
+
+            ## Original PR Details
+            **Title:** ${{ github.event.pull_request.title }}
+            **PR #:** ${{ github.event.pull_request.number }}
+            **Author:** ${{ github.event.pull_request.user.login }}
+
+            ### Original PR Description
+            ${{ github.event.pull_request.body }}
+          delete-branch: false
+
+      - name: Notify Slack if PR is created
+        if: steps.create_pr.outputs.pull-request-number
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* PR from develop to testing has been created successfully.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
+
