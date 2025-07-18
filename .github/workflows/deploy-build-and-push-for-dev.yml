@@ -47,6 +47,10 @@ jobs:
           echo "  apiUrl: '$NG_APP_BASE_URL'" >> src/environments/environment.prod.ts
           echo "};" >> src/environments/environment.prod.ts
           
+          # Test API URL
+          echo "Testing API URL: $NG_APP_BASE_URL"
+          curl -I "$NG_APP_BASE_URL/api/v1/jobs" || echo "API endpoint not reachable"
+          
           npm ci
           npm run build -- --configuration production
 
