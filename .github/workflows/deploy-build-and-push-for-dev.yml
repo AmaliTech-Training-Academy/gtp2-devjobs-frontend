@@ -21,14 +21,14 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-        
-
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Environment files are now part of the repository
+      
       - name: Install dependencies and build Angular app
         working-directory: frontend
         env:
