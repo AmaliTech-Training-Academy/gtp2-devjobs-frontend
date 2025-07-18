@@ -15,11 +15,11 @@ RUN npm ci
 # Copy the rest of the source code
 COPY frontend/ .
 
-# Overwrite environment.prod.ts with secret
-RUN echo "export const environment = {" > src/environments/environment.prod.ts \
-  && echo "  production: true," >> src/environments/environment.prod.ts \
-  && echo "  apiUrl: '${NG_APP_BASE_URL}'" >> src/environments/environment.prod.ts \
-  && echo "};" >> src/environments/environment.prod.ts
+# Update API URL in environment files if NG_APP_BASE_URL is provided
+RUN if [ -n "$NG_APP_BASE_URL" ]; then \
+      sed -i "s|apiUrl: .*|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.ts && \
+      sed -i "s|apiUrl: .*|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.prod.ts; \
+    fi
 
 # Build the Angular app for production
 RUN npm run build -- --configuration production

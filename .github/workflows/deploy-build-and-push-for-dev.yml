@@ -32,25 +32,15 @@ jobs:
         env:
           NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
-          # Create environment files with the API URL
-          mkdir -p src/environments
-          
-          # Create environment.ts (default)
-          echo "export const environment = {" > src/environments/environment.ts
-          echo "  production: false," >> src/environments/environment.ts
-          echo "  apiUrl: '$NG_APP_BASE_URL'" >> src/environments/environment.ts
-          echo "};" >> src/environments/environment.ts
-          
-          # Create environment.prod.ts
-          echo "export const environment = {" > src/environments/environment.prod.ts
-          echo "  production: true," >> src/environments/environment.prod.ts
-          echo "  apiUrl: '$NG_APP_BASE_URL'" >> src/environments/environment.prod.ts
-          echo "};" >> src/environments/environment.prod.ts
-          
+          # Replace placeholder in Angular environment files
+          sed -i "s|\$NG_APP_BASE_URL|${{ secrets.NG_APP_BASE_URL }}|g" src/environments/environment.ts
+          sed -i "s|\$NG_APP_BASE_URL|${{ secrets.NG_APP_BASE_URL }}|g" src/environments/environment.prod.ts
+
+
           # Test API URL
           echo "Testing API URL: $NG_APP_BASE_URL"
           curl -I "$NG_APP_BASE_URL/api/v1/jobs" || echo "API endpoint not reachable"
-          
+
           npm ci
           npm run build -- --configuration production
 
