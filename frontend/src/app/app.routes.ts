@@ -10,7 +10,7 @@ import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
-    path: 'landing',
+    path: '',
     loadComponent: () =>
       import('./features/landing/landing-page/landing-page.component').then(
         (m) => m.LandingPageComponent
@@ -93,14 +93,14 @@ export const routes: Routes = [
   {
     path: 'seeker/dashboard',
     canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
+    data: { expectedRole: 'ROLE_JOB_SEEKER' },
     loadComponent: () =>
       import(
         './layouts/seeker/seeker-dashboard/seeker-dashboard.component'
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: '',
+        path: ' jobs',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
@@ -122,8 +122,7 @@ export const routes: Routes = [
             (m) => m.ApplicationFormComponent
           ),
         canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
-
+        data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
         path: 'job-details',
@@ -135,12 +134,6 @@ export const routes: Routes = [
     ],
   },
 
-  //Redirects and wildcards
-  {
-    path: '',
-    redirectTo: '/landing',
-    pathMatch: 'full',
-  },
   {
     path: 'profile',
     loadComponent: () =>
@@ -155,6 +148,9 @@ export const routes: Routes = [
         (m) => m.AccountManagementComponent
       ),
   },
+
+  //Redirects and wildcards
+
   {
     path: '**',
     redirectTo: '/unauthorized',
