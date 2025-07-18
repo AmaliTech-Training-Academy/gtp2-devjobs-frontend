@@ -19,6 +19,28 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'start-search',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/start-search/start-search.component'
+      ).then((m) => m.StartSearchComponent),
+  },
+  {
+    path: 'jobs',
+    loadComponent: () =>
+      import('./features/landing/pages/jobs-list/jobs-list.component').then(
+        (m) => m.JobsListComponent
+      ),
+  },
+  {
+    path: 'salary-estimate',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/salary-estimate/salary-estimate.component'
+      ).then((m) => m.SalaryEstimateComponent),
+  },
+
+  {
     path: 'register',
     component: RegisterComponent,
   },
@@ -101,7 +123,7 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: 'jobs-list',
+        path: 'jobs',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
