@@ -33,6 +33,7 @@ jobs:
           NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
           # Create environment.prod.ts with the API URL
+          mkdir -p src/environments
           echo "export const environment = {" > src/environments/environment.prod.ts
           echo "  production: true," >> src/environments/environment.prod.ts
           echo "  apiUrl: '$NG_APP_BASE_URL'" >> src/environments/environment.prod.ts
