@@ -10,6 +10,9 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReusableFormGroupComponent } from '../../shared/reusable-form-group/reusable-form-group.component';
+import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
+import { Auth } from '../../core/services/authservice/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-application-form',
@@ -19,11 +22,12 @@ import { ReusableFormGroupComponent } from '../../shared/reusable-form-group/reu
     ReusableFormGroupComponent,
     ReactiveFormsModule,
     CommonModule,
+    ActionModalComponent,
   ],
   templateUrl: './application-form.component.html',
   styleUrl: './application-form.component.scss',
 })
-export class ApplicationFormComponent {
+export class ApplicationFormComponent implements OnInit {
   coverLetterFile: File | null = null;
   resumeFile: File | null = null;
 
@@ -31,8 +35,14 @@ export class ApplicationFormComponent {
   form!: FormGroup;
   isHoveringResume = false;
   isHoveringCoverLetter = false;
+  showAuthModal = false;
+  private auth = inject(Auth);
+  private router = inject(Router);
 
-  constructor() {
+  ngOnInit(): void {
+    if (!this.auth.isLoggedIn()) {
+      this.showAuthModal = true;
+    }
     this.form = this.fb.group({
       resume: [null, Validators.required],
       coverLetter: [null, Validators.required],
@@ -207,5 +217,19 @@ export class ApplicationFormComponent {
     } else {
       console.log('Form invalid');
     }
+  }
+
+  handleAuthModalConfirm(action: 'login' | 'signup') {
+    this.showAuthModal = false;
+    if (action === 'login') {
+      this.router.navigate(['/login']);
+    } else if (action === 'signup') {
+      this.router.navigate(['/register']);
+    }
+  }
+
+  handleAuthModalCancel() {
+    this.showAuthModal = false;
+    this.router.navigate(['/']);
   }
 }

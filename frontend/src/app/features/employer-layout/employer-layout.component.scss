@@ -1,19 +1,15 @@
 .employer-layout {
-    height: 100vh;
+  height: 100vh;
 
-    .main-content {
-        display: flex;
-        height: 100%;
-        width: 100%;
-        // background-color: red;
-        // margin-left: 10%;
-    }
+  .main-content {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    // background-color: red;
+    // margin-left: 10%;
+  }
 
-
-    .dashboard-component {
-        margin: 1.9rem 4.6rem;
-        // background-color: green;
-        width: 100%;
-        flex: 1;
-    }
+  main {
+    width: 100%;
+  }
 }

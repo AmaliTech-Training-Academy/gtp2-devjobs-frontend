@@ -1,33 +1,35 @@
-@use '../../styles/_mixins' as *;
-@use '../../styles/_fonts' as *;
-@use '../../styles/_variables' as *;
+@use "../../styles/_mixins" as *;
+@use "../../styles/_fonts" as *;
+@use "../../styles/_variables" as *;
 
+.dashboard-component {
+  margin: auto;
+  padding: 40px;
+  // background-color: green;
+  width: 100%;
+  flex: 1;
+}
 
 .employer-jobs {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3.875rem;
 
-    .header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 3.875rem;
-
-
-        h3 {
-            @include header3;
-            align-self: center;
-        }
-
-        button {
-            @include button($white, $primary-color, 150px, 14px );
-            display: flex;
-            justify-content: center;
-            text-align: center;
-
-        }
-
-        p {
-            @include header4;
-        }
-
+    h3 {
+      @include header3;
+      align-self: center;
     }
 
+    button {
+      @include button($white, $primary-color, 150px, 14px);
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    p {
+      @include header4;
+    }
+  }
 }

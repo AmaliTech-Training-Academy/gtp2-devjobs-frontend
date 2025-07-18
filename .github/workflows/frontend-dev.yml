@@ -1,0 +1,47 @@
+name: Frontend Dev CI/CD
+
+on:
+  push:
+    branches:
+      - testing
+      - development
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    name: Run Tests and Notify
+    uses: ./.github/workflows/deploy-test-and-notify-for-dev.yml
+    secrets:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+
+  build:
+    name: Build & Push Docker Image
+    needs: test
+    uses: ./.github/workflows/deploy-build-and-push-for-dev.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ECR_REPO: ${{ secrets.ECR_REPO }}
+      EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+
+  deploy:
+    name: Deploy to ECS (Dev)
+    needs: build
+    uses: ./.github/workflows/deploy-ecs-for-dev.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+      ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
+      ECR_REPO: ${{ secrets.ECR_REPO }}
+      EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+      TASK_CPU: ${{ secrets.TASK_CPU }}
+      TASK_MEMORY: ${{ secrets.TASK_MEMORY }}
+      CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+      CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
+      TASK_FAMILY: ${{ secrets.TASK_FAMILY }}
+      TASK_LOG_GROUP: ${{ secrets.TASK_LOG_GROUP }}

@@ -1,0 +1,52 @@
+name: Test and Notify
+
+on:
+  workflow_call:
+    secrets:
+      SLACK_BOT_TOKEN:
+        required: true
+      SLACK_CHANNEL_ID:
+        required: true
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser
+          echo "CHROME_BIN=/usr/bin/chromium-browser" >> $GITHUB_ENV
+
+      - name: Install Node.js dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run Angular Tests in Headless Chrome
+        id: test
+        working-directory: frontend
+        run: |
+          npm run test -- --watch=false --browsers=ChromeHeadless
+        continue-on-error: true
+
+      - name: Notify Slack if tests fail
+        if: steps.test.outcome == 'failure'
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: >-
+            {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+              "text": ":x: *Frontend Dev CI:* Tests failed.
+              🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+            }

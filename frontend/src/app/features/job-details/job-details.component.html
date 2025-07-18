@@ -37,7 +37,7 @@
                 <div class="row2">
                     <h1>Senior Software Engineer</h1>
 
-                    <button class="apply-btn" (click)="goToApplicationForm()">Apply now</button>
+                    <button class="apply-btn" (click)="onApply()">Apply now</button>
                 </div>
 
                 <div class="row3">
@@ -69,3 +69,15 @@
     </div>
 
 </div>
+
+<app-action-modal
+  *ngIf="showAuthModal"
+  title="You need to create an account before applying for this job"
+  message="Please log in or sign up to continue."
+  [confirmText]="'Log in'"
+  [cancelText]="'Sign up'"
+  type="info"
+  [showClose]="false"
+  (onConfirm)="handleAuthModalConfirm('login')"
+  (onCancel)="handleAuthModalConfirm('signup')"
+></app-action-modal>

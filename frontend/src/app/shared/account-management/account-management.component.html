@@ -1,0 +1,99 @@
+<div class="wrapper">
+    <div class="nav-btn">
+        <button>
+            Profile Management
+        </button>
+        <button class="active">
+            Skill & Account Management
+        </button>
+    </div>
+
+    <div class="reset">
+
+        <form [formGroup]="passwordForm">
+            <div class="form-field">
+                <label>Enter your old password</label>
+                <input type="text" formControlName="old" placeholder="Enter old password" />
+            </div>
+            <div class="form-field">
+                <label>Enter your new password</label>
+                <input type="text" formControlName="new" placeholder="Enter your new password" />
+            </div>
+            <div class="form-field">
+                <label>Confirm your new password</label>
+                <input type="text" formControlName="confirm" placeholder="Confirm your new password" />
+            </div>
+
+            <div class="button-row">
+                <button class="cancel" (click)="cancelForm()">Cancel</button>
+                <button class="save" (click)="onSubmit()">Save</button>
+            </div>
+        </form>
+
+        <div class="instruction">
+            <svg width="14" height="21" viewBox="0 0 14 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M4 19.5C4 20.05 4.45 20.5 5 20.5H9C9.55 20.5 10 20.05 10 19.5V18.5H4V19.5ZM7 0.5C3.14 0.5 0 3.64 0 7.5C0 9.88 1.19 11.97 3 13.24V15.5C3 16.05 3.45 16.5 4 16.5H10C10.55 16.5 11 16.05 11 15.5V13.24C12.81 11.97 14 9.88 14 7.5C14 3.64 10.86 0.5 7 0.5ZM9.85 11.6L9 12.2V14.5H5V12.2L4.15 11.6C2.8 10.66 2 9.13 2 7.5C2 4.74 4.24 2.5 7 2.5C9.76 2.5 12 4.74 12 7.5C12 9.13 11.2 10.66 9.85 11.6Z"
+                    fill="#5964E0" />
+            </svg>
+
+            <p>Your password must have</p>
+            <ul>
+                <li>Use at least 8 characters</li>
+                <li>Use upper and lower case characters</li>
+                <li>Use 1 or more numbers</li>
+                <li>Use special characters</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="skill">
+        <div class="row1">
+            <h3>Skill Management </h3>
+            @if(type === "seeker"){
+
+            <p>Specify required skills ton enhance visibility for employers</p>
+            }
+            @else {
+            <p>Specify required skills for job postings</p>
+            }
+        </div>
+
+        <div class="row2">
+            <form [formGroup]="skillForm">
+                <label for="skillInput">Type skill here</label>
+                <div class="input-skill">
+
+                    <input id="skillInput" type="text" formControlName="skillInput" placeholder="Type your skill"
+                        (keydown)="onEnterKey($event)" placeholder="Type your skill" />
+
+                    <button type="button" (click)="addSkill()"><svg width="20" height="20" viewBox="0 0 20 20"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11 5H9V9H5V11H9V15H11V11H15V9H11V5ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z"
+                                fill="white" />
+                        </svg>
+                        Add skill</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row3">
+
+            <div class="skill-chip" *ngFor="let skill of skills.controls; let i = index">
+
+                <span>{{ skill.value }}</span>
+
+                <button (click)="removeSkill(i)" style="cursor: pointer;"><svg width="8" height="8" viewBox="0 0 8 8"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1L1 7M1 1L7 7" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
