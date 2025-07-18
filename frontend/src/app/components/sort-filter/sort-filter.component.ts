@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { SalaryRangeDropdownComponent } from '../../shared/components/salary-range-dropdown/salary-range-dropdown.component';
 
 @Component({
   selector: 'app-sort-filter',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SelectModule],
+  imports: [CommonModule, ReactiveFormsModule, SelectModule, SalaryRangeDropdownComponent],
   templateUrl: './sort-filter.component.html',
   styleUrls: ['./sort-filter.component.scss']
 })
@@ -32,4 +33,11 @@ export class SortFilterComponent {
     { label: 'This Week', value: 'week' },
     { label: 'This Month', value: 'month' }
   ];
+
+  salaryRange: [number, number] = [30000, 800000];
+
+  onSalaryRangeChange(newRange: [number, number]) {
+    this.salaryRange = newRange;
+    // Optionally, trigger filtering logic here
+  }
 }
