@@ -19,6 +19,28 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'start-search',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/start-search/start-search.component'
+      ).then((m) => m.StartSearchComponent),
+  },
+  {
+    path: 'jobs',
+    loadComponent: () =>
+      import('./features/landing/pages/jobs-list/jobs-list.component').then(
+        (m) => m.JobsListComponent
+      ),
+  },
+  {
+    path: 'salary-estimate',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/salary-estimate/salary-estimate.component'
+      ).then((m) => m.SalaryEstimateComponent),
+  },
+
+  {
     path: 'register',
     component: RegisterComponent,
   },
@@ -71,19 +93,19 @@ export const routes: Routes = [
         title: 'Employer Settings',
         children: [
           {
-            path: 'profile',
+            path: '',
             loadComponent: () =>
-              import('./shared/profile/profile.component').then(
-                (m) => m.ProfileComponent
-              ),
+              import(
+                './features/employer-profile/employer-profile.component'
+              ).then((m) => m.EmployerProfileComponent),
             data: { type: 'employer' },
           },
           {
             path: 'account-management',
             loadComponent: () =>
               import(
-                './shared/account-management/account-management.component'
-              ).then((m) => m.AccountManagementComponent),
+                './features/employer-account-management/employer-account-management.component'
+              ).then((m) => m.EmployerAccountManagementComponent),
           },
         ],
       },
@@ -101,7 +123,7 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: 'jobs-list',
+        path: 'jobs',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
@@ -131,6 +153,20 @@ export const routes: Routes = [
           import('./features/job-details/job-details.component').then(
             (m) => m.JobDetailsComponent
           ),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/seeker-profile/seeker-profile.component').then(
+            (m) => m.SeekerProfileComponent
+          ),
+      },
+      {
+        path: 'account-management',
+        loadComponent: () =>
+          import(
+            './features/seeker-account-management/seeker-account-management.component'
+          ).then((m) => m.SeekerAccountManagementComponent),
       },
     ],
   },

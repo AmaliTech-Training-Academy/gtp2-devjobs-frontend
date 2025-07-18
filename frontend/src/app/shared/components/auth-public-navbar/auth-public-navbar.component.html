@@ -6,9 +6,9 @@
   <!-- Desktop Navigation -->
   <ul class="nav-center">
     <li><a routerLink="/">Home</a></li>
-    <li><a routerLink="/search">Start a Search</a></li>
+    <li><a routerLink="/start-search">Start a Search</a></li>
     <li><a routerLink="/jobs">Jobs List</a></li>
-    <li><a routerLink="/salary">Salary Estimate</a></li>
+    <li><a routerLink="/salary-estimate">Salary Estimate</a></li>
     <li>
       <a
         routerLink="/employer"
@@ -60,11 +60,15 @@
     <ul class="mobile-nav-links">
       <li><a routerLink="/" (click)="closeMobileMenu()">Home</a></li>
       <li>
-        <a routerLink="/search" (click)="closeMobileMenu()">Start a Search</a>
+        <a routerLink="/start-search" (click)="closeMobileMenu()"
+          >Start a Search</a
+        >
       </li>
       <li><a routerLink="/jobs" (click)="closeMobileMenu()">Jobs List</a></li>
       <li>
-        <a routerLink="/salary" (click)="closeMobileMenu()">Salary Estimate</a>
+        <a routerLink="/salary-estimate" (click)="closeMobileMenu()"
+          >Salary Estimate</a
+        >
       </li>
       <li>
         <a
