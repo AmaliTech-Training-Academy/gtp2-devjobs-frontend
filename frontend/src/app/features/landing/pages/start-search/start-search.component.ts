@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
-import { FooterComponent } from '../../../components/footer/footer.component';
+import { AuthPublicNavbarComponent } from '../../../../shared/components/auth-public-navbar/auth-public-navbar.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-   AuthPublicNavbarComponent,
+    AuthPublicNavbarComponent,
     FooterComponent,
   ],
   templateUrl: './start-search.component.html',
