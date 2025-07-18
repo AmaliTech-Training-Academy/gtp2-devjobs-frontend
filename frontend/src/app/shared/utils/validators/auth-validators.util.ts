@@ -52,10 +52,10 @@ export class AuthValidators {
 
   static containsSuspiciousPatterns(text: string): boolean {
     const suspiciousPatterns = [
-      /[0-9]{4,}/, // 4+ numbers
-      /[!@#$%^&*(),.?":{}|<>]/, // special characters
-      /(.)\1{3,}/, // 4+ repeated characters
-      /^[a-zA-Z]$/, // single character
+      /[0-9]{4,}/, 
+      /[!@#$%^&*(),.?":{}|<>]/, 
+      /(.)\1{3,}/, 
+      /^[a-zA-Z]$/, 
     ];
     return suspiciousPatterns.some((pattern) => pattern.test(text));
   }
