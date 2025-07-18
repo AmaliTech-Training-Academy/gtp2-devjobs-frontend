@@ -3,6 +3,9 @@ FROM node:18.20.2-alpine AS builder
 
 WORKDIR /app
 
+# Accept build argument
+ARG NG_APP_BASE_URL
+
 # Copy package files first for better caching
 COPY frontend/package*.json ./
 
@@ -12,8 +15,15 @@ RUN npm ci
 # Copy the rest of the source code
 COPY frontend/ .
 
+# Overwrite environment.prod.ts with secret
+RUN echo "export const environment = {" > src/environments/environment.prod.ts \
+  && echo "  production: true," >> src/environments/environment.prod.ts \
+  && echo "  apiUrl: '${NG_APP_BASE_URL}'" >> src/environments/environment.prod.ts \
+  && echo "};" >> src/environments/environment.prod.ts
+
 # Build the Angular app for production
-RUN npm run build
+RUN npm run build -- --configuration production
+
 
 # Stage 2: Serve using Nginx
 FROM nginx:1.25-alpine
