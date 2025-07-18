@@ -140,7 +140,6 @@ export const routes: Routes = [
     path: 'unauthorized',
     component: UnathorizedComponent,
   },
-
   // Catch-all Wildcard
   {
     path: '**',
