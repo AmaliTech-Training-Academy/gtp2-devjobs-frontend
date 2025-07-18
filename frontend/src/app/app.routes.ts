@@ -7,11 +7,7 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
-<<<<<<< HEAD
 import { DataTableComponent } from './shared/data-table/data-table.component';
-=======
-import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
->>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 
 export const routes: Routes = [
   // Public Routes
@@ -142,20 +138,15 @@ export const routes: Routes = [
     path: 'tables',
     component: DataTableComponent,
     title: 'data-table'
-
-<<<<<<< HEAD
   },
-  //Redirects and wildcards
-=======
   // Unauthorized Route
->>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
   {
     path: 'unauthorized',
     component: UnathorizedComponent,
   },
   // Catch-all Wildcard
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  // },
 ];

@@ -21,44 +21,8 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
   styleUrl: './data-table.component.scss'
 })
 export class DataTableComponent implements OnInit {
-<<<<<<< HEAD
   @Input() columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
   @Input() jobsArray: any = []
-=======
-
-  @Input() jobsArray: any = [
-      {
-        "Job Title": "Frontend Developer",
-        "Applicants": 24,
-        "Job Type": "Full-Time",
-        "Action": "View"
-      },
-      {
-        "Job Title": "Backend Engineer",
-        "Applicants": 18,
-        "Job Type": "Contract",
-        "Action": "View"
-      },
-      {
-        "Job Title": "UI/UX Designer",
-        "Applicants": 12,
-        "Job Type": "Part-Time",
-        "Action": "View"
-      },
-      {
-        "Job Title": "DevOps Specialist",
-        "Applicants": 30,
-        "Job Type": "Full-Time",
-        "Action": "View"
-      },
-      {
-        "Job Title": "Data Analyst",
-        "Applicants": 15,
-        "Job Type": "Internship",
-        "Action": "View"
-      }
-    ];
->>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
     
   // @Input() properties: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
   @Input() onOpenModal: any

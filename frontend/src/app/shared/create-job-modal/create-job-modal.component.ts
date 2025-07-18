@@ -81,19 +81,10 @@ export class CreateJobModalComponent {
   }
 
 
-// const jobDetails = this.getAdditionalJobData().value;
-
-// jobDetails.forEach((group: any, index: number) => {
-//   console.log(`Job #${index + 1} - Title:`, group.title);
-//   console.log(`Job #${index + 1} - Description:`, group.description);
-// });
-
-
   extractAdditionalJobData() {
     return this.secondJobForm.get('additionalJobDetails') as FormArray
   }
 
-  
 
 
   postJob() {
@@ -107,13 +98,6 @@ export class CreateJobModalComponent {
 
       const formArray = this.extractAdditionalJobData()
 
-      const secondGroup = formArray.at(0) as FormGroup
-
-      const title = secondGroup.get('title')?.value
-
-      const description = secondGroup.get('description')?.value
-
-
       const combinedJobData: CreateJobPayload = {
         companyId: "68749670496346",
         title: this.firstJobForm.value.jobTitle!,
@@ -121,7 +105,7 @@ export class CreateJobModalComponent {
         salary: Number(this.firstJobForm.value.salary!),
         location: this.firstJobForm.value.location!,
         companyName: this.firstJobForm.value.companyName!,
-        description: description,
+        description: this.getAdditionalJobData.value,
         currency: 'USD',
         applicationDeadline: new Date('2025-08-19').toISOString()
 

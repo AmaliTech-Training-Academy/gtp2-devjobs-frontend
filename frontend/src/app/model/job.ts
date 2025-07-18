@@ -33,7 +33,6 @@ export interface EmployerJobsData {
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -66,8 +65,6 @@ export interface EmployerJobsData {
 
 
 
-=======
->>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 export interface EmployerJob {
   id: string;
   createdAt: string;

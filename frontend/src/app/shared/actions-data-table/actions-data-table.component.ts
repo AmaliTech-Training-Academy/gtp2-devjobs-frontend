@@ -1,4 +1,4 @@
-import { Component, Input, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, inject, Output, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
@@ -22,6 +22,8 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
 export class ActionsDataTableComponent {
   @Input() columns: any = []
   @Input() jobsArray: any = []
+
+  @Output() openDeleteModal = new EventEmitter<boolean>()
 
   filterArray: any = []
   filterTerm = new FormControl('')
@@ -80,6 +82,7 @@ export class ActionsDataTableComponent {
 
   handleDeleteClicked(jobData: any) {
     console.log(jobData)
+    this.openDeleteModal.emit( true )
   }
 
 

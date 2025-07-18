@@ -7,7 +7,6 @@
     </div>
 
 
-<<<<<<< HEAD
     <article class="table-wrapper">
         <p-table [columns]="columns" 
                  [value]="filterArray"  
@@ -21,43 +20,6 @@
                     </th>
                 </tr>
             </ng-template>
-=======
-    <div class="table-scroll-wrapper">
-
-
-    <p-table
-        [value]="filterArray"
-        [paginator]="true"
-        [rows]="6"
-        [rowsPerPageOptions]="[6, 12, 24]"
-        [responsiveLayout]="'scroll'"
-        class="custom-table"
-        styleClass="data-table"
-
-        [tableStyle]="{ 'min-width': '50rem' }"    
-        >
-        <ng-template pTemplate="header">
-            <tr>
-            @for( property of properties; track property ) {
-                <th>{{ property }}</th>
-             }
-
-
-
-            </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-job>
-
-            <tr (click)="onOpenModal()">
-            @for( property of properties; track property) {
-                <td>{{ job[property]}}</td>
-            }
-            </tr>
-        </ng-template>
-    </p-table>
-        </div>
->>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 
             <ng-template #body let-rowData let-columns="columns">
                 <tr>
