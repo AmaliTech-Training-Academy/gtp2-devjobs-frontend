@@ -1,0 +1,82 @@
+.salary-dropdown-container {
+  position: relative;
+  display: inline-block;
+  min-width: 320px;
+  font-family: inherit;
+}
+
+.panel-slider{
+  width: 100%;
+}
+
+.dropdown-label {
+  background: #fff;
+  border: 1.5px solid #bfc9db;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 2px 6px 0 rgba(44, 62, 80, 0.08);
+}
+
+.salary-label {
+  font-weight: 600;
+  color: #23293b;
+}
+
+.selected-range {
+  font-weight: 500;
+  color: #23293b;
+  margin-left: 0.5rem;
+}
+
+.dropdown-arrow {
+  margin-left: 0.75rem;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-panel {
+  position: absolute;
+  left: 0;
+  top: 110%;
+  z-index: 10;
+  background: #fff;
+  border: 1.5px solid #bfc9db;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px 0 rgba(44, 62, 80, 0.12);
+  padding: 1rem 1.25rem 1.25rem 1.25rem;
+  min-width: 300px;
+  width: 100%;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.panel-range {
+  font-weight: 500;
+  color: #23293b;
+}
+
+.panel-footer {
+  margin-top: 0.5rem;
+  color: #7a869a;
+  font-size: 0.95rem;
+}
+
+:host ::ng-deep .p-slider .p-slider-range {
+  background: #5a6ff0 !important;
+}
+:host ::ng-deep .p-slider .p-slider-handle {
+  border-color: #5a6ff0 !important;
+  background: #5a6ff0 !important;
+} 

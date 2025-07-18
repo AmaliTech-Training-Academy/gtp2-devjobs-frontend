@@ -1,0 +1,25 @@
+<div class="salary-dropdown-container" tabindex="0" (click)="toggleDropdown()">
+  <div class="dropdown-label">
+    <span class="salary-label">Salary range</span>
+    <span class="selected-range">{{ displayRange }}</span>
+    <span class="dropdown-arrow" [class.open]="dropdownOpen">▼</span>
+  </div>
+  <div class="dropdown-panel" *ngIf="dropdownOpen">
+    <div class="panel-header">
+      <span class="salary-label">Salary range</span>
+      <span class="panel-range">{{ displayRange }}</span>
+    </div>
+    <p-slider
+    class="panel-slider"
+      [(ngModel)]="value"
+      [min]="min"
+      [max]="max"
+      [step]="step"
+      [range]="true"
+      (onChange)="onSliderChange($event)"
+    ></p-slider>
+    <div class="panel-footer">
+      <span>${{ min.toLocaleString() }} – ${{ max.toLocaleString() }}</span>
+    </div>
+  </div>
+</div> 
