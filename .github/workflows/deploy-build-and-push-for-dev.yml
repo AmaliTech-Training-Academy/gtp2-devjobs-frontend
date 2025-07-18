@@ -29,7 +29,15 @@ jobs:
 
       - name: Install dependencies and build Angular app
         working-directory: frontend
+        env:
+          NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
+          # Create environment.prod.ts with the API URL
+          echo "export const environment = {" > src/environments/environment.prod.ts
+          echo "  production: true," >> src/environments/environment.prod.ts
+          echo "  apiUrl: '$NG_APP_BASE_URL'" >> src/environments/environment.prod.ts
+          echo "};" >> src/environments/environment.prod.ts
+          
           npm ci
           npm run build -- --configuration production
 
