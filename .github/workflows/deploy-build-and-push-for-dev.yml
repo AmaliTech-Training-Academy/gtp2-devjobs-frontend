@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        
+
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -32,9 +34,9 @@ jobs:
         env:
           NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
-          # Replace placeholder in Angular environment files
-          sed -i "s|\$NG_APP_BASE_URL|${{ secrets.NG_APP_BASE_URL }}|g" src/environments/environment.ts
-          sed -i "s|\$NG_APP_BASE_URL|${{ secrets.NG_APP_BASE_URL }}|g" src/environments/environment.prod.ts
+          # Update API URL in environment files
+          sed -i "s|apiUrl: .*|apiUrl: '${{ secrets.NG_APP_BASE_URL }}',|" src/environments/environment.ts
+          sed -i "s|apiUrl: .*|apiUrl: '${{ secrets.NG_APP_BASE_URL }}',|" src/environments/environment.prod.ts
 
 
           # Test API URL
