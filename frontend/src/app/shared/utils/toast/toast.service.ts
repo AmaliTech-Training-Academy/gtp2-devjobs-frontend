@@ -8,29 +8,33 @@ import { ToastComponent } from '../../components/toast/toast/toast.component';
 export class ToastService {
   constructor(private snackBar: MatSnackBar) {}
 
-  success(message: string, duration = 3000): void {
-    this.openToast(message, 'success', duration);
-  }
-
-  error(message: string, duration = 3000): void {
-    this.openToast(message, 'error', duration);
-  }
-
-  info(message: string, duration = 3000): void {
-    this.openToast(message, 'info', duration);
-  }
-
-  private openToast(
-    message: string,
-    type: 'success' | 'error' | 'info',
-    duration: number
-  ): void {
+  success(message: string, duration: number = 4000): void {
     this.snackBar.openFromComponent(ToastComponent, {
-      data: { message, type },
+      data: { message, type: 'success' },
       duration,
+      panelClass: ['toast-success'],
       horizontalPosition: 'right',
       verticalPosition: 'top',
-      panelClass: [`toast-${type}`],
+    });
+  }
+
+  error(message: string, duration: number = 6000): void {
+    this.snackBar.openFromComponent(ToastComponent, {
+      data: { message, type: 'error' },
+      duration,
+      panelClass: ['toast-error'],
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+
+  info(message: string, duration: number = 4000): void {
+    this.snackBar.openFromComponent(ToastComponent, {
+      data: { message, type: 'info' },
+      duration,
+      panelClass: ['toast-info'],
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
     });
   }
 }

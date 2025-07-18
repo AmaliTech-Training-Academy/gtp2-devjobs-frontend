@@ -36,3 +36,99 @@ body {
   color: #fff;
   font-weight: 500;
 }
+/* Add these styles to your component's SCSS file */
+
+.validation-errors {
+  margin-bottom: 1.5rem;
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+.error-container {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.error-title {
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-title::before {
+  content: "⚠️";
+  font-size: 1rem;
+}
+
+.error-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.error-item {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.4;
+}
+
+.error-item::before {
+  content: "•";
+  color: #dc2626;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.error-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Animation for error appearance */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .error-container {
+    padding: 0.75rem;
+  }
+
+  .error-title {
+    font-size: 0.8rem;
+  }
+
+  .error-item {
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  .error-container {
+    background-color: #451a1a;
+    border-color: #991b1b;
+  }
+
+  .error-title,
+  .error-item {
+    color: #fca5a5;
+  }
+}

@@ -52,16 +52,17 @@
     <div class="right-section">
       <div class="form-container">
         <div class="form-title login-title">
-           <div class="mobile-register-content" *ngIf="isMobile">
-          <div class="mobile-form-container">
-         <app-tooltip [selectedRole]="'login'"></app-tooltip>
+          <div class="mobile-register-content" *ngIf="isMobile">
+            <div class="mobile-form-container">
+              <app-tooltip [selectedRole]="'login'"></app-tooltip>
+            </div>
           </div>
-        </div>
           <h3 class="title">Login</h3>
 
           <div class="auth-form">
             <app-auth-form
               [isRegister]="false"
+              [backendErrors]="backendErrors"
               (formSubmit)="onLoginSubmit($event)"
             ></app-auth-form>
           </div>

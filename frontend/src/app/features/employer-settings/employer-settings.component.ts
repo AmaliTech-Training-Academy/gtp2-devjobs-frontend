@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-employer-settings',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './employer-settings.component.html',
-  styleUrl: './employer-settings.component.scss'
+  styleUrl: './employer-settings.component.scss',
 })
-export class EmployerSettingsComponent {
-
-}
+export class EmployerSettingsComponent {}

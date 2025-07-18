@@ -1,129 +1,102 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/utils/toast/toast.service';
-
-export interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: any;
-  timestamp: string;
-  error: boolean;
-  errors: any;
-}
+import { environment } from '../../../../environments/environment';
+import { JwtHelper } from '../../../shared/utils/jwt-helper.util';
+import {
+  AuthResponse,
+  LoginRequest,
+  SeekerRegisterRequest,
+  EmployerRegisterRequest,
+} from '../../../model/auth.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
+  private base_Url = environment.apiUrl;
   private readonly accessTokenKey = 'access_token';
   private readonly refreshTokenKey = 'refresh_token';
   private readonly userKey = 'user';
 
-  constructor(private router: Router, private toast: ToastService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toast: ToastService
+  ) {}
 
-  // Simulated login
   login(email: string, password: string): Observable<AuthResponse> {
-    if (email && password) {
-      const user = {
-        id: '18b1a568-e19e-4ff0-b3be-fa8a528d47ed',
-        username: 'technova_hr',
+    return this.http
+      .post<AuthResponse>(`${this.base_Url}/api/v1/auth/login`, {
         email,
-        isActive: true,
-        roles: ['ROLE_EMPLOYER'],
-      };
+        password,
+      })
+      .pipe(
+        tap((res) => {
+          if (res.success && res.data) {
+            this.storeTokens(res.data.token, res.data.refreshToken);
 
-      const response: AuthResponse = {
-        success: true,
-        message: 'Success',
-        data: {
-          token: 'eyJhbGciOiJIUzI1NiJ9.dummy-token-for-access-token.simulated',
-          tokenType: 'Bearer',
-          refreshToken: 'simulated-refresh-token-uuid',
-          user,
-        },
-        timestamp: new Date().toISOString(),
-        error: false,
-        errors: null,
-      };
-
-      this.storeTokens(response.data.token, response.data.refreshToken);
-      this.storeUser(user);
-
-      return of(response);
-    }
-
-    return throwError(() => ({
-      success: false,
-      message: 'Bad credentials',
-      data: null,
-      timestamp: new Date().toISOString(),
-      error: true,
-      errors: null,
-    }));
+            // Extract user info from JWT token and store it
+            const userFromToken = this.extractUserFromToken(res.data.token);
+            if (userFromToken) {
+              this.storeUser(userFromToken);
+            }
+          }
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
-  registerSeeker(data: any): Observable<AuthResponse> {
-    const user = {
-      id: 'seeker-uuid',
+  registerSeeker(data: SeekerRegisterRequest): Observable<AuthResponse> {
+    const payload = {
+      fullName: data.fullName,
       username: data.username,
       email: data.email,
-      roles: ['ROLE_SEEKER'],
+      password: data.password,
     };
-
-    const response: AuthResponse = {
-      success: true,
-      message: 'Success',
-      data: {
-        token: 'simulated-access-token-for-seeker',
-        tokenType: 'Bearer',
-        refreshToken: 'simulated-refresh-token-seeker',
-        user,
-      },
-      timestamp: new Date().toISOString(),
-      error: false,
-      errors: null,
-    };
-
-    this.storeTokens(response.data.token, response.data.refreshToken);
-    this.storeUser(user);
-
-    return of(response);
+    return this.http
+      .post<AuthResponse>(
+        `${this.base_Url}/api/v1/auth/register/seeker`,
+        payload
+      )
+      .pipe(
+        tap((res) => {
+          if (res.success && res.data?.token) {
+            this.storeTokens(res.data.token, res.data.refreshToken);
+          }
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
-  registerEmployer(data: any): Observable<AuthResponse> {
-    const user = {
-      id: 'employer-uuid',
+  registerEmployer(data: EmployerRegisterRequest): Observable<AuthResponse> {
+    const payload = {
       username: data.username,
       email: data.companyEmail,
-      roles: ['ROLE_EMPLOYER'],
+      password: data.password,
+      companyName: data.companyName,
     };
-
-    const response: AuthResponse = {
-      success: true,
-      message: 'Success',
-      data: {
-        token: 'simulated-access-token-for-employer',
-        tokenType: 'Bearer',
-        refreshToken: 'simulated-refresh-token-employer',
-        user,
-      },
-      timestamp: new Date().toISOString(),
-      error: false,
-      errors: null,
-    };
-
-    this.storeTokens(response.data.token, response.data.refreshToken);
-    this.storeUser(user);
-
-    return of(response);
+    return this.http
+      .post<AuthResponse>(
+        `${this.base_Url}/api/v1/auth/register/employer`,
+        payload
+      )
+      .pipe(
+        tap((res) => {
+          if (res.success && res.data?.token) {
+            this.storeTokens(res.data.token, res.data.refreshToken);
+          }
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   logout(): void {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
     localStorage.removeItem(this.userKey);
-
     this.toast.success('You have been logged out successfully.');
     this.router.navigate(['/login']);
   }
@@ -142,12 +115,32 @@ export class Auth {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    const token = this.getAccessToken();
+    return !!token && !JwtHelper.isTokenExpired(token);
   }
 
   hasRole(role: string): boolean {
-    const user = this.getCurrentUser();
-    return user?.roles?.includes(role);
+    const token = this.getAccessToken();
+    if (!token) return false;
+
+    const roles = JwtHelper.getRolesFromToken(token);
+    return roles.includes(role);
+  }
+
+  private extractUserFromToken(token: string): any {
+    try {
+      const decoded = JwtHelper.decodeToken(token);
+      if (!decoded) return null;
+
+      return {
+        id: decoded.sub,
+        email: decoded.email || decoded.sub,
+        roles: JwtHelper.getRolesFromToken(token),
+      };
+    } catch (error) {
+      console.error('Error extracting user from token:', error);
+      return null;
+    }
   }
 
   private storeTokens(accessToken: string, refreshToken: string): void {
@@ -157,5 +150,20 @@ export class Auth {
 
   private storeUser(user: any): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('HTTP Error:', error);
+
+    const errorResponse: AuthResponse = {
+      success: false,
+      message: error.error?.message || 'An error occurred',
+      data: null,
+      timestamp: new Date().toISOString(),
+      error: true,
+      errors: error.error?.errors || null,
+    };
+
+    return throwError(() => ({ error: errorResponse }));
   }
 }

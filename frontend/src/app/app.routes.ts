@@ -70,13 +70,30 @@ export const routes: Routes = [
             './features/employer-settings/employer-settings.component'
           ).then((m) => m.EmployerSettingsComponent),
         title: 'Employer Settings',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./shared/profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+            data: { type: 'employer' },
+          },
+          {
+            path: 'account-management',
+            loadComponent: () =>
+              import(
+                './shared/account-management/account-management.component'
+              ).then((m) => m.AccountManagementComponent),
+          },
+        ],
       },
     ],
   },
   {
     path: 'seeker/dashboard',
-    // canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_JOB_SEEKER' },
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
     loadComponent: () =>
       import(
         './layouts/seeker/seeker-dashboard/seeker-dashboard.component'
@@ -104,8 +121,9 @@ export const routes: Routes = [
           import('./features/application-form/application-form.component').then(
             (m) => m.ApplicationFormComponent
           ),
-        // canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
+        canActivate: [authGuard, roleGuard],
+        data: { expectedRole: 'ROLE_JOB_SEEKER' }, 
+
       },
       {
         path: 'job-details',
@@ -122,6 +140,20 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/landing',
     pathMatch: 'full',
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./shared/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./shared/account-management/account-management.component').then(
+        (m) => m.AccountManagementComponent
+      ),
   },
   {
     path: '**',

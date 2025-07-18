@@ -120,6 +120,7 @@
             Employer
           </button>
         </div>
+
         <!-- Form Title -->
         <div class="form-title">
           <span *ngIf="selectedRole === 'seeker'">Create an account</span>
@@ -138,6 +139,7 @@
             <app-auth-form
               [isRegister]="true"
               [userType]="selectedRole"
+              [backendErrors]="backendErrors"
               (formSubmit)="onFormSubmit($event)"
             ></app-auth-form>
           </div>
