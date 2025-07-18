@@ -3,8 +3,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChildren,
-  QueryList,
   AfterViewInit,
   ChangeDetectorRef,
   OnInit,
@@ -45,6 +43,7 @@ import { RouterModule, RouterLink, Router } from '@angular/router';
 export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isRegister = false;
   @Input() userType: 'seeker' | 'employer' = 'seeker';
+  @Input() backendErrors: { [key: string]: string } | null = null;
   @Output() formSubmit = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -63,33 +62,37 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userType'] || changes['isRegister']) {
       this.initializeForm();
+      setTimeout(() => this.cdr.detectChanges());
+    }
 
-      // Re-trigger change detection after input switches
-      setTimeout(() => {
-        this.cdr.detectChanges();
-      });
+    // Handle backend errors
+    if (changes['backendErrors'] && this.backendErrors) {
+      this.setBackendErrors();
     }
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.cdr.detectChanges();
-    });
+    setTimeout(() => this.cdr.detectChanges());
   }
 
   private initializeForm(): void {
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false],
     });
 
     if (this.isRegister) {
       if (this.userType === 'seeker') {
-        this.form.addControl('name', this.fb.control('', Validators.required));
+        this.form.addControl(
+          'fullName',
+          this.fb.control('', Validators.required)
+        );
         this.form.addControl(
           'username',
           this.fb.control('', Validators.required)
+        );
+        this.form.addControl(
+          'email',
+          this.fb.control('', [Validators.required, Validators.email])
         );
       } else if (this.userType === 'employer') {
         this.form.addControl(
@@ -105,9 +108,74 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
           this.fb.control('', [Validators.required, Validators.email])
         );
       }
-    }
-    if (!this.isRegister) {
+    } else {
+      this.form.addControl('email', this.fb.control('', [Validators.required]));
       this.form.addControl('rememberMe', this.fb.control(false));
+    }
+  }
+
+  private setBackendErrors(): void {
+    if (!this.backendErrors) return;
+
+    Object.keys(this.backendErrors).forEach((fieldName) => {
+      const control = this.form.get(fieldName);
+      if (control) {
+        control.setErrors({
+          backend: this.backendErrors![fieldName],
+        });
+        control.markAsTouched();
+      }
+    });
+  }
+
+  // Method to get the appropriate error message for a field
+  getFieldErrorMessage(fieldName: string): string {
+    const control = this.form.get(fieldName);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+
+    // Check for backend errors first
+    if (control.errors['backend']) {
+      return control.errors['backend'];
+    }
+
+    // Handle client-side validation errors
+    if (control.errors['required']) {
+      return this.getRequiredErrorMessage(fieldName);
+    }
+
+    if (control.errors['email']) {
+      return 'Please enter a valid email address';
+    }
+
+    if (control.errors['minlength']) {
+      return `${fieldName} must be at least ${control.errors['minlength'].requiredLength} characters`;
+    }
+
+    return '';
+  }
+
+  private getRequiredErrorMessage(fieldName: string): string {
+    const messages: { [key: string]: string } = {
+      fullName: 'Full name is required',
+      username: 'Username is required',
+      email: 'Email is required',
+      companyName: 'Company name is required',
+      companyEmail: 'Company email is required',
+      password: 'Password is required',
+    };
+
+    return messages[fieldName] || `${fieldName} is required`;
+  }
+
+  // Clear backend errors when user starts typing
+  onFieldChange(fieldName: string): void {
+    const control = this.form.get(fieldName);
+    if (control && control.errors && control.errors['backend']) {
+      const errors = { ...control.errors };
+      delete errors['backend'];
+      control.setErrors(Object.keys(errors).length > 0 ? errors : null);
     }
   }
 
@@ -119,7 +187,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  goToForgotPassword() {
+  goToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);
   }
 }
