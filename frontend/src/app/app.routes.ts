@@ -7,11 +7,16 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+<<<<<<< HEAD
 import { DataTableComponent } from './shared/data-table/data-table.component';
+=======
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 
 export const routes: Routes = [
+  // Public Routes
   {
-    path: 'landing',
+    path: '',
     loadComponent: () =>
       import('./features/landing/landing-page/landing-page.component').then(
         (m) => m.LandingPageComponent
@@ -30,10 +35,7 @@ export const routes: Routes = [
     component: ForgotPasswordComponent,
   },
 
-  {
-    path: 'unauthorized',
-    component: UnathorizedComponent,
-  },
+  // Employer Routes
   {
     path: 'employer',
     component: EmployerLayoutComponent,
@@ -71,12 +73,31 @@ export const routes: Routes = [
             './features/employer-settings/employer-settings.component'
           ).then((m) => m.EmployerSettingsComponent),
         title: 'Employer Settings',
+        children: [
+          {
+            path: 'profile',
+            loadComponent: () =>
+              import('./shared/profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+            data: { type: 'employer' },
+          },
+          {
+            path: 'account-management',
+            loadComponent: () =>
+              import(
+                './shared/account-management/account-management.component'
+              ).then((m) => m.AccountManagementComponent),
+          },
+        ],
       },
     ],
   },
+
+  // Seeker Routes
   {
     path: 'seeker/dashboard',
-    // canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'ROLE_JOB_SEEKER' },
     loadComponent: () =>
       import(
@@ -84,7 +105,7 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: '',
+        path: 'jobs-list',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
@@ -105,7 +126,7 @@ export const routes: Routes = [
           import('./features/application-form/application-form.component').then(
             (m) => m.ApplicationFormComponent
           ),
-        // canActivate: [authGuard, roleGuard],
+        canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
@@ -122,16 +143,19 @@ export const routes: Routes = [
     component: DataTableComponent,
     title: 'data-table'
 
+<<<<<<< HEAD
   },
   //Redirects and wildcards
+=======
+  // Unauthorized Route
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
   {
-    path: '',
-    redirectTo: '/landing',
-    pathMatch: 'full',
+    path: 'unauthorized',
+    component: UnathorizedComponent,
   },
+  // Catch-all Wildcard
   {
     path: '**',
-    redirectTo: '/unauthorized',
-    pathMatch: 'full',
+    component: PageNotFoundComponent,
   },
 ];

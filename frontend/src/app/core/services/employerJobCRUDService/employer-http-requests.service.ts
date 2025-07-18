@@ -27,7 +27,11 @@ export class EmployerHttpRequestsService {
     GET /api/v1/jobs/{id}*/
 
 
+<<<<<<< HEAD
   baseUrl = 'https://f20c1106ab65.ngrok-free.app/'
+=======
+  baseUrl = 'https://api/v1/jobs'
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 
   
   httpClient = inject( HttpClient )
@@ -48,7 +52,11 @@ export class EmployerHttpRequestsService {
 
 
   getAllJobs(): Observable<GetEmployerJobsResponse> {
+<<<<<<< HEAD
     return this.httpClient.get<GetEmployerJobsResponse>('https://f20c1106ab65.ngrok-free.app/api/v1/jobs')
+=======
+    return this.httpClient.get<GetEmployerJobsResponse>(`${ this.baseUrl }`)
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching all jobs ', error ) 
@@ -59,7 +67,11 @@ export class EmployerHttpRequestsService {
 
 
   updateJob(jobID: string, jobData: UpdateJobPayload): Observable<UpdatedJobResponse> {
+<<<<<<< HEAD
     return this.httpClient.put<UpdatedJobResponse>(`${this.baseUrl}${jobID}`, jobData)
+=======
+    return this.httpClient.put<UpdatedJobResponse>(`https://api/v1/jobs/${jobID}`, jobData)
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -70,7 +82,11 @@ export class EmployerHttpRequestsService {
 
 
   deleteJob(jobID: string): Observable<DeleteJobResponse> {
+<<<<<<< HEAD
     return this.httpClient.delete<DeleteJobResponse>(`${this.baseUrl}${jobID}`)
+=======
+    return this.httpClient.delete<DeleteJobResponse>(`https://api/v1/jobs/${jobID}`)
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -81,7 +97,11 @@ export class EmployerHttpRequestsService {
 
 
   getJob(jobID: string): Observable<GetEmployerJobsResponse> {
+<<<<<<< HEAD
     return this.httpClient.get<GetEmployerJobsResponse>(`${this.baseUrl}${jobID}`)
+=======
+    return this.httpClient.get<GetEmployerJobsResponse>(`https://api/v1/jobs/${jobID}`)
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching job ', error ) 

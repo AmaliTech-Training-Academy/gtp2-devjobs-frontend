@@ -1,8 +1,15 @@
-img{
- @media (max-width: 480px) {
-  display: none;
- }
+.header-img{
+
+  img{
+    object-fit: cover;
+    width: 100%;
+   @media (max-width: 480px) {
+    display: none;
+   }
+  }
+  
 }
+
 
 main{
     display: flex;

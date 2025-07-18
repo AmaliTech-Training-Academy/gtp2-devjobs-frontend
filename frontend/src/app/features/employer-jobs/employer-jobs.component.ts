@@ -2,11 +2,19 @@ import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CreateJobModalComponent } from '../../shared/create-job-modal/create-job-modal.component';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
+<<<<<<< HEAD
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
 import { ActionsDataTableComponent } from '../../shared/actions-data-table/actions-data-table.component';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
+=======
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
+import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
+
+import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 
 
 @Component({

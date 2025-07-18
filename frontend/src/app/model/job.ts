@@ -1,24 +1,3 @@
-export interface Job {
-    id:             number;
-    company:        string;
-    companyUrl:     string;
-    logo:           string;
-    postedAt:       string;
-    contract:       string;
-    position:       string;
-    location:       string;
-    salary:         string;
-    applyLink:      string;
-    companyWebsite: string;
-    description:    string;
-    requirements:   Requirements;
-    role:           Requirements;
-}
-
-export interface Requirements {
-    content: string;
-    items:   string[];
-}
 
 
 
@@ -54,6 +33,41 @@ export interface EmployerJobsData {
 
 
 
+<<<<<<< HEAD
+
+
+
+
+/* Employer CRUD */
+/* Get employer jobs */
+export interface GetEmployerJobsResponse {
+  success: boolean;
+  message: string;
+  data: EmployerJobsData;
+  timestamp: string;
+  error: boolean;
+  errors: string[];
+}
+
+
+export interface EmployerJobsData {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  sort: SortInfo;
+  pageable: Pageable;
+  content: EmployerJob[];
+  empty: boolean;
+}
+
+
+
+=======
+>>>>>>> 79c735c5f1bd82695bbb35d1dcf910962ca80e14
 export interface EmployerJob {
   id: string;
   createdAt: string;

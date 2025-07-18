@@ -3,13 +3,33 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface RegisterRequest {
-  name?: string;
+export interface SeekerRegisterRequest {
+  fullName: string;
   username: string;
   email: string;
   password: string;
-  companyName?: string;
-  companyEmail?: string;
+}
+
+export interface EmployerRegisterRequest {
+  fullName?: string;
+  username: string;
+  companyEmail: string;
+  password: string;
+  companyName: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    tokenType: string;
+    refreshToken: string;
+    user?: any;
+  } | null;
+  timestamp: string;
+  error: boolean;
+  errors: string[] | null;
 }
 
 export interface User {
@@ -25,17 +45,4 @@ export interface LoginResponse {
     token: string;
     user: User;
   };
-}
-
-export interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    token: string;
-    tokenType: string;
-    refreshToken: string;
-  } | null;
-  timestamp: string;
-  error: boolean;
-  errors: any;
 }
