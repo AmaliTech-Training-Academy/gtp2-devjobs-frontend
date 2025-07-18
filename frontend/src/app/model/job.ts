@@ -132,7 +132,6 @@ export interface Pageable {
 
 /* Post Job Response */
 export interface CreateJobPayload {
-  companyId: string;
   title: string;
   description: string;
   location: string;
@@ -140,7 +139,6 @@ export interface CreateJobPayload {
   companyName: string;
   salary: number;
   currency: 'USD' | 'EUR' | 'GHS' | string;
-  applicationDeadline: string; // ISO string (e.g. "2025-07-17T19:21:18.262Z")
 }
 
 

@@ -23,7 +23,6 @@ export class CreateJobModalComponent {
   destroyRef = inject( DestroyRef )
 
 
-
   firstJobForm = new FormGroup({
     jobTitle: new FormControl('', Validators.required),
     jobType: new FormControl('', Validators.required),
@@ -99,22 +98,24 @@ export class CreateJobModalComponent {
       const formArray = this.extractAdditionalJobData()
 
       const combinedJobData: CreateJobPayload = {
-        companyId: "68749670496346",
         title: this.firstJobForm.value.jobTitle!,
         employmentType: this.firstJobForm.value.jobType!,
         salary: Number(this.firstJobForm.value.salary!),
         location: this.firstJobForm.value.location!,
         companyName: this.firstJobForm.value.companyName!,
-        description: this.getAdditionalJobData.value,
+        description: this.getAdditionalJobData.value[0].description,
         currency: 'USD',
-        applicationDeadline: new Date('2025-08-19').toISOString()
 
       }
 
       console.log( "combined data = ", combinedJobData )
 
-      this.employerHttp.createNewJob(combinedJobData).subscribe({
-        next: ( newJob ) => console.log('job created', newJob)
+      // this.employerHttp.createNewJob(combinedJobData).subscribe({
+      //   next: ( newJob ) => console.log('job created', newJob)
+      // })
+
+      this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
+        next: ( newJob ) => console.log('job updated', newJob)
       })
 
     }
