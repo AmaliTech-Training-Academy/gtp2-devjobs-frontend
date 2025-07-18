@@ -7,6 +7,7 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
@@ -149,11 +150,15 @@ export const routes: Routes = [
       ),
   },
 
-  //Redirects and wildcards
+  // Unauthorized Route
+  {
+    path: 'unauthorized',
+    component: UnathorizedComponent,
+  },
 
+  // Catch-all Wildcard
   {
     path: '**',
-    redirectTo: '/unauthorized',
-    pathMatch: 'full',
+    component: PageNotFoundComponent,
   },
 ];
