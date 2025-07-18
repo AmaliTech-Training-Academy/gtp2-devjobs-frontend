@@ -5,6 +5,7 @@ on:
     branches:
       - testing
       - development
+      - feature/devops
 
 permissions:
   id-token: write
