@@ -1,14 +1,14 @@
 <div class="sort-filter-bar">
+  
   <span class="sort-label">Sort by:</span>
+  <app-salary-range-dropdown
+    [value]="salaryRange"
+    (valueChange)="onSalaryRangeChange($event)"
+    [min]="0"
+    [max]="900000"
+    [step]="1000"
+  ></app-salary-range-dropdown>
 
-  <p-select
-    class="sort-select"
-    [options]="sortByOptions"
-    [formControl]="sortByControl"
-    placeholder="Sort By"
-    [showClear]="false"
-    styleClass="p-inputtext-sm"
-  ></p-select>
 
   <p-select
     class="sort-select"

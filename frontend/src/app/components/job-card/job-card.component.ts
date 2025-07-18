@@ -2,8 +2,9 @@
 import { Component, Input, inject } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
-import { Job } from '../../model/job';
 import { Router } from '@angular/router';
+import { Job } from '../../model/all.jobs';
+
 
 
 @Component({
