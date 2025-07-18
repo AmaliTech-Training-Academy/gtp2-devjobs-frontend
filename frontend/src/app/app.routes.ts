@@ -10,6 +10,7 @@ import { roleGuard } from './core/guards/role.guard';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
+  // Public Routes
   {
     path: '',
     loadComponent: () =>
@@ -30,10 +31,7 @@ export const routes: Routes = [
     component: ForgotPasswordComponent,
   },
 
-  {
-    path: 'unauthorized',
-    component: UnathorizedComponent,
-  },
+  // Employer Routes
   {
     path: 'employer',
     component: EmployerLayoutComponent,
@@ -73,7 +71,7 @@ export const routes: Routes = [
         title: 'Employer Settings',
         children: [
           {
-            path: '',
+            path: 'profile',
             loadComponent: () =>
               import('./shared/profile/profile.component').then(
                 (m) => m.ProfileComponent
@@ -91,6 +89,8 @@ export const routes: Routes = [
       },
     ],
   },
+
+  // Seeker Routes
   {
     path: 'seeker/dashboard',
     canActivate: [authGuard, roleGuard],
@@ -101,7 +101,7 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: ' jobs',
+        path: 'jobs-list',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
@@ -135,27 +135,11 @@ export const routes: Routes = [
     ],
   },
 
-  {
-    path: 'profile',
-    loadComponent: () =>
-      import('./shared/profile/profile.component').then(
-        (m) => m.ProfileComponent
-      ),
-  },
-  {
-    path: 'settings',
-    loadComponent: () =>
-      import('./shared/account-management/account-management.component').then(
-        (m) => m.AccountManagementComponent
-      ),
-  },
-
   // Unauthorized Route
   {
     path: 'unauthorized',
     component: UnathorizedComponent,
   },
-
   // Catch-all Wildcard
   {
     path: '**',
