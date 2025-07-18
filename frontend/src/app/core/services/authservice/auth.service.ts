@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/utils/toast/toast.service';
 import { environment } from '../../../../environments/environment';
@@ -38,14 +38,14 @@ export class Auth {
           if (res.success && res.data) {
             this.storeTokens(res.data.token, res.data.refreshToken);
 
+            // Extract user info from JWT token and store it
             const userFromToken = this.extractUserFromToken(res.data.token);
             if (userFromToken) {
               this.storeUser(userFromToken);
             }
-
-            this.toast.success(res.message);
           }
-        })
+        }),
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -65,9 +65,9 @@ export class Auth {
         tap((res) => {
           if (res.success && res.data?.token) {
             this.storeTokens(res.data.token, res.data.refreshToken);
-            this.toast.success(res.message);
           }
-        })
+        }),
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -87,9 +87,9 @@ export class Auth {
         tap((res) => {
           if (res.success && res.data?.token) {
             this.storeTokens(res.data.token, res.data.refreshToken);
-            this.toast.success(res.message);
           }
-        })
+        }),
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -150,5 +150,20 @@ export class Auth {
 
   private storeUser(user: any): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('HTTP Error:', error);
+
+    const errorResponse: AuthResponse = {
+      success: false,
+      message: error.error?.message || 'An error occurred',
+      data: null,
+      timestamp: new Date().toISOString(),
+      error: true,
+      errors: error.error?.errors || null,
+    };
+
+    return throwError(() => ({ error: errorResponse }));
   }
 }

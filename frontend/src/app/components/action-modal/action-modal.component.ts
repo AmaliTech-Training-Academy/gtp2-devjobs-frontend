@@ -1,10 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  HostListener,
+} from '@angular/core';
 
 type ModalType = 'danger' | 'info' | 'warning' | 'default';
 
 @Component({
   selector: 'app-action-modal',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './action-modal.component.html',
   styleUrls: ['./action-modal.component.scss'],
@@ -47,7 +57,9 @@ export class ActionModalComponent implements AfterViewInit, OnDestroy {
     this.previouslyFocused = document.activeElement as HTMLElement;
     const modal = this.el.nativeElement.querySelector('.modal');
     if (modal) {
-      const focusable = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+      const focusable = modal.querySelectorAll(
+        'button, [tabindex]:not([tabindex="-1"])'
+      );
       if (focusable.length) {
         (focusable[0] as HTMLElement).focus();
       }
@@ -73,7 +85,9 @@ export class ActionModalComponent implements AfterViewInit, OnDestroy {
 
   maintainFocus(event: KeyboardEvent) {
     const modal = this.el.nativeElement.querySelector('.modal');
-    const focusable = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+    const focusable = modal.querySelectorAll(
+      'button, [tabindex]:not([tabindex="-1"])'
+    );
     if (!focusable.length) return;
 
     const first = focusable[0] as HTMLElement;

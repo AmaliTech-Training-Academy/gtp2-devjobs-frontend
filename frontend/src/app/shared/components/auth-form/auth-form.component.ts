@@ -43,11 +43,14 @@ import { RouterModule, RouterLink, Router } from '@angular/router';
 export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isRegister = false;
   @Input() userType: 'seeker' | 'employer' = 'seeker';
-  @Input() backendErrors: { [key: string]: string } | null = null;
+  @Input() backendErrors: { [key: string]: string } | string[] | null = null;
   @Output() formSubmit = new EventEmitter<any>();
 
   form!: FormGroup;
   hide = true;
+
+  // Store general errors that don't map to specific fields
+  generalErrors: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -117,15 +120,33 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   private setBackendErrors(): void {
     if (!this.backendErrors) return;
 
-    Object.keys(this.backendErrors).forEach((fieldName) => {
-      const control = this.form.get(fieldName);
-      if (control) {
-        control.setErrors({
-          backend: this.backendErrors![fieldName],
-        });
-        control.markAsTouched();
-      }
-    });
+    this.generalErrors = [];
+
+    // If backendErrors is an array (e.g. string[])
+    if (Array.isArray(this.backendErrors)) {
+      this.generalErrors = [...this.backendErrors];
+      return;
+    }
+
+    // If backendErrors is an object with key-value pairs
+    if (
+      typeof this.backendErrors === 'object' &&
+      !Array.isArray(this.backendErrors)
+    ) {
+      const errorObj = this.backendErrors as { [key: string]: string };
+
+      Object.keys(errorObj).forEach((fieldName) => {
+        const control = this.form.get(fieldName);
+        const errorMsg = errorObj[fieldName];
+
+        if (control) {
+          control.setErrors({ backend: errorMsg });
+          control.markAsTouched();
+        } else {
+          this.generalErrors.push(errorMsg);
+        }
+      });
+    }
   }
 
   // Method to get the appropriate error message for a field
@@ -150,7 +171,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     if (control.errors['minlength']) {
-      return `${fieldName} must be at least ${control.errors['minlength'].requiredLength} characters`;
+      return `Password must be at least 6 characters`;
     }
 
     return '';
@@ -177,13 +198,29 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
       delete errors['backend'];
       control.setErrors(Object.keys(errors).length > 0 ? errors : null);
     }
-  }
 
+    // Clear general errors when user starts typing
+    this.generalErrors = [];
+  }
+  // Add this method to your AuthFormComponent class
   onSubmit(): void {
     if (this.form.valid) {
       this.formSubmit.emit(this.form.value);
     } else {
+      // Mark all fields as touched to show validation errors
       this.form.markAllAsTouched();
+
+      // Find first invalid field and focus it
+      const firstInvalidField = Object.keys(this.form.controls).find(
+        (field) => this.form.get(field)?.invalid
+      );
+
+      if (firstInvalidField) {
+        const element = document.querySelector(
+          `[formControlName="${firstInvalidField}"]`
+        ) as HTMLElement;
+        element?.focus();
+      }
     }
   }
 
