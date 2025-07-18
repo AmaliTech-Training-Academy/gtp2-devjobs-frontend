@@ -11,6 +11,8 @@ on:
         required: true
       EXECUTION_ROLE_ARN:
         required: true
+      NG_APP_BASE_URL:
+        required: true
 
 jobs:
   build:
@@ -45,10 +47,14 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           ECR_REPO: ${{ secrets.ECR_REPO }}
+          NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
           IMAGE_TAG=${{ github.sha }}
           IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
 
-          docker build -t "$IMAGE_URI" .
+          docker build \
+            --build-arg NG_APP_BASE_URL="$NG_APP_BASE_URL" \
+            -t "$IMAGE_URI" .
+
           docker push "$IMAGE_URI"
