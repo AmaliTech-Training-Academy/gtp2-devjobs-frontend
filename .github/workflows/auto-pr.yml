@@ -1,0 +1,59 @@
+name: Auto PR from develop to testing on PR merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - development
+
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write # Needed to push the new branch
+
+jobs:
+  create-pr:
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v4
+        with:
+          ref: development
+
+      - name: Create branch from develop
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b auto-pr/develop-to-testing
+          git push origin auto-pr/develop-to-testing
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto-pr/develop-to-testing
+          base: testing
+          title: "Auto PR: Merge develop into testing"
+          body: |
+            This PR was automatically created by a GitHub Action after a PR was merged into develop.
+
+            ## Original PR Details
+            **Title:** ${{ github.event.pull_request.title }}
+            **PR #:** ${{ github.event.pull_request.number }}
+            **Author:** ${{ github.event.pull_request.user.login }}
+
+            ### Original PR Description
+            ${{ github.event.pull_request.body }}
+          delete-branch: false
+
+      - name: Notify Slack if PR is created
+        if: steps.create_pr.outputs.pull-request-number
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* PR from develop to testing has been created successfully.\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'

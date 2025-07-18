@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 350px;
+  cursor: pointer;
 
   .job-info{
     display: flex;
@@ -70,5 +71,18 @@
 
   &__icon {
     font-size: 1.1rem;
+  }
+
+  .loc-and-salary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p{
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #6b7280;
+    }
+
   }
 }

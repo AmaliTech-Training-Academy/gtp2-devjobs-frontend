@@ -1,0 +1,12 @@
+@use "../../styles/mixins";
+.wrapper {
+  width: 100%;
+  background-color: white;
+
+  .back {
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-bottom: -50px;
+  }
+}

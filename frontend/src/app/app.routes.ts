@@ -93,19 +93,19 @@ export const routes: Routes = [
         title: 'Employer Settings',
         children: [
           {
-            path: 'profile',
+            path: '',
             loadComponent: () =>
-              import('./shared/profile/profile.component').then(
-                (m) => m.ProfileComponent
-              ),
+              import(
+                './features/employer-profile/employer-profile.component'
+              ).then((m) => m.EmployerProfileComponent),
             data: { type: 'employer' },
           },
           {
             path: 'account-management',
             loadComponent: () =>
               import(
-                './shared/account-management/account-management.component'
-              ).then((m) => m.AccountManagementComponent),
+                './features/employer-account-management/employer-account-management.component'
+              ).then((m) => m.EmployerAccountManagementComponent),
           },
         ],
       },
@@ -153,6 +153,20 @@ export const routes: Routes = [
           import('./features/job-details/job-details.component').then(
             (m) => m.JobDetailsComponent
           ),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/seeker-profile/seeker-profile.component').then(
+            (m) => m.SeekerProfileComponent
+          ),
+      },
+      {
+        path: 'account-management',
+        loadComponent: () =>
+          import(
+            './features/seeker-account-management/seeker-account-management.component'
+          ).then((m) => m.SeekerAccountManagementComponent),
       },
     ],
   },
