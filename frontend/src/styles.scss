@@ -36,3 +36,33 @@ body {
   color: #fff;
   font-weight: 500;
 }
+
+
+.popover-wrapper {
+    width: 8.25rem;
+    height: 7.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // background-color: green;
+}
+
+.popover-div {
+    display: flex;
+    // justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    cursor: pointer;
+    color: black;
+    padding: 0.3rem;
+
+    p {
+      color: inherit;
+    }
+
+    &:hover {
+      background-color: $primary-color;
+      color: white;
+    }
+}
+

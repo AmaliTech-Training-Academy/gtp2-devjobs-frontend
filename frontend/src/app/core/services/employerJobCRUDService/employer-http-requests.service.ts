@@ -27,7 +27,7 @@ export class EmployerHttpRequestsService {
     GET /api/v1/jobs/{id}*/
 
 
-  baseUrl = 'https://api/v1/jobs'
+  baseUrl = 'https://f20c1106ab65.ngrok-free.app/'
 
   
   httpClient = inject( HttpClient )
@@ -48,7 +48,7 @@ export class EmployerHttpRequestsService {
 
 
   getAllJobs(): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`${ this.baseUrl }`)
+    return this.httpClient.get<GetEmployerJobsResponse>('https://f20c1106ab65.ngrok-free.app/api/v1/jobs')
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching all jobs ', error ) 
@@ -59,7 +59,7 @@ export class EmployerHttpRequestsService {
 
 
   updateJob(jobID: string, jobData: UpdateJobPayload): Observable<UpdatedJobResponse> {
-    return this.httpClient.put<UpdatedJobResponse>(`https://api/v1/jobs/${jobID}`, jobData)
+    return this.httpClient.put<UpdatedJobResponse>(`${this.baseUrl}${jobID}`, jobData)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -70,7 +70,7 @@ export class EmployerHttpRequestsService {
 
 
   deleteJob(jobID: string): Observable<DeleteJobResponse> {
-    return this.httpClient.delete<DeleteJobResponse>(`https://api/v1/jobs/${jobID}`)
+    return this.httpClient.delete<DeleteJobResponse>(`${this.baseUrl}${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -81,7 +81,7 @@ export class EmployerHttpRequestsService {
 
 
   getJob(jobID: string): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`https://api/v1/jobs/${jobID}`)
+    return this.httpClient.get<GetEmployerJobsResponse>(`${this.baseUrl}${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching job ', error ) 

@@ -2,27 +2,30 @@ import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CreateJobModalComponent } from '../../shared/create-job-modal/create-job-modal.component';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
-import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
-
+import { ActionsDataTableComponent } from '../../shared/actions-data-table/actions-data-table.component';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
+import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
 
 
 @Component({
   selector: 'app-employer-jobs',
-  imports: [ ButtonModule, CreateJobModalComponent, EmptyStateComponent, JobDetailsModalComponent, DataTableComponent ],
+  imports: [ ButtonModule, CreateJobModalComponent, 
+             EmptyStateComponent, JobDetailsModalComponent, 
+             ActionsDataTableComponent, ActionModalComponent ],
   templateUrl: './employer-jobs.component.html',
   styleUrl: './employer-jobs.component.scss'
 })
 export class EmployerJobsComponent {
 
   modalService = inject( ModalsServiceService )
-
   employerHttp = inject( EmployerHttpRequestsService )
 
+  showDeleteModal: boolean = false;
 
-  properties: any [] = ["Job Title", "Job Type", "Date", "Salary", "Location", "Action"]
+
+  columns: any [] = ["Job Title", "Job Type", "Date", "Salary", "Location", "Action"]
 
   jobs = [
     {
