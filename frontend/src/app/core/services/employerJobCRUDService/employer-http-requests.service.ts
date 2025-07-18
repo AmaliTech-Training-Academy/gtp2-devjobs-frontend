@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 import { 
         // EmployerJob, 
         CreatedJobResponse, 
@@ -27,7 +28,7 @@ export class EmployerHttpRequestsService {
     GET /api/v1/jobs/{id}*/
 
 
-  baseUrl = 'https://api/v1/jobs'
+  baseUrl = `${environment.apiUrl}/api/v1/jobs`
 
   
   httpClient = inject( HttpClient )
@@ -59,7 +60,7 @@ export class EmployerHttpRequestsService {
 
 
   updateJob(jobID: string, jobData: UpdateJobPayload): Observable<UpdatedJobResponse> {
-    return this.httpClient.put<UpdatedJobResponse>(`https://api/v1/jobs/${jobID}`, jobData)
+    return this.httpClient.put<UpdatedJobResponse>(`${this.baseUrl}/${jobID}`, jobData)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -70,7 +71,7 @@ export class EmployerHttpRequestsService {
 
 
   deleteJob(jobID: string): Observable<DeleteJobResponse> {
-    return this.httpClient.delete<DeleteJobResponse>(`https://api/v1/jobs/${jobID}`)
+    return this.httpClient.delete<DeleteJobResponse>(`${this.baseUrl}/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -81,7 +82,7 @@ export class EmployerHttpRequestsService {
 
 
   getJob(jobID: string): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`https://api/v1/jobs/${jobID}`)
+    return this.httpClient.get<GetEmployerJobsResponse>(`${this.baseUrl}/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching job ', error ) 
