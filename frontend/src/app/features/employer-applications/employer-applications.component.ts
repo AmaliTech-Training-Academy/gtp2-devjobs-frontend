@@ -67,7 +67,7 @@ export class EmployerApplicationsComponent implements OnInit {
 
     showSecondActiveTab: boolean = false;
 
-    properties: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
+    columns: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
 
     setActive(tab: 'incoming' | 'statuses') {
       this.activeTab = tab;

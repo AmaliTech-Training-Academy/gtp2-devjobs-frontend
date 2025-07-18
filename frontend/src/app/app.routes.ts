@@ -7,6 +7,7 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { DataTableComponent } from './shared/data-table/data-table.component';
 
 export const routes: Routes = [
   {
@@ -116,7 +117,12 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'tables',
+    component: DataTableComponent,
+    title: 'data-table'
 
+  },
   //Redirects and wildcards
   {
     path: '',
