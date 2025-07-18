@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl:
-    process.env['NG_APP_BASE_URL'] ||
-    'http://gtp2-be-testing-alb-114080375.eu-central-1.elb.amazonaws.com',
+  apiUrl: 'https://f20c1106ab65.ngrok-free.app',
+
+  // process.env['NG_APP_BASE_URL'] ||
+
 };
