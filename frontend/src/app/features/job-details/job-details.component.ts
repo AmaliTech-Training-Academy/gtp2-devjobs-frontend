@@ -25,7 +25,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
 })
 export class JobDetailsComponent implements OnInit {
   private router = inject(Router);
-  private auth = inject(Auth);
+  public auth = inject(Auth);
   jobService = inject(JobService);
   route = inject(ActivatedRoute);
   showAuthModal = false;

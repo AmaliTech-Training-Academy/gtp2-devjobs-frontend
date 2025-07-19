@@ -72,6 +72,7 @@
 
 
 <app-action-modal
+  *ngIf="showAuthModal && !auth.isLoggedIn()"
   title="You need to create an account before applying for this job"
   message="Please log in or sign up to continue."
   [confirmText]="'Log in'"
