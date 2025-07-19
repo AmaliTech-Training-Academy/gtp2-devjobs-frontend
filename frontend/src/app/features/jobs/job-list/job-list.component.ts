@@ -6,24 +6,36 @@ import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AllJobsResponse, Job } from '../../../model/all.jobs';
 import { EmptyStateComponent } from '../../../shared/empty-state/empty-state.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+
 
 @Component({
   selector: 'app-job-list',
-  imports: [
-    SortFilterComponent,
-    EmptyStateComponent,
-    JobCardComponent,
-    AsyncPipe,
-  ],
+
+  imports: [SortFilterComponent, EmptyStateComponent, JobCardComponent, AsyncPipe, PaginationComponent],
+
   templateUrl: './job-list.component.html',
   styleUrl: './job-list.component.scss',
 })
 export class JobListComponent implements OnInit {
   private jobService = inject(JobService);
   jobs$!: Observable<AllJobsResponse>;
+  currentPage = 1;
+  pageSize = 10;
 
   ngOnInit(): void {
-    this.jobs$ = this.jobService.getJobs();
-    this.jobs$.subscribe((data) => console.log('data', data));
+
+    this.fetchJobs();
+  }
+
+  fetchJobs() {
+    // Spring Boot pagination is 0-based
+    this.jobs$ = this.jobService.getJobs(this.currentPage - 1, this.pageSize);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.fetchJobs();
+
   }
 }

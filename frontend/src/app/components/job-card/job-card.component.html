@@ -6,28 +6,34 @@
 
   <div class="job-info">
     <div class="job-card__meta">
-      <span class="job-card__time">{{getTimeAgo(job.createdAt)}} ago</span>
+
+      <span class="job-card__time">{{job.updatedAt | timeAgo}}</span>
+
       <span class="job-card__dot"></span>
-      <span class="job-card__type">{{job.employmentType}}</span>
+      <span class="job-card__type">{{job.employmentType | titlecase}}</span>
     </div>
 
     <div class="job-card__title">
-      {{job.title}}
+      {{job.title | titlecase}}
     </div>
 
     <div class="job-card__company">
       <i class="pi pi-building job-card__icon"></i>
-      {{job.company.companyName}}
+
+      {{job.company.companyName | titlecase}}
+
     </div>
 
     <div class="loc-and-salary">
 
       <div class="job-card__location">
         <i class="pi pi-map-marker job-card__icon"></i>
-        {{job.location}}
+        {{job.location | titlecase}}
+      </div>
+      <div class="job-card__salary">
+        <p>{{ job.salary | currency: job.currency:"symbol" }}</p>
       </div>
 
-      <p>{{job.salary}}</p>
     </div>
   </div>
 </p-card>

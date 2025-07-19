@@ -1,0 +1,17 @@
+<div class="pagination-container">
+  <button class="arrow" [disabled]="currentPage === 1" (click)="prevPage()">
+    <i class="pi pi-angle-left"></i>
+  </button>
+  <input
+    class="page-input"
+    type="number"
+    [value]="currentPage"
+    (change)="onInputChange($event)"
+    [min]="1"
+    [max]="totalPages"
+  />
+  <span class="total-pages">of {{ totalPages }} pages</span>
+  <button class="arrow" [disabled]="currentPage === totalPages" (click)="nextPage()">
+    <i class="pi pi-angle-right"></i>
+  </button>
+</div>
