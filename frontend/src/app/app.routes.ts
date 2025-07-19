@@ -129,7 +129,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'job-details',
+        path: 'job-details/:id',
         component: JobDetailsComponent,
       },
       {
