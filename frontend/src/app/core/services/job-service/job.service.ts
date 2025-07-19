@@ -32,7 +32,7 @@ getJobs(page: number = 0, size: number = 10): Observable<AllJobsResponse<Data>> 
 }
 
 getJobById(id: string): Observable<AllJobsResponse<Job>>{
-  return this.http.get<JobByIdResponse>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`).pipe(
+  return this.http.get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`).pipe(
     retry(3),
     catchError((error) => this.errorHandler.handleHttpError(error))
   )
