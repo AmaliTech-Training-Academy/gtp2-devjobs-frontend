@@ -1,9 +1,10 @@
-name: Build and Deploy Frontend with CodeDeploy (Blue/Green)
+name: Build and Deploy with CodeDeploy (Blue/Green)
 
 on:
   push:
     branches:
       - development
+      - main
 
 permissions:
   id-token: write
@@ -17,6 +18,23 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Build Spring Boot app with Maven
+        run: mvn clean package -DskipTests
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -27,28 +45,26 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push Docker image
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+      - name: Construct image URI and push image
+        id: compute
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
           IMAGE_TAG=${{ github.sha }}
-          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-          docker build -t "$IMAGE_URI" ./frontend
+          docker build -t "$IMAGE_URI" .
           docker push "$IMAGE_URI"
 
-      - name: Get current ECS task definition
+      - name: Get current task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ${{ secrets.TASK_FAMILY }} \
+            --task-definition ${{ secrets.TASK_FAMILY_PROD }} \
             --region ${{ secrets.AWS_REGION }} \
             --query taskDefinition \
             --output json > task-definition.json
 
-      - name: Create new ECS task definition with new image
+      - name: Create new task definition with updated image
         run: |
           jq --arg IMAGE "$IMAGE_URI" --arg NAME "${{ secrets.CONTAINER_NAME_PROD }}" '{
             family: .family,
@@ -73,19 +89,58 @@ jobs:
 
           echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
-      - name: Trigger CodeDeploy Blue/Green Deployment
+      - name: Deploy with CodeDeploy (Blue/Green)
         run: |
+          # Create deployment
+          # Create AppSpec content with the new task definition
+          cat > appspec.json << EOF
+          {
+            "version": 0.0,
+            "Resources": [
+              {
+                "TargetService": {
+                  "Type": "AWS::ECS::Service",
+                  "Properties": {
+                    "TaskDefinition": "$TASK_DEF_ARN",
+                    "LoadBalancerInfo": {
+                      "ContainerName": "${{ secrets.CONTAINER_NAME_PROD }}",
+                      "ContainerPort": ${{ secrets.CONTAINER_PORT }}
+                    },
+                    "PlatformVersion": "LATEST"
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+          
+          # Register the revision with CodeDeploy
+          aws deploy register-application-revision \
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip
+          
+          # Create deployment with the new task definition using a simpler approach
+          # Create a JSON file for the revision
+          cat > revision.json << EOF
+          {
+            "revisionType": "AppSpecContent",
+            "appSpecContent": {
+              "content": $(cat appspec.json | jq -c .)
+            }
+          }
+          EOF
+          
           DEPLOYMENT_ID=$(aws deploy create-deployment \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
             --deployment-config-name ${{ secrets.CODEDEPLOY_CONFIG_NAME }} \
-            --revision revisionType=S3,s3Location="{
-              \"bucket\": \"${{ secrets.S3_BUCKET }}\",
-              \"key\": \"${{ secrets.S3_KEY }}\",
-              \"bundleType\": \"zip\"
-            }" \
-            --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
-            --file-exists-behavior OVERWRITE \
-            --query deploymentId --output text)
+            --cli-input-json file://revision.json \
+            --query deploymentId \
+            --output text)
 
           echo "Deployment started: $DEPLOYMENT_ID"
+          
+          # Wait for deployment to complete
+          aws deploy wait deployment-successful --deployment-id $DEPLOYMENT_ID
+          
+          echo "Deployment completed successfully!"
