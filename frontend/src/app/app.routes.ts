@@ -123,7 +123,7 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: 'jobs',
+        path: '',
         component: JobListComponent,
         // canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
