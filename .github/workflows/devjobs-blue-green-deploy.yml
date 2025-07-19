@@ -1,0 +1,91 @@
+name: Build and Deploy Frontend with CodeDeploy (Blue/Green)
+
+on:
+  push:
+    branches:
+      - development
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+          docker build -t "$IMAGE_URI" ./frontend
+          docker push "$IMAGE_URI"
+
+      - name: Get current ECS task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ secrets.TASK_FAMILY }} \
+            --region ${{ secrets.AWS_REGION }} \
+            --query taskDefinition \
+            --output json > task-definition.json
+
+      - name: Create new ECS task definition with new image
+        run: |
+          jq --arg IMAGE "$IMAGE_URI" --arg NAME "${{ secrets.CONTAINER_NAME_PROD }}" '{
+            family: .family,
+            executionRoleArn: .executionRoleArn,
+            networkMode: .networkMode,
+            cpu: .cpu,
+            memory: .memory,
+            requiresCompatibilities: .requiresCompatibilities,
+            containerDefinitions: (.containerDefinitions | map(
+              if .name == $NAME then
+                .image = $IMAGE | .
+              else
+                .
+              end
+            ))
+          }' task-definition.json > new-task-def.json
+
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
+
+      - name: Trigger CodeDeploy Blue/Green Deployment
+        run: |
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
+            --deployment-config-name ${{ secrets.CODEDEPLOY_CONFIG_NAME }} \
+            --revision revisionType=S3,s3Location="{
+              \"bucket\": \"${{ secrets.S3_BUCKET }}\",
+              \"key\": \"${{ secrets.S3_KEY }}\",
+              \"bundleType\": \"zip\"
+            }" \
+            --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
+            --file-exists-behavior OVERWRITE \
+            --query deploymentId --output text)
+
+          echo "Deployment started: $DEPLOYMENT_ID"
