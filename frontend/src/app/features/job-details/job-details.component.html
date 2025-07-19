@@ -10,13 +10,13 @@
                 </svg>
 
                 <div class="company-name">
-                    <h2>Scoot</h2>
-                    <p>scoot.com</p>
+                    <h2>{{job?.company?.companyName}}</h2>
+                    <p>{{job?.company?.website}}</p>
                 </div>
             </div>
 
             <div class="salary">
-                <span>Salary:</span> <span class="value"> $65,000</span>
+                <span>Salary:</span> <span class="value"> {{job?.salary | currency}}</span>
             </div>
 
             <button>Company webiste</button>
@@ -28,14 +28,14 @@
         <div class="job-description">
             <header>
                 <div class="row1">
-                    <div>5h ago</div>
+                    <div>{{getTime(job?.createdAt || "") || ""}} ago</div>
                     <div class="job-type">
                         <div class="dot"></div>
-                        Full Time
+                        {{formatJobType(job?.employmentType || "")}}
                     </div>
                 </div>
                 <div class="row2">
-                    <h1>Senior Software Engineer</h1>
+                    <h1>{{job?.title}}</h1>
 
                     <button class="apply-btn" (click)="onApply()">Apply now</button>
                 </div>
@@ -57,27 +57,20 @@
                         </defs>
                     </svg>
 
-                    <span>United Kingdom</span>
+                    <span>{{job?.location}}</span>
 
                 </div>
             </header>
 
 
-            <app-job-content />
+            <app-job-content [content]="job?.descriptions || []" />
 
         </div>
     </div>
 
 </div>
 
-<app-action-modal
-  *ngIf="showAuthModal"
-  title="You need to create an account before applying for this job"
-  message="Please log in or sign up to continue."
-  [confirmText]="'Log in'"
-  [cancelText]="'Sign up'"
-  type="info"
-  [showClose]="false"
-  (onConfirm)="handleAuthModalConfirm('login')"
-  (onCancel)="handleAuthModalConfirm('signup')"
-></app-action-modal>
+<app-action-modal *ngIf="showAuthModal" title="You need to create an account before applying for this job"
+    message="Please log in or sign up to continue." [confirmText]="'Log in'" [cancelText]="'Sign up'" type="info"
+    [showClose]="false" (onConfirm)="handleAuthModalConfirm('login')"
+    (onCancel)="handleAuthModalConfirm('signup')"></app-action-modal>
