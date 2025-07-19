@@ -1,5 +1,4 @@
 <div class="container">
-
   @if (jobs$ | async; as result) { 
     @if (result?.data?.content) {
       <app-sort-filter></app-sort-filter>
@@ -9,9 +8,9 @@
         <app-empty-state [header]="'No jobs posted yet'"></app-empty-state>
       }@else{ @for(job of result.data.content; track job.id) {
     <app-job-card [job]="job"></app-job-card>
-
   }
-
+  
+} 
 
   </div>
   <app-pagination
@@ -22,4 +21,3 @@
 } 
 }
 </div>
-
