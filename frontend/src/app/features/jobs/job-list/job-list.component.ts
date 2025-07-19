@@ -23,7 +23,6 @@ export class JobListComponent implements OnInit {
   jobs$!: Observable<AllJobsResponse>;
 
   ngOnInit(): void {
-    console.log('job list');
     this.jobs$ = this.jobService.getJobs();
     this.jobs$.subscribe((data) => console.log('data', data));
   }

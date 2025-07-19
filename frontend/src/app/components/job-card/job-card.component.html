@@ -1,13 +1,12 @@
-
 <p-card class="job-card" (click)="onCardClick()">
 
-    <div class="job-card__logo">
-      <img src="assets/logos/scoot.png" alt={{job.company.companyName}}>
-    </div>
+  <div class="job-card__logo">
+    <img src="assets/logos/scoot.png" alt={{job.company.companyName}}>
+  </div>
 
   <div class="job-info">
     <div class="job-card__meta">
-      <span class="job-card__time">{{job.updatedAt}}</span>
+      <span class="job-card__time">{{getTimeAgo(job.createdAt)}} ago</span>
       <span class="job-card__dot"></span>
       <span class="job-card__type">{{job.employmentType}}</span>
     </div>
@@ -18,7 +17,7 @@
 
     <div class="job-card__company">
       <i class="pi pi-building job-card__icon"></i>
-      {{job.company}}
+      {{job.company.companyName}}
     </div>
 
     <div class="loc-and-salary">
@@ -27,7 +26,7 @@
         <i class="pi pi-map-marker job-card__icon"></i>
         {{job.location}}
       </div>
-  
+
       <p>{{job.salary}}</p>
     </div>
   </div>
