@@ -3,35 +3,25 @@
 @use "../../styles/mixins";
 
 .wrapper {
-  width: 1200px;
-  // width: 100%;
-  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   gap: 20px;
-  box-sizing: border-box;
 
   @include mixins.breakpoint(1200px) {
     width: 100%;
-  }
-
-  .back-wrapper {
-    width: 100%;
-    display: flex;
-    margin: 40px 0;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: pink;
-
-    .back {
-      // border: none
-      @include mixins.button(#19202d, transparent, 178px, 0px);
-    }
   }
 
   .details-wrapper {
     margin-bottom: 40px;
     display: grid;
     gap: 12px;
+    box-sizing: border-box;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
 
     .company-detail {
       background-color: #ffffff;
@@ -41,9 +31,14 @@
       justify-content: space-between;
       align-items: center;
 
+      @include mixins.breakpoint(1200px) {
+        padding-right: 40px;
+      }
+
       .logo {
         height: 107px;
-        width: 250px;
+        width: 100%;
+        max-width: 250px;
         display: flex;
         align-items: center;
         justify-content: space-between;

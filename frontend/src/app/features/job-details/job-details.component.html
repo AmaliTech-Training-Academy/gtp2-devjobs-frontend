@@ -19,7 +19,7 @@
                 <span>Salary:</span> <span class="value"> {{job?.salary | currency}}</span>
             </div>
 
-            <button>Company webiste</button>
+            <button (click)="onWebsite()">Company webiste</button>
 
 
 
@@ -71,6 +71,7 @@
 </div>
 
 
+
 <app-action-modal
   *ngIf="showAuthModal && !auth.isLoggedIn()"
   title="You need to create an account before applying for this job"
@@ -82,4 +83,5 @@
   (onConfirm)="handleAuthModalConfirm('login')"
   (onCancel)="handleAuthModalConfirm('signup')"
 ></app-action-modal>
+
 

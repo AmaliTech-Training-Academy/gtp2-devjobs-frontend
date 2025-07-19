@@ -5,11 +5,14 @@ import { tap } from 'rxjs/operators';
 import { ApplicationStatus } from '../../../model/application.status';
 import { environment } from '../../../../environments/environment';
 
-import { AllJobsResponse, Data, Job } from '../../../model/all.jobs';
-
+import {
+  AllJobsResponse,
+  Data,
+  Job,
+  ApplicationForm,
+} from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +22,7 @@ export class JobService {
   private errorHandler = inject(ErrorHandlingService);
   private BASE_URL_APP = 'assets/application-status.json';
   private selectedJob: Job | null = null;
+
   
 
   private http = inject(HttpClient)
@@ -84,6 +88,7 @@ getSelectedJob(): Job | null {
 
 getApplications(): Observable<ApplicationStatus[]> {
   return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
+
 }
 
 }

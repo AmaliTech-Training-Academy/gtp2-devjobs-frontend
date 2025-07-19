@@ -35,8 +35,8 @@ jobs:
           NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
         run: |
           # Update API URL in environment files
-          sed -i "s|apiUrl: .*|apiUrl: '${{ secrets.NG_APP_BASE_URL }}',|" src/environments/environment.ts
-          sed -i "s|apiUrl: .*|apiUrl: '${{ secrets.NG_APP_BASE_URL }}',|" src/environments/environment.prod.ts
+          sed -i "s|apiUrl: process.env\['NG_APP_BASE_URL'\]|apiUrl: '${{ secrets.NG_APP_BASE_URL }}'|" src/environments/environment.ts
+          sed -i "s|apiUrl: 'https://api.example.com'|apiUrl: '${{ secrets.NG_APP_BASE_URL }}'|" src/environments/environment.prod.ts
 
 
           # Test API URL
