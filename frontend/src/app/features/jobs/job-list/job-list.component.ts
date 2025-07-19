@@ -9,7 +9,12 @@ import { EmptyStateComponent } from '../../../shared/empty-state/empty-state.com
 
 @Component({
   selector: 'app-job-list',
-  imports: [SortFilterComponent, EmptyStateComponent, JobCardComponent, AsyncPipe],
+  imports: [
+    SortFilterComponent,
+    EmptyStateComponent,
+    JobCardComponent,
+    AsyncPipe,
+  ],
   templateUrl: './job-list.component.html',
   styleUrl: './job-list.component.scss',
 })
@@ -19,6 +24,6 @@ export class JobListComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobs$ = this.jobService.getJobs();
-    this.jobs$.subscribe((data) => console.log("data",data));
+    this.jobs$.subscribe((data) => console.log('data', data));
   }
 }
