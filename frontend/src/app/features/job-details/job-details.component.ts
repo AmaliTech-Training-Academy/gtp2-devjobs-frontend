@@ -5,16 +5,23 @@ import { JobContentComponent } from '../../shared/job-content/job-content.compon
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
 import { Auth } from '../../core/services/authservice/auth.service';
 import { CommonModule } from '@angular/common';
+import { JobService } from '../../core/services/job-service/job.service';
 
 @Component({
   selector: 'app-job-details',
-  imports: [CommonModule,BackButtonComponent, JobContentComponent, ActionModalComponent],
+  imports: [
+    CommonModule,
+    BackButtonComponent,
+    JobContentComponent,
+    ActionModalComponent,
+  ],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.scss',
 })
 export class JobDetailsComponent {
   private router = inject(Router);
   private auth = inject(Auth);
+  jobService = inject(JobService);
   showAuthModal = false;
 
   onApply() {

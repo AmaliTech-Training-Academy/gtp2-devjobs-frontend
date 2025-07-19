@@ -3,6 +3,7 @@ import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Job } from '../../model/all.jobs';
+import { JobService } from '../../core/services/job-service/job.service';
 
 @Component({
   selector: 'app-job-card',
@@ -14,8 +15,10 @@ export class JobCardComponent {
   @Input() job!: Job;
 
   router = inject(Router);
+  jobService = inject(JobService);
 
-  onCardClick() {
+  onCardClick(job: Job) {
+    this.jobService.setSelectedJob(job);
     this.router.navigate(['seeker/dashboard/job-details']);
   }
 
