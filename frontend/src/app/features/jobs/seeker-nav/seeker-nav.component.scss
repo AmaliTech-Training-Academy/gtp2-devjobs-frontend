@@ -5,8 +5,12 @@
     padding: 1rem 2rem;
     background-color: white;
     border-bottom: 1px solid #e5e7eb;
-    position: relative;
-    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(30, 41, 59, 0.04);
 
     .menu-icon {
       display: none;
@@ -192,5 +196,9 @@
       display: none !important;
     }
   }
+}
+
+.fixed-navbar-padding {
+  padding-top: 80px; // Adjust if navbar height changes
 }
   

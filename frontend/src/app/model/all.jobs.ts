@@ -6,6 +6,14 @@ export interface AllJobsResponse<T = any> {
   error: boolean;
   errors: string[] | null;
 }
+export interface JobByIdResponse {
+  success: boolean;
+  message: string;
+  data: Job;
+  timestamp: string;
+  error: boolean;
+  errors: string[];
+}
 
 export interface Data {
   totalElements: number;

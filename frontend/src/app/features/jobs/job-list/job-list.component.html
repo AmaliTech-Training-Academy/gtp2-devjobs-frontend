@@ -1,22 +1,23 @@
 <div class="container">
-  <app-sort-filter></app-sort-filter>
-  @if (jobs$ | async; as result) {
-  @if (result?.data?.content) {
-  <p>Showing {{result.data.content.length}} Jobs</p>
-  @if(result.data.content.length === 0){
-  <app-empty-state [header]="'No jobs posted yet'"></app-empty-state>
-  }
-  @if(result.data.content.length !== 0){
+  @if (jobs$ | async; as result) { 
+    @if (result?.data?.content) {
+      <app-sort-filter></app-sort-filter>
+      <p>Showing {{result.data.content.length}} Jobs</p>
   <div class="jobs-list">
-    @for(job of result.data.content; track job.id) {
+      @if(result.data.content.length === 0){
+        <app-empty-state [header]="'No jobs posted yet'"></app-empty-state>
+      }@else{ @for(job of result.data.content; track job.id) {
     <app-job-card [job]="job"></app-job-card>
-    }
+  }
+  
+} 
+
   </div>
-  }
-
-  }
-
-  }
-
-
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="result.data.totalPages"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+} 
+}
 </div>

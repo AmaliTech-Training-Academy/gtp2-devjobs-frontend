@@ -3,11 +3,17 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobContentComponent } from '../../shared/job-content/job-content.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
-import { Auth } from '../../core/services/authservice/auth.service';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
 import { getTimeAgo, formatJobType } from '../../shared/utils/common';
+
+import { JobService } from '../../core/services/job-service/job.service';
+import { Job } from '../../model/all.jobs';
+import { getTimeAgo, formatJobType } from '../../shared/utils/common';
+
+import { Auth } from '../../core/services/authservice/auth.service';
+
 
 @Component({
   selector: 'app-job-details',

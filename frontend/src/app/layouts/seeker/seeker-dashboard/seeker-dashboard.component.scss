@@ -1,5 +1,7 @@
 .header-img{
 
+  margin-top: 64px; // Height of the fixed nav
+
   img{
     object-fit: cover;
     width: 100%;
@@ -16,11 +18,10 @@ main{
     flex-direction: column;
     gap: 2rem;
     padding: 0 4rem 4rem 4rem;
-    margin-top: -120px;
-
+   margin-top: -130px;
     @media (max-width: 480px) {
       padding: 0;
-      margin-top:0 ;
+      margin-top: auto;
     }
 }
 
