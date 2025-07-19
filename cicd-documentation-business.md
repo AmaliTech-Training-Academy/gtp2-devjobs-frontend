@@ -15,7 +15,11 @@ This means faster delivery of features and bug fixes with higher quality and rel
 
 ## 🔄 CI/CD Workflow
 
-![CI/CD Workflow](https://via.placeholder.com/800x400?text=CI/CD+Workflow+Diagram)
+```
+Code Changes → Automated Tests → Build Container → Store in Registry → Deploy to Cloud → Monitor
+    ↓              ↓                ↓               ↓                  ↓               ↓
+Developers    Quality Check    Package App     Save for Reuse     Make Available    Watch Health
+```
 
 ### Workflow Stages
 
@@ -37,6 +41,13 @@ We maintain three separate environments for the application:
 | Production  | [https://devjobs.example.com](in-progress)                                                       | Live customer-facing site          | Scheduled releases     |
 
 ## 📱 Feature Delivery Process
+
+```
+Development → Testing → Review → Approval → Deployment → Verification
+    ↓          ↓        ↓        ↓          ↓           ↓
+  Coding    Quality    Your     Your      Live      Confirm
+           Checks    Preview  Decision   Release    Success
+```
 
 1. **Development**: Developers build new features
 2. **Automated Testing**: Our system runs tests automatically
@@ -70,6 +81,13 @@ Before changes go to production:
 - **Uptime**: We maintain 99.9% uptime for the production environment
 - **Performance**: Page load times are monitored and kept under 2 seconds
 - **Monitoring Dashboard**: [AWS CloudWatch Dashboard](*in-progress)
+
+## 🔗 API Configuration
+
+- The frontend application connects to the backend API using a configuration value called `NG_APP_BASE_URL`
+- This value is set during the build process and cannot be changed after deployment
+- Each environment (Development, Testing, Production) uses a different API URL
+- If the backend API location changes, a new deployment of the frontend is required
 
 ## 🔄 Rollback Capability
 
