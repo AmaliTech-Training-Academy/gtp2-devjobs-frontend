@@ -218,6 +218,13 @@
       .back-btn {
         width: 100% !important;
       }
+      .submit-btn {
+        width: 100% !important;
+      }
+
+      > button:only-child {
+        grid-column: span 2;
+      }
     }
 
     .nav-desktop {
