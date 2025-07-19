@@ -3,19 +3,20 @@
 
 .content {
   display: grid;
-  gap: 75px;
+  gap: 40px;
   strong {
     @include fonts.header3;
   }
 
   p {
+    margin-top: 10px !important;
     margin-bottom: 15px;
   }
 
-  .requirements,
-  .todo {
-    width: 100%;
-  }
+  // .requirements,
+  // .todo {
+  //   width: 100%;
+  // }
 }
 .custom-list {
   list-style: none;

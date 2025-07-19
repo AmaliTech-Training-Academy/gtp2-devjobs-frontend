@@ -151,6 +151,15 @@ export const routes: Routes = [
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
+
+        path: 'job-details/:id',
+        loadComponent: () =>
+          import('./features/job-details/job-details.component').then(
+            (m) => m.JobDetailsComponent
+          ),
+      },
+      {
+
         path: 'profile',
         loadComponent: () =>
           import('./features/seeker-profile/seeker-profile.component').then(
