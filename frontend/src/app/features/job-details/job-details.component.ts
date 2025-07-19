@@ -4,13 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { JobContentComponent } from '../../shared/job-content/job-content.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
 import { CommonModule } from '@angular/common';
-
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
 import { getTimeAgo, formatJobType } from '../../shared/utils/common';
-
 import { Auth } from '../../core/services/authservice/auth.service';
-
 
 @Component({
   selector: 'app-job-details',
@@ -47,11 +44,15 @@ export class JobDetailsComponent implements OnInit {
     }
   }
 
+  onWebsite() {
+    window.open(`${this.job?.company.website}`, '_blank');
+  }
+
   onApply() {
     if (!this.auth.isLoggedIn()) {
       this.showAuthModal = true;
     } else {
-      this.router.navigate(['seeker/dashboard/application-form']);
+      this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
     }
   }
 

@@ -7,14 +7,13 @@ export interface AllJobsResponse<T = any> {
   errors: string[] | null;
 }
 export interface JobByIdResponse {
-    success:   boolean;
-    message:   string;
-    data:      Job;
-    timestamp: string;
-    error:     boolean;
-    errors:    string[];
+  success: boolean;
+  message: string;
+  data: Job;
+  timestamp: string;
+  error: boolean;
+  errors: string[];
 }
-
 
 export interface Data {
   totalElements: number;
@@ -91,4 +90,30 @@ export interface Sort {
 export interface JobDescription {
   title: string;
   description: string;
+}
+
+export interface ApplicationForm {
+  resume: File;
+  coverLetter: File;
+  experiences: Experience[];
+  education: Education[];
+  contact: ContactInfo;
+}
+
+export interface Experience {
+  company: string;
+  job: string;
+  description: string;
+}
+
+export interface Education {
+  school: string;
+  degree: string;
+  field: string;
+}
+
+export interface ContactInfo {
+  phone: string;
+  email: string;
+  address: string;
 }

@@ -4,11 +4,14 @@ import { catchError, Observable, retry } from 'rxjs';
 import { ApplicationStatus } from '../../../model/application.status';
 import { environment } from '../../../../environments/environment';
 
-import { AllJobsResponse, Data, Job } from '../../../model/all.jobs';
-
+import {
+  AllJobsResponse,
+  Data,
+  Job,
+  ApplicationForm,
+} from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -18,28 +21,31 @@ export class JobService {
   private errorHandler = inject(ErrorHandlingService);
   private BASE_URL_APP = 'assets/application-status.json';
   private selectedJob: Job | null = null;
-  
 
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
 
-getJobs(page: number = 0, size: number = 10): Observable<AllJobsResponse<Data>> {
-  return this.http.get<AllJobsResponse>(`${this.BASE_URL_JOB}/api/v1/jobs`, {
-    params: { page, size }
-  }).pipe(
-    retry(3),
-    catchError((error) => this.errorHandler.handleHttpError(error))
-  );
-}
+  getJobs(
+    page: number = 0,
+    size: number = 10
+  ): Observable<AllJobsResponse<Data>> {
+    return this.http
+      .get<AllJobsResponse<Data>>(`${this.BASE_URL_JOB}/api/v1/jobs`, {
+        params: { page, size },
+      })
+      .pipe(
+        retry(3),
+        catchError((error) => this.errorHandler.handleHttpError(error))
+      );
+  }
 
-getJobById(id: string): Observable<AllJobsResponse<Job>>{
-  return this.http.get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`).pipe(
-    retry(3),
-    catchError((error) => this.errorHandler.handleHttpError(error))
-  )
-}
-
-
-  
+  getJobById(id: string): Observable<AllJobsResponse<Job>> {
+    return this.http
+      .get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`)
+      .pipe(
+        retry(3),
+        catchError((error) => this.errorHandler.handleHttpError(error))
+      );
+  }
 
   setSelectedJob(job: Job) {
     this.selectedJob = job;
@@ -49,11 +55,14 @@ getJobById(id: string): Observable<AllJobsResponse<Job>>{
     return this.selectedJob;
   }
 
-
-
   getApplications(): Observable<ApplicationStatus[]> {
     return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
   }
 
-  
+  postJobApplication(data: ApplicationForm, id: string) {
+    return this.http.post(
+      `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
+      data
+    );
+  }
 }

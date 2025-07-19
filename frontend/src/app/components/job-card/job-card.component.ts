@@ -8,8 +8,6 @@ import { getTimeAgo, formatJobType } from '../../shared/utils/common';
 
 import { TimeAgoPipe } from '../../shared/utils/time-ago-pipe/time-ago.pipe';
 
-
-
 @Component({
   selector: 'app-job-card',
   imports: [CommonModule, CardModule, TimeAgoPipe, TitleCasePipe, CurrencyPipe],
@@ -22,13 +20,10 @@ export class JobCardComponent {
   router = inject(Router);
   jobService = inject(JobService);
 
-
-
   formatJobType = formatJobType;
 
   onCardClick(job: Job) {
     this.jobService.setSelectedJob(job);
     this.router.navigate(['seeker/dashboard/job-details', job.id]);
   }
-
 }
