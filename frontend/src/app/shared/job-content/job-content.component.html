@@ -1,19 +1,20 @@
 <div class="content">
-    <div class="requirements">
-        <strong>Requirements</strong>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores, commodi dolorem! Quam,
-            eligendi minima. Quasi dolores esse quam deleniti iste corrupti, earum est modi dignissimos
-            cumque quae voluptas blanditiis provident.</p>
+    @for(item of content ?? []; track $index){
 
-        <div class="list">
+    <div class="requirements">
+        <strong>{{item.title}}</strong>
+        <p>{{item.description}}</p>
+
+        <!-- <div class="list">
             <ul class="custom-list">
                 <li>Experience with React and Node.js</li>
                 <li>Strong understanding of web development principles</li>
                 <li>Ability to work in a team and independently</li>
             </ul>
-        </div>
+        </div> -->
     </div>
-    <div class="todo">
+    }
+    <!-- <div class="todo">
         <strong>What You Will Do</strong>
         <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, cumque. Quisquam
@@ -29,5 +30,5 @@
                 <li>Ability to work in a team and independently</li>
             </ol>
         </div>
-    </div>
+    </div> -->
 </div>

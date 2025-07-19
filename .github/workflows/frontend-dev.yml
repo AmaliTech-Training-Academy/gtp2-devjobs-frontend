@@ -5,6 +5,7 @@ on:
     branches:
       - testing
       - development
+      - feature/devops
 
 permissions:
   id-token: write
@@ -27,6 +28,7 @@ jobs:
       AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       ECR_REPO: ${{ secrets.ECR_REPO }}
       EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+      NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
 
   deploy:
     name: Deploy to ECS (Dev)

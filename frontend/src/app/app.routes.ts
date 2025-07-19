@@ -7,7 +7,8 @@ import { JobListComponent } from './features/jobs/job-list/job-list.component';
 import { UnathorizedComponent } from './shared/components/unathorized/unathorized/unathorized.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
-import { DataTableComponent } from './shared/data-table/data-table.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
+import { JobDetailsComponent } from './features/job-details/job-details.component';
 
 export const routes: Routes = [
   // Public Routes
@@ -18,6 +19,28 @@ export const routes: Routes = [
         (m) => m.LandingPageComponent
       ),
   },
+  {
+    path: 'start-search',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/start-search/start-search.component'
+      ).then((m) => m.StartSearchComponent),
+  },
+  {
+    path: 'jobs',
+    loadComponent: () =>
+      import('./features/landing/pages/jobs-list/jobs-list.component').then(
+        (m) => m.JobsListComponent
+      ),
+  },
+  {
+    path: 'salary-estimate',
+    loadComponent: () =>
+      import(
+        './features/landing/pages/salary-estimate/salary-estimate.component'
+      ).then((m) => m.SalaryEstimateComponent),
+  },
+
   {
     path: 'register',
     component: RegisterComponent,
@@ -71,19 +94,19 @@ export const routes: Routes = [
         title: 'Employer Settings',
         children: [
           {
-            path: 'profile',
+            path: '',
             loadComponent: () =>
-              import('./shared/profile/profile.component').then(
-                (m) => m.ProfileComponent
-              ),
+              import(
+                './features/employer-profile/employer-profile.component'
+              ).then((m) => m.EmployerProfileComponent),
             data: { type: 'employer' },
           },
           {
             path: 'account-management',
             loadComponent: () =>
               import(
-                './shared/account-management/account-management.component'
-              ).then((m) => m.AccountManagementComponent),
+                './features/employer-account-management/employer-account-management.component'
+              ).then((m) => m.EmployerAccountManagementComponent),
           },
         ],
       },
@@ -101,11 +124,13 @@ export const routes: Routes = [
       ).then((m) => m.SeekerDashboardComponent),
     children: [
       {
-        path: 'jobs-list',
+        path: '',
         component: JobListComponent,
-        // canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
         pathMatch: 'full',
+      },
+      {
+        path: 'job-details/:id',
+        component: JobDetailsComponent,
       },
       {
         path: 'application-status',
@@ -113,11 +138,11 @@ export const routes: Routes = [
           import(
             './features/jobs/application-status/application-status.component'
           ).then((m) => m.ApplicationStatusComponent),
-        // canActivate: [authGuard, roleGuard],
+        canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
-        path: 'application-form',
+        path: 'application-form/:id',
         loadComponent: () =>
           import('./features/application-form/application-form.component').then(
             (m) => m.ApplicationFormComponent
@@ -126,19 +151,29 @@ export const routes: Routes = [
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
-        path: 'job-details',
+        path: 'job-details/:id',
         loadComponent: () =>
           import('./features/job-details/job-details.component').then(
             (m) => m.JobDetailsComponent
           ),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/seeker-profile/seeker-profile.component').then(
+            (m) => m.SeekerProfileComponent
+          ),
+      },
+      {
+        path: 'account-management',
+        loadComponent: () =>
+          import(
+            './features/seeker-account-management/seeker-account-management.component'
+          ).then((m) => m.SeekerAccountManagementComponent),
+      },
     ],
   },
-  {
-    path: 'tables',
-    component: DataTableComponent,
-    title: 'data-table'
-  },
+
   // Unauthorized Route
   {
     path: 'unauthorized',

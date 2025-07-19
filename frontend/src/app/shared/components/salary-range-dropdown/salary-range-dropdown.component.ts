@@ -31,7 +31,7 @@ export class SalaryRangeDropdownComponent {
     }
   }
 
-  onSliderChange(event: any) {
+  onSliderEnd(event: any) {
     this.valueChange.emit(this.value);
   }
 

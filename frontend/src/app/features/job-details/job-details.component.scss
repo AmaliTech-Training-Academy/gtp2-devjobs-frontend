@@ -3,35 +3,25 @@
 @use "../../styles/mixins";
 
 .wrapper {
-  width: 1200px;
-  // width: 100%;
-  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   gap: 20px;
-  box-sizing: border-box;
 
   @include mixins.breakpoint(1200px) {
     width: 100%;
-  }
-
-  .back-wrapper {
-    width: 100%;
-    display: flex;
-    margin: 40px 0;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: pink;
-
-    .back {
-      // border: none
-      @include mixins.button(#19202d, transparent, 178px, 0px);
-    }
   }
 
   .details-wrapper {
     margin-bottom: 40px;
     display: grid;
     gap: 12px;
+    box-sizing: border-box;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
 
     .company-detail {
       background-color: #ffffff;
@@ -41,9 +31,14 @@
       justify-content: space-between;
       align-items: center;
 
+      @include mixins.breakpoint(1200px) {
+        padding-right: 40px;
+      }
+
       .logo {
         height: 107px;
-        width: 250px;
+        width: 100%;
+        max-width: 250px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -114,7 +109,7 @@
 
       header {
         width: 100%;
-        margin-bottom: 40px;
+        margin-bottom: 10px;
 
         .row2 {
           display: flex;
@@ -155,50 +150,6 @@
           }
         }
       }
-    }
-  }
-}
-.custom-list {
-  list-style: none;
-  padding-left: 0;
-
-  li {
-    position: relative;
-    padding-left: 24px;
-    margin-bottom: 10px;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 10px;
-      width: 7px;
-      height: 4px;
-      background-color: variables.$primary-color;
-      border-radius: 50%;
-    }
-  }
-}
-.custom-ol-list {
-  counter-reset: list-counter;
-  list-style: none;
-  padding-left: 0;
-
-  li {
-    counter-increment: list-counter;
-    position: relative;
-    padding-left: 30px;
-    margin-bottom: 10px;
-
-    &::before {
-      content: counter(list-counter) ".";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: variables.$primary-color;
-      font-weight: bold;
-      width: 20px;
-      display: inline-block;
     }
   }
 }

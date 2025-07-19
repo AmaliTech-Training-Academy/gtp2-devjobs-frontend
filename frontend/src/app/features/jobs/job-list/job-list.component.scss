@@ -4,6 +4,22 @@
   gap: 4rem;
   flex-direction: column;
   align-items: end;
+
+  p{
+    padding-right: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 2rem;
+  }
+}
+
+.job-list-flex {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 60vh;
 }
 
 .jobs-list {
@@ -13,4 +29,6 @@
   width: 100%;
   justify-items: center;
   padding-bottom: 2rem;
+
+  flex: 1 1 auto;
 }

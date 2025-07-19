@@ -20,7 +20,6 @@ export class EmployerProfileComponent {
   }
 
   onSkillsPage() {
-    this.router.navigate(['/account-management']);
-    console.log('Child component emitted the onProfile event');
+    this.router.navigate(['/employer/settings/account-management']);
   }
 }
