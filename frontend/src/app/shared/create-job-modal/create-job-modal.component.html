@@ -37,31 +37,44 @@
                                 <form [formGroup]="firstJobForm">
                                     <div class="form-input-div">
                                         <label>Job title</label>
-                                        <small class="error-message" 
+                                        <!-- <small class="error-message" 
                                                *ngIf="firstJobForm.get('jobTitle')?.invalid && (firstJobForm.get('jobTitle')?.touched || firstJobForm.get('jobTitle')?.dirty)">
                                             Job title is required
+                                            
+                                        </small> -->
+
+                                        <small class="error-message" *ngIf="firstJobForm.get('jobTitle')?.touched">
+                                            <ng-container *ngIf="firstJobForm.get('jobTitle')?.hasError('required')">
+                                                Job title is required
+                                            </ng-container>
+                                            <ng-container *ngIf="firstJobForm.get('jobTitle')?.hasError('minlength')">
+                                                Job title must be at least 5 characters
+                                            </ng-container>
                                         </small>
+                                        
                                         <input type="text" formControlName="jobTitle" placeholder="Job title here" class="job-form-input">
                                     </div>
 
-                                    <div class="form-input-div">
+                                    <div class="form-input-div svg-display">
                                         <label>Job type</label>
                                         <small class="error-message" 
                                                *ngIf="firstJobForm.get('jobType')?.touched && firstJobForm.get('jobType')?.invalid">
                                             Job type is required
                                         </small>
+
+                                        <div class="select-wrapper">
                                         <select class="job-form-input job-input-select" formControlName="jobType">
                                             <option value="PART_TIME">PART_TIME</option>
                                             <option value="FULL_TIME">FULL_TIME</option>
                                             <option value="CONTRACT">CONTRACT</option>
                                             <option value="REMOTE">REMOTE</option>
-
-                                            <span class="custom-arrow">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.59 8.29492L12 12.8749L7.41 8.29492L6 9.70492L12 15.7049L18 9.70492L16.59 8.29492Z" fill="currentColor"/>
-                                                </svg>
-                                            </span>
                                         </select>
+
+                                        <svg class="custom-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.59 8.29492L12 12.8749L7.41 8.29492L6 9.70492L12 15.7049L18 9.70492L16.59 8.29492Z" fill="black"/>
+                                        </svg>
+                                        
+                                        </div>
                                     </div>
 
                                     <div class="form-input-div svg-display">
@@ -74,7 +87,7 @@
                                                 Salary must be greater than 0
                                             </ng-container>
                                         </small>
-                                        <input formControlName="salary" type="number" min="1" placeholder="Job title here" class="job-form-input-svg">
+                                        <input formControlName="salary" type="number" min="1" placeholder="Salary here" class="job-form-input-svg">
                                         
                                         <svg class="svg-icon-dollar" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.89 11.1C11.11 10.51 10.25 10.14 10.25 9.2C10.25 8.18 11.36 7.81 12.06 7.81C13.37 7.81 13.85 8.8 13.96 9.15L15.54 8.48C15.39 8.04 14.72 6.57 12.88 6.25V5H11.13V6.26C8.53 6.82 8.51 9.11 8.51 9.22C8.51 11.49 10.76 12.13 11.86 12.53C13.44 13.09 14.14 13.6 14.14 14.56C14.14 15.69 13.09 16.17 12.16 16.17C10.34 16.17 9.82 14.3 9.76 14.08L8.1 14.75C8.73 16.94 10.38 17.53 11.12 17.71V19H12.87V17.76C13.39 17.67 15.89 17.17 15.89 14.54C15.9 13.15 15.29 11.93 12.89 11.1Z" fill="#586071"/>
@@ -88,7 +101,7 @@
                                                *ngIf="firstJobForm.get('companyName')?.touched && firstJobForm.get('companyName')?.invalid">
                                             Company name is required
                                         </small>
-                                        <input formControlName="companyName" type="text" placeholder="Job title here" class="job-form-input">
+                                        <input formControlName="companyName" type="text" placeholder="Company name here" class="job-form-input">
                                     </div>
 
                                     <div class="form-input-div svg-display">
@@ -97,7 +110,7 @@
                                                *ngIf="firstJobForm.get('location')?.touched && firstJobForm.get('location')?.invalid">
                                             Location is required
                                         </small>
-                                        <input formControlName="location" type="text" placeholder="Job title here" class="job-form-input-svg">
+                                        <input formControlName="location" type="text" placeholder="Location here" class="job-form-input-svg">
                                         <svg class="svg-icon-dollar" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM7 9C7 6.24 9.24 4 12 4C14.76 4 17 6.24 17 9C17 11.88 14.12 16.19 12 18.88C9.92 16.21 7 11.85 7 9Z" fill="#586071"/>
                                         <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="#586071"/>
@@ -120,8 +133,13 @@
                                             
                                             <div class="form-input-div show-delete-control">
                                                 <label>Title</label>
-                                                <small class="error-message" *ngIf="group.get('title')?.touched && group.get('title')?.invalid">
-                                                    Title is required
+                                                <small class="error-message" *ngIf="group.get('title')?.touched">
+                                                    <ng-container *ngIf="group.get('title')?.hasError('required')">
+                                                        Title is required
+                                                    </ng-container>
+                                                    <ng-container *ngIf="group.get('title')?.hasError('minlength')">
+                                                        Title must be at least 5 characters
+                                                    </ng-container>
                                                 </small>
                                                 <input type="text" formControlName="title" placeholder="Job title here" class="job-form-input">
                                            
@@ -134,8 +152,13 @@
 
                                             <div class="form-input-div">
                                                 <label>Description</label>
-                                                <small class="error-message" *ngIf="group.get('description')?.touched && group.get('description')?.invalid">
-                                                    Description is required
+                                                <small class="error-message" *ngIf="group.get('description')?.touched">
+                                                    <ng-container *ngIf="group.get('description')?.hasError('required')">
+                                                        Description is required
+                                                    </ng-container>
+                                                    <ng-container *ngIf="group.get('description')?.hasError('minlength')">
+                                                        Description must be at least 20 characters
+                                                    </ng-container>
                                                 </small>
                                                 <textarea rows="10" formControlName="description" placeholder="Job title here" class="job-form-textarea"></textarea>
                                             </div>

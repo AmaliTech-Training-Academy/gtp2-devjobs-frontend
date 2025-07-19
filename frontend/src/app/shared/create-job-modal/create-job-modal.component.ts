@@ -24,8 +24,8 @@ export class CreateJobModalComponent {
 
 
   firstJobForm = new FormGroup({
-    jobTitle: new FormControl('', Validators.required),
-    jobType: new FormControl('', Validators.required),
+    jobTitle: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    jobType: new FormControl('FULL_TIME', Validators.required),
     salary: new FormControl('', [Validators.required, Validators.min(1)]),
     companyName: new FormControl('', Validators.required),
     location: new FormControl('', Validators.required)
@@ -44,8 +44,8 @@ export class CreateJobModalComponent {
 
   createAdditionalJobData() {
     return this.formBuilder.group({
-      description: ['', Validators.required],
-      title: ['', Validators.required]
+      description: ['', [Validators.required, Validators.minLength(20)]],
+      title: ['',[Validators.required, Validators.minLength(5)]]
     })
   }
 
@@ -99,24 +99,24 @@ export class CreateJobModalComponent {
 
       const combinedJobData: CreateJobPayload = {
         title: this.firstJobForm.value.jobTitle!,
-        employmentType: this.firstJobForm.value.jobType!,
-        salary: Number(this.firstJobForm.value.salary!),
+        descriptions: this.getAdditionalJobData.value,
         location: this.firstJobForm.value.location!,
+        employmentType: this.firstJobForm.value.jobType!,
         companyName: this.firstJobForm.value.companyName!,
-        description: this.getAdditionalJobData.value[0].description,
+        salary: Number(this.firstJobForm.value.salary!),
         currency: 'USD',
-
+        // description: this.getAdditionalJobData.value[0].description,
       }
 
       console.log( "combined data = ", combinedJobData )
 
-      // this.employerHttp.createNewJob(combinedJobData).subscribe({
-      //   next: ( newJob ) => console.log('job created', newJob)
-      // })
-
-      this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
-        next: ( newJob ) => console.log('job updated', newJob)
+      this.employerHttp.createNewJob(combinedJobData).subscribe({
+        next: ( newJob ) => console.log('job created', newJob)
       })
+
+      // this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
+      //   next: ( newJob ) => console.log('job updated', newJob)
+      // })
 
     }
 

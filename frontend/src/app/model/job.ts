@@ -73,12 +73,13 @@ export interface EmployerJob {
   company: Company;
   title: string;
   description: string;
+  descriptions: JobDescription[],
   location: string;
   employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN' | string;
   salary: number;
   currency: string;
   isActive: boolean;
-  applicationDeadline: string;
+  applicationDeadline: string | null;
   requiredSkills: RequiredSkill[];
   applicationCount: number;
 }
@@ -128,12 +129,17 @@ export interface Pageable {
 }
 
 
+export interface JobDescription {
+  title: string,
+  description: string
+}
+
 
 
 /* Post Job Response */
 export interface CreateJobPayload {
   title: string;
-  description: string;
+  descriptions: JobDescription[];
   location: string;
   employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN' | string;
   companyName: string;
@@ -148,7 +154,7 @@ export interface CreatedJobResponse {
   data: EmployerJob;
   timestamp: string;
   error: boolean;
-  errors: string[];
+  errors: any;
 }
 
 

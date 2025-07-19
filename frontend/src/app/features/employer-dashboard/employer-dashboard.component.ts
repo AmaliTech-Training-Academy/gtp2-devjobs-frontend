@@ -20,8 +20,6 @@ export class EmployerDashboardComponent implements OnInit {
 
   columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
-  // let baseUrl = 'https://f20c1106ab65.ngrok-free.app/'
-
   jobsArray: any = [];
 
   ngOnInit(): void {
@@ -30,6 +28,9 @@ export class EmployerDashboardComponent implements OnInit {
         console.log("jobs fetched, ", jobs.data.content )
         this.jobsArray = jobs.data.content
         console.log("jobs array = ", this.jobsArray)
+      },
+      error: (err) => {
+        console.log("error while fetching jobs ", err)
       }
     })
   }
