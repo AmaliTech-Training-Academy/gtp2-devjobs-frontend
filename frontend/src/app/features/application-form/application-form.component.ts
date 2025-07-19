@@ -82,8 +82,15 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   getStepClass(step: number): string {
-    if (step < this.currentStep) return 'step-completed';
-    if (step === this.currentStep) return 'step-active';
+    if (step < this.currentStep) return 'completed';
+    if (step === this.currentStep) return 'completed';
+    if (step === this.currentStep + 1) return 'next';
+    return '';
+  }
+
+  getLineClass(step: number): string {
+    if (step === this.currentStep || step < this.currentStep)
+      return 'active-line';
     return '';
   }
 

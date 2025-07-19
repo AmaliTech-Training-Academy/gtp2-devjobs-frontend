@@ -12,44 +12,82 @@
   display: flex;
   justify-content: space-between;
 
+  .step-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .active {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+      border: none !important;
+    }
+
+    .active-line {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+    }
+
+    .completed {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+      border: none !important;
+    }
+    .next {
+      border: 4px solid variables.$primary-color !important;
+    }
+    .step-circle {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      color: #19202d;
+      font-weight: 700px;
+      font-size: 18px;
+      align-items: center;
+      font-weight: 600px;
+      border: 4px solid #d3d3d3;
+
+      @include mixins.breakpoint(700px) {
+        width: 45px;
+        height: 45px;
+      }
+      @include mixins.breakpoint(400px) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .line {
+      height: 2px;
+      background-color: #d3d3d3;
+      flex-grow: 1;
+    }
+  }
+
   @include mixins.breakpoint(1200px) {
     width: 100%;
     flex-direction: column;
   }
 
-  // ::ng-deep .p-button {
-  //   @include mixins.button(variables.$primary-color, variables.$btn-light-blue);
-  // }
-
-  ::ng-deep .next-btn {
-    @include mixins.button(white, variables.$primary-color);
+  .back-btn {
+    border: none;
+    background-color: variables.$btn-light-blue !important;
+    color: variables.$primary-color !important;
+    @include fonts.header4;
+    width: 121px !important;
+    height: 48px;
+    padding: 14px 27px;
   }
-
-  ::ng-deep .back-btn {
-    @include mixins.button(variables.$primary-color, variables.$btn-light-blue);
+  .next-btn {
+    border: none;
+    color: white;
+    background-color: variables.$primary-color !important;
+    @include fonts.header4;
+    width: 121px !important;
+    height: 48px;
+    padding: 14px 27px;
   }
-
-  // ::ng-deep .step-custom {
-  //   .p-stepper-step {
-  //     .p-stepper-number {
-  //       border: 2px solid #d3d3d3;
-  //       background-color: white;
-  //       color: #19202d;
-  //     }
-  //   }
-
-  //   &.step-active .p-stepper-number {
-  //     background-color: #5964e0;
-  //     color: white;
-  //     border-color: #5964e0;
-  //   }
-
-  //   &.step-completed .p-stepper-number {
-  //     background-color: #5964e0;
-  //     color: white;
-  //     border-color: #5964e0;
-  //   }
-  // }
 
   .form-section {
     width: 704px;
@@ -163,9 +201,6 @@
       display: none;
     }
   }
-  .back-btn {
-    @include mixins.button(black, variables.$primary-color);
-  }
 
   .navigations-mobile {
     display: none;
@@ -173,8 +208,16 @@
 
   @include mixins.breakpoint(1200px) {
     .navigations-mobile {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+
+      .next-btn {
+        width: 100% !important;
+      }
+      .back-btn {
+        width: 100% !important;
+      }
     }
 
     .nav-desktop {
