@@ -9,6 +9,15 @@ export interface AllJobsResponse {
     error:     boolean;
     errors:    string[];
 }
+export interface JobByIdResponse {
+    success:   boolean;
+    message:   string;
+    data:      Job;
+    timestamp: string;
+    error:     boolean;
+    errors:    string[];
+}
+
 
 export interface Data {
     totalElements:    number;
