@@ -38,11 +38,17 @@
 
     @if( activeTab === 'incoming' && applications.length > 0 ) {
         <section class="applications-available">
-            <app-data-table [jobsArray]="applications" [properties]="properties">
+            <app-data-table [jobsArray]="applications" [columns]="columns">
             </app-data-table>
         </section>
     }
 
+
+    @if( activeTab === 'statuses' && applications.length > 0 ) {
+        <section class="applications-available">
+            <app-application-action-data-table [columns]="applicationActionsColumn" [jobsArray]="applicationDetailsArray" />
+        </section>
+    }
    
 
 

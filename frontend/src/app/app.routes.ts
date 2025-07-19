@@ -180,8 +180,8 @@ export const routes: Routes = [
     component: UnathorizedComponent,
   },
   // Catch-all Wildcard
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  // },
 ];
