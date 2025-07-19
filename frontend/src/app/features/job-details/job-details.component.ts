@@ -7,13 +7,7 @@ import { CommonModule } from '@angular/common';
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
 import { getTimeAgo, formatJobType } from '../../shared/utils/common';
-
-import { JobService } from '../../core/services/job-service/job.service';
-import { Job } from '../../model/all.jobs';
-import { getTimeAgo, formatJobType } from '../../shared/utils/common';
-
 import { Auth } from '../../core/services/authservice/auth.service';
-
 
 @Component({
   selector: 'app-job-details',

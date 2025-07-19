@@ -24,7 +24,7 @@ export class JobService {
     size: number = 10
   ): Observable<AllJobsResponse<Data>> {
     return this.http
-      .get<AllJobsResponse>(`${this.BASE_URL_JOB}/api/v1/jobs`, {
+      .get<AllJobsResponse<Data>>(`${this.BASE_URL_JOB}/api/v1/jobs`, {
         params: { page, size },
       })
       .pipe(
@@ -35,7 +35,7 @@ export class JobService {
 
   getJobById(id: string): Observable<AllJobsResponse<Job>> {
     return this.http
-      .get<JobByIdResponse>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`)
+      .get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`)
       .pipe(
         retry(3),
         catchError((error) => this.errorHandler.handleHttpError(error))
