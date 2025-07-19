@@ -8,6 +8,7 @@ import { UnathorizedComponent } from './shared/components/unathorized/unathorize
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
+import { JobDetailsComponent } from './features/job-details/job-details.component';
 
 export const routes: Routes = [
   // Public Routes
@@ -125,9 +126,11 @@ export const routes: Routes = [
       {
         path: '',
         component: JobListComponent,
-        // canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
         pathMatch: 'full',
+      },
+      {
+        path: 'job-details',
+        component: JobDetailsComponent,
       },
       {
         path: 'application-status',
@@ -135,7 +138,7 @@ export const routes: Routes = [
           import(
             './features/jobs/application-status/application-status.component'
           ).then((m) => m.ApplicationStatusComponent),
-        // canActivate: [authGuard, roleGuard],
+        canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
@@ -148,6 +151,7 @@ export const routes: Routes = [
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
+
         path: 'job-details/:id',
         loadComponent: () =>
           import('./features/job-details/job-details.component').then(
@@ -155,6 +159,7 @@ export const routes: Routes = [
           ),
       },
       {
+
         path: 'profile',
         loadComponent: () =>
           import('./features/seeker-profile/seeker-profile.component').then(
