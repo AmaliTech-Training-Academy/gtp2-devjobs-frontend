@@ -10,25 +10,73 @@ import { OverlayPanelModule } from 'primeng/overlaypanel'
 import { debounceTime } from 'rxjs';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 
-
-
 @Component({
-  selector: 'app-actions-data-table',
+  selector: 'app-application-action-data-table',
   imports: [ TableModule, PaginatorModule, ButtonModule, ReactiveFormsModule,
              MenuModule, CommonModule, PopoverModule, OverlayPanelModule],
-  templateUrl: './actions-data-table.component.html',
-  styleUrl: './actions-data-table.component.scss',
+  templateUrl: './application-action-data-table.component.html',
+  styleUrl: './application-action-data-table.component.scss'
 })
-export class ActionsDataTableComponent {
+export class ApplicationActionDataTableComponent {
+
   @Input() columns: any = []
   @Input() jobsArray: any = []
-
   @Output() openDeleteModal = new EventEmitter<boolean>()
 
   filterArray: any = []
   filterTerm = new FormControl('')
-
   modalService = inject( ModalsServiceService )
+
+  statusOptions = ['Applied', 'Reviewed', 'Interviewed', 'Rejected'];
+
+  handleStatusChange(rowData: any, newStatus: string) {
+    // const rowId = rowData.;
+
+    console.log('Selected status:', newStatus);
+    console.log("row data = ", rowData)
+    // console.log('For row ID:', rowId);
+
+    // You can update the status
+    rowData['Status'] = newStatus;
+
+    // Optional: Call an API
+    // this.myService.updateStatus(rowId, newStatus).subscribe(...);
+  }
+
+  getStatusDotClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'applied': return 'dot-applied';
+      case 'reviewed': return 'dot-reviewed';
+      case 'interviewed': return 'dot-interviewed';
+      case 'rejected': return 'dot-rejected';
+      default: return 'dot-default';
+    }
+  }
+
+  getStatusTextClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'applied': return 'status-text-applied';
+      case 'reviewed': return 'status-text-reviewed';
+      case 'interviewed': return 'status-text-interviewed';
+      case 'rejected': return 'status-text-rejected';
+      default: return 'status-text-default';
+    }
+  }
+
+  getStatusDivClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'applied': return 'status-div-applied';
+      case 'reviewed': return 'status-div-reviewed';
+      case 'interviewed': return 'status-div-interviewed';
+      case 'rejected': return 'status-div-rejected';
+      default: return 'status-div-default';
+    }
+  }
+
+
+
+
+  
 
   openJobDetailsFormModal() {
     this.modalService.showJobDetailsFormModal = true
@@ -87,5 +135,5 @@ export class ActionsDataTableComponent {
   }
 
 
-
+  
 }

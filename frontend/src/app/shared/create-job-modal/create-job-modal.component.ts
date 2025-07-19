@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, Input } from '@angular/core';
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -6,7 +6,10 @@ import { CommonModule } from '@angular/common';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 import { CreateJobPayload } from '../../model/job';
-
+// import { ToastService } from '../../../../shared/utils/toast/toast.service';
+// import { LoadingService } from '../../../../shared/utils/loading/loading.service';
+import { ToastService } from '../utils/toast/toast.service';
+import { LoadingService } from '../utils/loading/loading.service';
 
 
 @Component({
@@ -19,8 +22,10 @@ export class CreateJobModalComponent {
 
   modalService = inject( ModalsServiceService )
   employerHttp = inject( EmployerHttpRequestsService )
+  toastService = inject( ToastService )
 
   destroyRef = inject( DestroyRef )
+  
 
 
   firstJobForm = new FormGroup({
@@ -111,7 +116,10 @@ export class CreateJobModalComponent {
       console.log( "combined data = ", combinedJobData )
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
-        next: ( newJob ) => console.log('job created', newJob)
+        next: ( newJob ) => {
+              console.log('job created', newJob)  
+              this.toastService.success('Job Created!!');
+          }
       })
 
       // this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({

@@ -66,3 +66,46 @@ body {
     }
 }
 
+
+
+.popover-wrapper-application-table {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+
+    .popover-option-application-table {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 2px;
+      width: 115px;
+      height: 32px;
+    }
+
+    .popover-option-application-table:nth-child(1) {
+      background-color: #F4F6F8;
+      color: #5964E0;
+    }
+
+    .popover-option-application-table:nth-child(2) {
+      background-color: #FFF7A3;
+      color: #19202D;
+    }
+
+    .popover-option-application-table:nth-child(3) {
+      background-color: #ECFDF3;
+      color: #2D7230;
+    }
+
+    .popover-option-application-table:nth-child(4) {
+      background-color: #FFC3C8;
+      color: #DC3545;
+    }
+
+
+}
+

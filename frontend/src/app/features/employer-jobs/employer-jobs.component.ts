@@ -44,6 +44,7 @@ export class EmployerJobsComponent {
 
 
   openJobCreationModal() {
+    this.modalService.createOrUpdateJobActionType = 'Create'
     this.modalService.openCreateJobFormModal()
   }
 

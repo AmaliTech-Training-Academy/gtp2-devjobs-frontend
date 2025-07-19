@@ -43,6 +43,12 @@
         </section>
     }
 
+
+    @if( activeTab === 'statuses' && applications.length > 0 ) {
+        <section class="applications-available">
+            <app-application-action-data-table [columns]="applicationActionsColumn" [jobsArray]="applicationDetailsArray" />
+        </section>
+    }
    
 
 

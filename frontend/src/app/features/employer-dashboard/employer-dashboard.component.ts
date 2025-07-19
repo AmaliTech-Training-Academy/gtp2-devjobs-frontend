@@ -20,7 +20,44 @@ export class EmployerDashboardComponent implements OnInit {
 
   columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
-  jobsArray: any = [];
+  jobsArray: any = [
+  {
+    "Job Title": "Frontend Developer",
+    "Applicants": 24,
+    "Job Type": "FULL_TIME",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Data Analyst Intern",
+    "Applicants": 15,
+    "Job Type": "PART_TIME",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Product Manager",
+    "Applicants": 38,
+    "Job Type": "FULL_TIME",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Remote UX Designer",
+    "Applicants": 9,
+    "Job Type": "REMOTE",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Contract QA Tester",
+    "Applicants": 12,
+    "Job Type": "CONTRACT",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Marketing Assistant",
+    "Applicants": 6,
+    "Job Type": "PART_TIME",
+    "Action": "View"
+  }
+  ];
 
   ngOnInit(): void {
     this.employerHttp.getAllJobs().subscribe({
