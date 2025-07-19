@@ -32,7 +32,7 @@ We maintain three separate environments for the application:
 
 | Environment | URL                                                                                              | Purpose                            | Update Frequency       |
 | ----------- | ------------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------- |
-| Development | [https://dev.devjobs.example.com](gtp2-fe-testing-alb-512036373.eu-central-1.elb.amazonaws.com)  | Latest features, may be unstable   | Multiple times per day |
+| Development | [https://dev.devjobs.example.com](gtp2-fe-primary-alb-648048185.eu-central-1.elb.amazonaws.com)  | Latest features, may be unstable   | Multiple times per day |
 | Testing     | [https://test.devjobs.example.com](gtp2-fe-testing-alb-512036373.eu-central-1.elb.amazonaws.com) | For QA and user acceptance testing | As needed for testing  |
 | Production  | [https://devjobs.example.com](in-progress)                                                       | Live customer-facing site          | Scheduled releases     |
 
