@@ -12,7 +12,8 @@ import { CommonModule } from '@angular/common';
 import { ReusableFormGroupComponent } from '../../shared/reusable-form-group/reusable-form-group.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
 import { Auth } from '../../core/services/authservice/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { JobService } from '../../core/services/job-service/job.service';
 
 @Component({
   selector: 'app-application-form',
@@ -31,6 +32,7 @@ export class ApplicationFormComponent implements OnInit {
   coverLetterFile: File | null = null;
   resumeFile: File | null = null;
 
+  jobService = inject(JobService);
   fb = inject(FormBuilder);
   form!: FormGroup;
   isHoveringResume = false;
@@ -38,8 +40,12 @@ export class ApplicationFormComponent implements OnInit {
   showAuthModal = false;
   private auth = inject(Auth);
   private router = inject(Router);
+  route = inject(ActivatedRoute);
+  appId!: string | null;
 
   ngOnInit(): void {
+    this.appId = this.route.snapshot.paramMap.get('id');
+
     if (!this.auth.isLoggedIn()) {
       this.showAuthModal = true;
     }
@@ -76,8 +82,15 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   getStepClass(step: number): string {
-    if (step < this.currentStep) return 'step-completed';
-    if (step === this.currentStep) return 'step-active';
+    if (step < this.currentStep) return 'completed';
+    if (step === this.currentStep) return 'completed';
+    if (step === this.currentStep + 1) return 'next';
+    return '';
+  }
+
+  getLineClass(step: number): string {
+    if (step === this.currentStep || step < this.currentStep)
+      return 'active-line';
     return '';
   }
 
@@ -211,11 +224,24 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
+    // const job = this.jobService.getSelectedJob();
     this.currentStep = 5;
-    if (this.form.valid) {
-      console.log(this.form.value);
+
+    // console.log('id:', job?.id);
+    if (this.form.valid && this.appId) {
+      this.jobService
+        .postJobApplication(this.form.value, this.appId)
+        .subscribe({
+          next: (response) => {
+            console.log('Application submitted successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error submitting application:', error);
+          },
+        });
     } else {
       console.log('Form invalid');
+      console.log(this.form.value);
     }
   }
 

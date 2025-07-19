@@ -1,23 +1,14 @@
-<app-action-modal
-  [open]="showAuthModal"
-  title="You need to create an account before applying for this job"
-  message="Please log in or sign up to continue."
-  [confirmText]="'Log in'"
-  [cancelText]="'Sign up'"
-  type="info"
-  [showClose]="false"
-  (onConfirm)="handleAuthModalConfirm('login')"
-  (onCancel)="handleAuthModalConfirm('signup')"
-></app-action-modal>
+<app-action-modal [open]="showAuthModal" title="You need to create an account before applying for this job"
+    message="Please log in or sign up to continue." [confirmText]="'Log in'" [cancelText]="'Sign up'" type="info"
+    [showClose]="false" (onConfirm)="handleAuthModalConfirm('login')"
+    (onCancel)="handleAuthModalConfirm('signup')"></app-action-modal>
 <form [formGroup]="form">
 
     <div class="wrapper">
 
         <div class="nav-desktop">
-            @if(currentStep != 1){
-
-            <p-button label="Previous" severity="secondary" (onClick)="goBack()" [disabled]="currentStep === 1"
-                styleClass="back-btn" />
+            @if(currentStep !== 1 && currentStep !== 5){
+            <button class="back-btn" (click)="goBack()">Previous</button>
             }
 
         </div>
@@ -25,7 +16,7 @@
 
         <p-stepper [(value)]="currentStep" class="basis-[50rem]" [linear]="true">
 
-            <p-step-list>
+            <!-- <p-step-list>
                 <p-step [value]="1" styleClass="step-custom" [ngClass]="getStepClass(1)">
                 </p-step>
                 <p-step [value]="2" styleClass="step-custom" [ngClass]="getStepClass(2)">
@@ -36,7 +27,19 @@
                 </p-step>
                 <p-step [value]="5" styleClass="step-custom" [ngClass]="getStepClass(5)">
                 </p-step>
-            </p-step-list>
+            </p-step-list> -->
+
+            <div class="step-list">
+                <div class="step-circle active" [ngClass]="getStepClass(1)">1</div>
+                <div class="line active-line" [ngClass]="getLineClass(1)"></div>
+                <div class="step-circle next" [ngClass]="getStepClass(2)">2</div>
+                <div class="line" [ngClass]="getLineClass(2)"></div>
+                <div class="step-circle" [ngClass]="getStepClass(3)">3</div>
+                <div class="line" [ngClass]="getLineClass(3)"></div>
+                <div class="step-circle" [ngClass]="getStepClass(4)">4</div>
+                <div class="line" [ngClass]="getLineClass(4)"></div>
+                <div class="step-circle step-5" [ngClass]="getStepClass(5)">&#10003;</div>
+            </div>
 
             <p-step-panels>
                 <p-step-panel *ngFor="let step of [1, 2, 3, 4, 5]" [value]="step">
@@ -289,8 +292,10 @@
 
 
         <div class="navigations-mobile">
-            <p-button label="Previous" severity="secondary" (onClick)="goBack()" [disabled]="currentStep === 1"
-                styleClass="back-btn" />
+            @if(currentStep !== 1 && currentStep !== 5){
+
+            <button class="back-btn" (click)="goBack()">Previous</button>
+            }
 
             @if(currentStep === 4){
             <button class="submit-btn" type="submit" (click)="submitForm()">
@@ -299,8 +304,7 @@
             }
             @else {
             @if(currentStep !== 5){
-            <p-button label="Next" class="next" (onClick)="goNext()" [disabled]="currentStep === 5"
-                styleClass="next-btn" />
+            <button class="next-btn" (click)="goNext()">Next</button>
 
             }
 
@@ -317,7 +321,7 @@
             }
             @else {
             @if(currentStep !== 5){
-            <p-button label="Next" (onClick)="goNext()" [disabled]="currentStep === 5" styleClass="next-btn" />
+            <button class="next-btn" (click)="goNext()">Next</button>
 
             }
 

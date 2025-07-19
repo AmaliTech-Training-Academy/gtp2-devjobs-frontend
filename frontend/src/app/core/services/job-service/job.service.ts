@@ -4,7 +4,12 @@ import { catchError, Observable, retry } from 'rxjs';
 import { ApplicationStatus } from '../../../model/application.status';
 import { environment } from '../../../../environments/environment';
 
-import { AllJobsResponse, Data, Job } from '../../../model/all.jobs';
+import {
+  AllJobsResponse,
+  Data,
+  Job,
+  ApplicationForm,
+} from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
 
@@ -52,5 +57,12 @@ export class JobService {
 
   getApplications(): Observable<ApplicationStatus[]> {
     return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
+  }
+
+  postJobApplication(data: ApplicationForm, id: string) {
+    return this.http.post(
+      `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
+      data
+    );
   }
 }

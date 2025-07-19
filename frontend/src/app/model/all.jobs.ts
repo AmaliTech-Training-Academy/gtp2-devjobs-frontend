@@ -91,3 +91,29 @@ export interface JobDescription {
   title: string;
   description: string;
 }
+
+export interface ApplicationForm {
+  resume: File;
+  coverLetter: File;
+  experiences: Experience[];
+  education: Education[];
+  contact: ContactInfo;
+}
+
+export interface Experience {
+  company: string;
+  job: string;
+  description: string;
+}
+
+export interface Education {
+  school: string;
+  degree: string;
+  field: string;
+}
+
+export interface ContactInfo {
+  phone: string;
+  email: string;
+  address: string;
+}
