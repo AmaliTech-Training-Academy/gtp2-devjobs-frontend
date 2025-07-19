@@ -91,4 +91,11 @@ getApplications(): Observable<ApplicationStatus[]> {
 
 }
 
+postJobApplication(data: ApplicationForm, id: string) {
+  return this.http.post(
+    `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
+    data
+  );
+}
+
 }
