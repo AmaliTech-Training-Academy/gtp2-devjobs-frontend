@@ -11,7 +11,9 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 
 @Component({
   selector: 'app-job-list',
+
   imports: [SortFilterComponent, EmptyStateComponent, JobCardComponent, AsyncPipe, PaginationComponent],
+
   templateUrl: './job-list.component.html',
   styleUrl: './job-list.component.scss',
 })
@@ -22,6 +24,7 @@ export class JobListComponent implements OnInit {
   pageSize = 10;
 
   ngOnInit(): void {
+
     this.fetchJobs();
   }
 
@@ -33,5 +36,6 @@ export class JobListComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.fetchJobs();
+
   }
 }

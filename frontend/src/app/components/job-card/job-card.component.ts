@@ -1,10 +1,11 @@
-
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { CommonModule, TitleCasePipe, CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Job } from '../../model/all.jobs';
+
 import { TimeAgoPipe } from '../../shared/utils/time-ago-pipe/time-ago.pipe';
+
 
 
 @Component({
@@ -14,7 +15,7 @@ import { TimeAgoPipe } from '../../shared/utils/time-ago-pipe/time-ago.pipe';
   styleUrls: ['./job-card.component.scss'],
 })
 export class JobCardComponent {
-   @Input() job!: Job
+  @Input() job!: Job;
 
   router = inject(Router);
 
