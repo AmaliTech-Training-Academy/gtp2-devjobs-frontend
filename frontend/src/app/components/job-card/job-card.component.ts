@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Job } from '../../model/all.jobs';
 import { JobService } from '../../core/services/job-service/job.service';
-import { getTimeAgo } from '../../shared/utils/common';
+import { getTimeAgo, formatJobType } from '../../shared/utils/common';
 
 @Component({
   selector: 'app-job-card',
@@ -19,6 +19,7 @@ export class JobCardComponent {
   jobService = inject(JobService);
 
   getTimeAgo = getTimeAgo;
+  formatJobType = formatJobType;
 
   onCardClick(job: Job) {
     this.jobService.setSelectedJob(job);

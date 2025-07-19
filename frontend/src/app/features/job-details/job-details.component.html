@@ -28,14 +28,14 @@
         <div class="job-description">
             <header>
                 <div class="row1">
-                    <div>5h ago</div>
+                    <div>{{getTime(job?.createdAt || "") || ""}} ago</div>
                     <div class="job-type">
                         <div class="dot"></div>
-                        Full Time
+                        {{formatJobType(job?.employmentType || "")}}
                     </div>
                 </div>
                 <div class="row2">
-                    <h1>Senior Software Engineer</h1>
+                    <h1>{{job?.title}}</h1>
 
                     <button class="apply-btn" (click)="onApply()">Apply now</button>
                 </div>
@@ -57,13 +57,13 @@
                         </defs>
                     </svg>
 
-                    <span>United Kingdom</span>
+                    <span>{{job?.location}}</span>
 
                 </div>
             </header>
 
 
-            <app-job-content />
+            <app-job-content [content]="job?.descriptions || []" />
 
         </div>
     </div>

@@ -29,6 +29,7 @@ export interface Job {
   company: Company;
   title: string;
   description: string;
+  descriptions: JobDescription[] | null;
   location: string;
   employmentType: string;
   salary: number;
@@ -76,4 +77,9 @@ export interface Sort {
   empty: boolean;
   sorted: boolean;
   unsorted: boolean;
+}
+
+export interface JobDescription {
+  title: string;
+  description: string;
 }

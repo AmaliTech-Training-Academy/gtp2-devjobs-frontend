@@ -8,7 +8,7 @@
     <div class="job-card__meta">
       <span class="job-card__time">{{getTimeAgo(job.createdAt)}} ago</span>
       <span class="job-card__dot"></span>
-      <span class="job-card__type">{{job.employmentType}}</span>
+      <span class="job-card__type">{{formatJobType(job.employmentType)}}</span>
     </div>
 
     <div class="job-card__title">

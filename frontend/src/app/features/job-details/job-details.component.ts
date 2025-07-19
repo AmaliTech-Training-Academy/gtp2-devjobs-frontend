@@ -7,6 +7,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
+import { getTimeAgo, formatJobType } from '../../shared/utils/common';
 
 @Component({
   selector: 'app-job-details',
@@ -26,6 +27,9 @@ export class JobDetailsComponent implements OnInit {
   route = inject(ActivatedRoute);
   showAuthModal = false;
   job!: Job | null;
+
+  getTime = getTimeAgo;
+  formatJobType = formatJobType;
 
   ngOnInit(): void {
     this.job = this.jobService.getSelectedJob();
