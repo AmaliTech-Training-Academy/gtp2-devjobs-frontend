@@ -109,3 +109,47 @@ body {
 
 }
 
+
+
+.p-popover-panel .p-popover-content {
+  padding: 0 !important;
+}
+
+
+
+.popover-profile-dropdown {
+    width: 11.375rem;
+    height: 5.7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // padding: 0 !important;
+
+
+    .profile-option {
+      display: flex;
+      gap: 0.625rem;
+      padding: 0.625rem 0.938rem;
+      cursor: pointer;
+      height: 2.75rem;
+      width: 100%;
+      color: #5F6368;
+
+
+      &:hover {
+        background-color: #E8F7FF;
+        color: #0B76B7;
+      }
+
+
+      p {
+        font-weight: 500;
+      }
+
+
+
+    }
+
+}
+
+
