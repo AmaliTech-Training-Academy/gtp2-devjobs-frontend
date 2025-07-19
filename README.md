@@ -65,7 +65,7 @@ DevJobs is a comprehensive job portal application that connects job seekers with
 - **Containerization**: Docker with multi-stage builds
 - **Web Server**: Nginx
 - **CI/CD**: GitHub Actions
-- **Cloud Deployment**: AWS ECS, AWS Copilot
+- **Cloud Deployment**: AWS ECS
 
 ## 🏗️ Project Structure
 
@@ -104,22 +104,7 @@ jobs:
     # See workflow file for details
 ```
 
-### AWS Copilot Deployment
 
-For simplified AWS deployment, use the included Copilot configuration:
-
-```bash
-# Quick deployment
-./set-region.sh
-./copilot-setup.sh
-
-# Manual deployment
-copilot app init devjobs
-copilot svc init --name frontend --svc-type "Load Balanced Web Service"
-copilot env init --name staging
-copilot env deploy --name staging
-copilot svc deploy --name frontend --env staging
-```
 
 ## 🔧 Configuration (incomplete)
 
@@ -145,8 +130,7 @@ Required secrets for GitHub Actions:
 ## 📚 Additional Documentation
 
 - [Docker Documentation](docker-documentation.md)
-- [AWS Copilot Guide](COPILOT.md)
-- [Complete Copilot Setup](COPILOT-COMPLETE.md)
+
 
 ## 🧪 Testing
 

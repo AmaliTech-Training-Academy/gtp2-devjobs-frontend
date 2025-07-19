@@ -1,7 +1,7 @@
 # DevJobs Frontend - Docker Documentation
 
 ## Overview
-Angular 19 job portal application containerized with Docker using multi-stage build and Nginx for production serving.
+Angular 19 job portal application containerized with Docker using multi-stage build and Nginx for production serving. The application connects job seekers with employers through a modern, responsive interface.
 
 ## Quick Start
 
@@ -11,10 +11,10 @@ Angular 19 job portal application containerized with Docker using multi-stage bu
 docker build -t devjobs-frontend .
 
 # Run container
-docker run -d -p 8080:80 --name devjobs devjobs-frontend
+docker run -d -p 1111:80 --name devjobs devjobs-frontend
 
 # Access application
-open http://localhost:8080
+open http://localhost:1111
 ```
 
 ### Stop & Clean Up
@@ -55,11 +55,25 @@ docker rmi devjobs-frontend
 ```dockerfile
 # Stage 1: Build Angular app
 FROM node:18.20.2-alpine AS builder
-# Install dependencies & build
+WORKDIR /app
+
+# Accept build argument for API URL
+ARG NG_APP_BASE_URL
+
+# Copy package files & install dependencies
+COPY frontend/package*.json ./
+RUN npm ci
+
+# Copy source code & build
+COPY frontend/ .
+RUN sed -i "s|apiUrl: .*|apiUrl: '${NG_APP_BASE_URL}',|" src/environments/environment.prod.ts
+RUN npm run build -- --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:1.25-alpine
-# Copy built files & configure
+COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
 ```
 
 ### Container Specs
@@ -68,12 +82,14 @@ FROM nginx:1.25-alpine
 - **Health Check**: Every 30s via wget
 - **Build Output**: `/usr/share/nginx/html`
 
-### Environment Variables (Optional)
+### Environment Variables
 ```bash
 # For API integration
-docker run -d -p 8080:80 \
-  -e API_URL=https://your-backend-api.com \
-  devjobs-frontend
+docker build \
+  --build-arg NG_APP_BASE_URL=https://api.example.com \
+  -t devjobs-frontend .
+
+docker run -d -p 1111:80 --name devjobs devjobs-frontend
 ```
 
 ## Development vs Production
@@ -81,10 +97,19 @@ docker run -d -p 8080:80 \
 ### Development Build
 ```bash
 # Install dependencies including devDependencies
-RUN npm ci
+npm ci
 
 # Build for development
-RUN npm run build
+npm start
+```
+
+### Production Build
+```bash
+# Install dependencies
+npm ci
+
+# Build for production
+npm run build -- --configuration production
 ```
 
 ### Production Optimizations
@@ -93,17 +118,34 @@ RUN npm run build
 - **Lazy Loading**: Route-based code splitting
 - **Asset Optimization**: Compressed images/fonts
 - **Gzip Compression**: Nginx-level compression
+- **Environment Configuration**: API URL injection at build time
 
 ## Nginx Configuration
 ```nginx
-server {
-    listen 80;
-    root /usr/share/nginx/html;
-    index index.html;
-    
-    # SPA routing support
-    location / {
-        try_files $uri $uri/ /index.html;
+worker_processes 1;
+
+events { worker_connections 1024; }
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        # SPA routing support
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        error_page 404 /index.html;
     }
 }
 ```
@@ -123,21 +165,29 @@ docker run --rm devjobs-frontend ls -la /usr/share/nginx/html/
 
 # Test health check
 docker exec devjobs wget --spider http://localhost/
+
+# Check environment variables
+docker exec devjobs cat /usr/share/nginx/html/main*.js | grep -o "apiUrl:[^,]*"
 ```
 
 ### Build Failures
 - **Node version**: Ensure Node.js 18+ compatibility
 - **Memory**: Increase Docker memory limit for large builds
 - **Dependencies**: Check package-lock.json integrity
+- **API URL**: Ensure NG_APP_BASE_URL is properly set
+- **Font Inlining**: If build fails with font inlining errors, ensure internet connectivity or modify the environment files to use local fonts
 
 ## Performance Metrics
 - **Build Time**: ~2-3 minutes
 - **Image Size**: ~50MB (compressed)
 - **Cold Start**: <5 seconds
 - **Memory Usage**: ~10MB runtime
+- **CI/CD Integration**: GitHub Actions workflow for automated builds and deployments
 
 ## Security Features
 - **Non-root user**: Nginx runs as nginx user
 - **Minimal attack surface**: Alpine Linux base
 - **No dev dependencies**: Production-only packages
 - **Health monitoring**: Automated container health checks
+- **Environment separation**: Development vs production configurations
+- **API URL injection**: Secure handling of backend API URL
