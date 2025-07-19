@@ -15,11 +15,7 @@ This means faster delivery of features and bug fixes with higher quality and rel
 
 ## 🔄 CI/CD Workflow
 
-```
-Code Changes → Automated Tests → Build Container → Store in Registry → Deploy to Cloud → Monitor
-    ↓              ↓                ↓               ↓                  ↓               ↓
-Developers    Quality Check    Package App     Save for Reuse     Make Available    Watch Health
-```
+![CI/CD Workflow](https://via.placeholder.com/800x400?text=CI/CD+Workflow+Diagram)
 
 ### Workflow Stages
 
@@ -34,20 +30,13 @@ Developers    Quality Check    Package App     Save for Reuse     Make Available
 
 We maintain three separate environments for the application:
 
-| Environment | URL | Purpose | Update Frequency |
-|-------------|-----|---------|------------------|
-| Development | [https://dev.devjobs.example.com](https://dev.devjobs.example.com) | Latest features, may be unstable | Multiple times per day |
-| Testing | [https://test.devjobs.example.com](https://test.devjobs.example.com) | For QA and user acceptance testing | As needed for testing |
-| Production | [https://devjobs.example.com](https://devjobs.example.com) | Live customer-facing site | Scheduled releases |
+| Environment | URL                                                                                              | Purpose                            | Update Frequency       |
+| ----------- | ------------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------- |
+| Development | [https://dev.devjobs.example.com](gtp2-fe-primary-alb-648048185.eu-central-1.elb.amazonaws.com)  | Latest features, may be unstable   | Multiple times per day |
+| Testing     | [https://test.devjobs.example.com](gtp2-fe-testing-alb-512036373.eu-central-1.elb.amazonaws.com) | For QA and user acceptance testing | As needed for testing  |
+| Production  | [https://devjobs.example.com](in-progress)                                                       | Live customer-facing site          | Scheduled releases     |
 
 ## 📱 Feature Delivery Process
-
-```
-Development → Testing → Review → Approval → Deployment → Verification
-    ↓          ↓        ↓        ↓          ↓           ↓
-  Coding    Quality    Your     Your      Live      Confirm
-           Checks    Preview  Decision   Release    Success
-```
 
 1. **Development**: Developers build new features
 2. **Automated Testing**: Our system runs tests automatically
@@ -78,10 +67,9 @@ Before changes go to production:
 
 ## 📊 Monitoring & Status
 
-- **Status Page**: [https://status.devjobs.example.com](https://status.devjobs.example.com)
 - **Uptime**: We maintain 99.9% uptime for the production environment
 - **Performance**: Page load times are monitored and kept under 2 seconds
-- **Monitoring Dashboard**: [AWS CloudWatch Dashboard](https://console.aws.amazon.com/cloudwatch/)
+- **Monitoring Dashboard**: [AWS CloudWatch Dashboard](*in-progress)
 
 ## 🔄 Rollback Capability
 
@@ -99,13 +87,13 @@ If issues occur after deployment:
 
 ## 🔔 Communication Channels
 
-| Event | Communication Method | Timeline |
-|-------|----------------------|----------|
-| New features in Development | Weekly email digest | Every Friday |
-| Features ready for testing | Email notification | As features are ready |
-| Production deployment scheduled | Calendar invite | 48 hours notice |
-| Deployment complete | Email notification | Within 1 hour of completion |
-| Issues detected | Immediate notification | As detected |
+| Event                           | Communication Method   | Timeline                    |
+| ------------------------------- | ---------------------- | --------------------------- |
+| New features in Development     | Weekly email digest    | Every Friday                |
+| Features ready for testing      | Email notification     | As features are ready       |
+| Production deployment scheduled | Calendar invite        | 48 hours notice             |
+| Deployment complete             | Email notification     | Within 1 hour of completion |
+| Issues detected                 | Immediate notification | As detected                 |
 
 ## 📝 Release Notes
 
@@ -119,13 +107,13 @@ For each production release, you'll receive:
 
 ## 🆘 Support & Escalation
 
-| Issue | Contact | Response Time |
-|-------|---------|---------------|
-| Production issues | support@devjobs.example.com | < 1 hour |
-| Testing environment issues | qa@devjobs.example.com | < 4 hours |
-| Feature questions | pm@devjobs.example.com | < 1 business day |
-| Pipeline Failure | DevOps Team | < 2 hours |
-| Production Outage | On-call Engineer | < 15 minutes |
+| Issue                      | Contact                     | Response Time    |
+| -------------------------- | --------------------------- | ---------------- |
+| Production issues          | support@devjobs.example.com | < 1 hour         |
+| Testing environment issues | qa@devjobs.example.com      | < 4 hours        |
+| Feature questions          | pm@devjobs.example.com      | < 1 business day |
+| Pipeline Failure           | DevOps Team                 | < 2 hours        |
+| Production Outage          | On-call Engineer            | < 15 minutes     |
 
 ## 📊 Deployment Metrics
 

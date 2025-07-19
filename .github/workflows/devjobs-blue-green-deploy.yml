@@ -6,10 +6,6 @@ on:
       - development
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -18,12 +14,12 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials (OIDC)
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          audience: sts.amazonaws.com
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
@@ -74,7 +70,6 @@ jobs:
 
       - name: Deploy with CodeDeploy (Blue/Green)
         run: |
-          # Create deployment
           # Create AppSpec content with the new task definition
           cat > appspec.json << EOF
           {
@@ -97,27 +92,23 @@ jobs:
           }
           EOF
           
-          # Register the revision with CodeDeploy
+          # Create deployment package
+          zip -r appspec.zip appspec.json
+          
+          # Upload to S3
+          aws s3 cp appspec.zip s3://${{ secrets.S3_BUCKET }}/${{ secrets.S3_KEY }}
+          
+          # Register the application revision
           aws deploy register-application-revision \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --s3-location bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip
           
-          # Create deployment with the new task definition using a simpler approach
-          # Create a JSON file for the revision
-          cat > revision.json << EOF
-          {
-            "revisionType": "AppSpecContent",
-            "appSpecContent": {
-              "content": $(cat appspec.json | jq -c .)
-            }
-          }
-          EOF
-          
+          # Create deployment with the registered revision
           DEPLOYMENT_ID=$(aws deploy create-deployment \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
             --deployment-config-name ${{ secrets.CODEDEPLOY_CONFIG_NAME }} \
-            --cli-input-json file://revision.json \
+            --revision revisionType=S3,s3Location='{bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip}' \
             --query deploymentId \
             --output text)
 
