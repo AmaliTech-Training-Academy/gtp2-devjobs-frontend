@@ -33,7 +33,7 @@ export class JobService {
     return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
   }
 
-  getJobsById(id: string): Observable<AllJobsResponse<Job>> {
+  getJobById(id: string): Observable<AllJobsResponse<Job>> {
     return this.http.get<AllJobsResponse<Job>>(
       `${this.BASE_URL_JOB}/api/v1/jobs/${id}`
     );

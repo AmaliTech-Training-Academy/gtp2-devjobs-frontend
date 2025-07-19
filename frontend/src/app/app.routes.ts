@@ -148,7 +148,7 @@ export const routes: Routes = [
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
-        path: 'job-details',
+        path: 'job-details/:id',
         loadComponent: () =>
           import('./features/job-details/job-details.component').then(
             (m) => m.JobDetailsComponent

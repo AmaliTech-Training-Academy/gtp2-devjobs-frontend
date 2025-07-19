@@ -10,13 +10,13 @@
                 </svg>
 
                 <div class="company-name">
-                    <h2>Scoot</h2>
-                    <p>scoot.com</p>
+                    <h2>{{job?.company?.companyName}}</h2>
+                    <p>{{job?.company?.website}}</p>
                 </div>
             </div>
 
             <div class="salary">
-                <span>Salary:</span> <span class="value"> $65,000</span>
+                <span>Salary:</span> <span class="value"> {{job?.salary | currency}}</span>
             </div>
 
             <button>Company webiste</button>
@@ -70,14 +70,7 @@
 
 </div>
 
-<app-action-modal
-  *ngIf="showAuthModal"
-  title="You need to create an account before applying for this job"
-  message="Please log in or sign up to continue."
-  [confirmText]="'Log in'"
-  [cancelText]="'Sign up'"
-  type="info"
-  [showClose]="false"
-  (onConfirm)="handleAuthModalConfirm('login')"
-  (onCancel)="handleAuthModalConfirm('signup')"
-></app-action-modal>
+<app-action-modal *ngIf="showAuthModal" title="You need to create an account before applying for this job"
+    message="Please log in or sign up to continue." [confirmText]="'Log in'" [cancelText]="'Sign up'" type="info"
+    [showClose]="false" (onConfirm)="handleAuthModalConfirm('login')"
+    (onCancel)="handleAuthModalConfirm('signup')"></app-action-modal>
