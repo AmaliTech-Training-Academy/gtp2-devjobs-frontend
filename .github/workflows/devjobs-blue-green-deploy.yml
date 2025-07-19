@@ -3,7 +3,7 @@ name: Build and Deploy Frontend with CodeDeploy (Blue/Green)
 on:
   push:
     branches:
-      - development
+      - main
 
 permissions:
   id-token: write
@@ -73,19 +73,13 @@ jobs:
 
           echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
-      - name: Trigger CodeDeploy Blue/Green Deployment
+      - name: Deploy with CodeDeploy (Blue/Green) from S3 bundle
         run: |
           DEPLOYMENT_ID=$(aws deploy create-deployment \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
             --deployment-config-name ${{ secrets.CODEDEPLOY_CONFIG_NAME }} \
-            --revision revisionType=S3,s3Location="{
-              \"bucket\": \"${{ secrets.S3_BUCKET }}\",
-              \"key\": \"${{ secrets.S3_KEY }}\",
-              \"bundleType\": \"zip\"
-            }" \
-            --deployment-style deploymentType=BLUE_GREEN,deploymentOption=WITH_TRAFFIC_CONTROL \
-            --file-exists-behavior OVERWRITE \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip \
             --query deploymentId --output text)
 
           echo "Deployment started: $DEPLOYMENT_ID"
