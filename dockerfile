@@ -17,8 +17,8 @@ COPY frontend/ .
 
 # Update API URL in environment files if NG_APP_BASE_URL is provided
 RUN if [ -n "$NG_APP_BASE_URL" ]; then \
-      sed -i "s|apiUrl: .*|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.ts && \
-      sed -i "s|apiUrl: .*|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.prod.ts; \
+      sed -i "s|apiUrl: process.env\['NG_APP_BASE_URL'\]|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.ts && \
+      sed -i "s|apiUrl: 'https://api.example.com'|apiUrl: '${NG_APP_BASE_URL}'|" src/environments/environment.prod.ts; \
     fi
 
 # Build the Angular app for production
