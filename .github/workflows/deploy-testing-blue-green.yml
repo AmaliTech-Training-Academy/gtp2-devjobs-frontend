@@ -1,0 +1,142 @@
+name: Build and Deploy with CodeDeploy (Blue/Green)
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Construct image URI and push image
+        id: compute
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+          docker build -t "$IMAGE_URI" . || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
+          docker push "$IMAGE_URI" || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
+
+      - name: Get current task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ secrets.TASK_FAMILY_PROD }} \
+            --region ${{ secrets.AWS_REGION }} \
+            --query taskDefinition \
+            --output json > task-definition.json || echo "TASKDEF_FAILED=true" >> $GITHUB_ENV
+
+      - name: Create new task definition with updated image
+        run: |
+          jq --arg IMAGE "$IMAGE_URI" --arg NAME "${{ secrets.CONTAINER_NAME_PROD }}" '{
+            family: .family,
+            executionRoleArn: .executionRoleArn,
+            networkMode: .networkMode,
+            cpu: .cpu,
+            memory: .memory,
+            requiresCompatibilities: .requiresCompatibilities,
+            containerDefinitions: (.containerDefinitions | map(
+              if .name == $NAME then
+                .image = $IMAGE | .
+              else
+                .
+              end
+            ))
+          }' task-definition.json > new-task-def.json
+
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text) || echo "REG_TASKDEF_FAILED=true" >> $GITHUB_ENV
+
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
+
+      - name: Deploy with CodeDeploy (Blue/Green)
+        run: |
+          # Create AppSpec content with the new task definition
+          cat > appspec.json << EOF
+          {
+            "version": 0.0,
+            "Resources": [
+              {
+                "TargetService": {
+                  "Type": "AWS::ECS::Service",
+                  "Properties": {
+                    "TaskDefinition": "$TASK_DEF_ARN",
+                    "LoadBalancerInfo": {
+                      "ContainerName": "${{ secrets.CONTAINER_NAME_PROD }}",
+                      "ContainerPort": ${{ secrets.CONTAINER_PORT }}
+                    },
+                    "PlatformVersion": "LATEST"
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+
+          # Create deployment package
+          zip -r appspec.zip appspec.json
+
+          # Upload to S3
+          aws s3 cp appspec.zip s3://${{ secrets.S3_BUCKET }}/${{ secrets.S3_KEY }} || echo "DEPLOY_FAILED=true" >> $GITHUB_ENV
+
+          # Register the application revision
+          aws deploy register-application-revision \
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip || echo "DEPLOY_FAILED=true" >> $GITHUB_ENV
+
+          # Create deployment with the registered revision
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
+            --deployment-config-name ${{ secrets.CODEDEPLOY_CONFIG_NAME }} \
+            --s3-location bucket=${{ secrets.S3_BUCKET }},key=${{ secrets.S3_KEY }},bundleType=zip \
+            --query deploymentId \
+            --output text) || echo "DEPLOY_FAILED=true" >> $GITHUB_ENV
+
+          echo "Deployment started: $DEPLOYMENT_ID"
+
+          # Wait for deployment to complete
+          aws deploy wait deployment-successful --deployment-id $DEPLOYMENT_ID || echo "DEPLOY_FAILED=true" >> $GITHUB_ENV
+
+          echo "Deployment completed successfully!"
+
+      - name: Notify Slack if any deployment step fails
+        if: env.DOCKER_FAILED == 'true' || env.TASKDEF_FAILED == 'true' || env.REG_TASKDEF_FAILED == 'true' || env.DEPLOY_FAILED == 'true'
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* ECS Blue/Green Deployment Failed!\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
+
+      - name: Notify Slack on successful deployment
+        if: success() && !(env.DOCKER_FAILED == 'true' || env.TASKDEF_FAILED == 'true' || env.REG_TASKDEF_FAILED == 'true' || env.DEPLOY_FAILED == 'true')
+        uses: abinoda/slack-action@master
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":white_check_mark: *Frontend Dev CI:* ECS Blue/Green Deployment Successful!\n:rocket: Branch: `${{ github.ref_name }}`\n:package: Commit: `${{ github.sha }}`\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
