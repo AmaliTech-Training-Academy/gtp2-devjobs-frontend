@@ -142,7 +142,7 @@ export const routes: Routes = [
         data: { expectedRole: 'ROLE_JOB_SEEKER' },
       },
       {
-        path: 'application-form',
+        path: 'application-form/:id',
         loadComponent: () =>
           import('./features/application-form/application-form.component').then(
             (m) => m.ApplicationFormComponent

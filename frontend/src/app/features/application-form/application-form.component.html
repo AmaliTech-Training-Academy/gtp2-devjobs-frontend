@@ -1,4 +1,4 @@
-<app-action-modal
+<!-- <app-action-modal
   [open]="showAuthModal"
   title="You need to create an account before applying for this job"
   message="Please log in or sign up to continue."
@@ -8,13 +8,13 @@
   [showClose]="false"
   (onConfirm)="handleAuthModalConfirm('login')"
   (onCancel)="handleAuthModalConfirm('signup')"
-></app-action-modal>
+></app-action-modal> -->
 <form [formGroup]="form">
 
     <div class="wrapper">
 
         <div class="nav-desktop">
-            @if(currentStep != 1){
+            @if(currentStep !== 1 && currentStep !== 5){
 
             <p-button label="Previous" severity="secondary" (onClick)="goBack()" [disabled]="currentStep === 1"
                 styleClass="back-btn" />
@@ -289,8 +289,11 @@
 
 
         <div class="navigations-mobile">
+            @if(currentStep !== 1 && currentStep !== 5){
+
             <p-button label="Previous" severity="secondary" (onClick)="goBack()" [disabled]="currentStep === 1"
                 styleClass="back-btn" />
+            }
 
             @if(currentStep === 4){
             <button class="submit-btn" type="submit" (click)="submitForm()">

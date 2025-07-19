@@ -44,11 +44,15 @@ export class JobDetailsComponent implements OnInit {
     }
   }
 
+  onWebsite() {
+    window.open(`${this.job?.company.website}`, '_blank');
+  }
+
   onApply() {
     if (!this.auth.isLoggedIn()) {
       this.showAuthModal = true;
     } else {
-      this.router.navigate(['seeker/dashboard/application-form']);
+      this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
     }
   }
 
