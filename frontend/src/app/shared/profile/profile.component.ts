@@ -16,6 +16,8 @@ import {
 } from '@angular/forms';
 import { ReusableFormGroupComponent } from '../reusable-form-group/reusable-form-group.component';
 import { EmployerProfile, SeekerProfile } from '../../model/profile';
+import { ProfileData } from '../../model/all.jobs';
+import { JobService } from '../../core/services/job-service/job.service';
 
 interface Field {
   label: string;
@@ -33,7 +35,7 @@ interface Field {
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnChanges, OnInit {
-  @Input() seekerProfile: SeekerProfile | null = null;
+  @Input() seekerProfile!: ProfileData;
   @Input() employer: EmployerProfile | null = null;
   @Input() type: 'employer' | 'seeker' = 'seeker';
   @Output() onSave = new EventEmitter<any>();
@@ -42,15 +44,21 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   profileForm!: FormGroup;
   uploadedImage: string | ArrayBuffer | null = null;
+  selectedImage: File | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private jobService: JobService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.generateFieldGroups();
+    this.setprofileForm(this.type);
+    // if (this.type === 'seeker') {
+    //   this.uploadedImage =
+    //     'https://gtp2-devjobs-backend-c6aeaf5b.s3.eu-central-1.amazonaws.com/test-uploads/275c5908-5d9e-4e1f-87b4-360b3f1a77c5.png';
+    // }
   }
 
   ngOnInit(): void {
-    this.setprofileForm(this.type);
+    // this.setprofileForm(this.type);
+    this.uploadedImage = this.seekerProfile?.profilePhoto || null;
     this.generateFieldGroups();
   }
 
@@ -58,16 +66,16 @@ export class ProfileComponent implements OnChanges, OnInit {
     if (type === 'seeker') {
       this.profileForm = this.fb.group({
         fullName: [
-          this.seekerProfile?.fullname || '',
+          this.seekerProfile?.fullName || '',
           [Validators.required, Validators.minLength(5)],
         ],
         phoneNumber: [
-          this.seekerProfile?.phoneNumber || '',
+          this.seekerProfile?.phone || '',
           [Validators.required, Validators.minLength(10)],
         ],
         email: [
           {
-            value: this.seekerProfile?.email || 'johnDoe@gmail.com',
+            value: this.seekerProfile?.email,
             disabled: true,
           },
         ],
@@ -231,6 +239,7 @@ export class ProfileComponent implements OnChanges, OnInit {
   onImageUpload(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
+      this.selectedImage = file;
       const reader = new FileReader();
       reader.onload = () => (this.uploadedImage = reader.result);
       reader.readAsDataURL(file);
@@ -239,7 +248,65 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   onSubmit() {
     if (this.profileForm.valid) {
-      this.onSave.emit(this.profileForm.getRawValue());
+      if (this.selectedImage) {
+        const formData = new FormData();
+
+        if (this.type === 'seeker') {
+          formData.append('fullName', this.profileForm.get('fullName')?.value);
+          formData.append(
+            'phoneNumber',
+            this.profileForm.get('phoneNumber')?.value
+          );
+          formData.append('email', this.profileForm.get('email')?.value);
+          formData.append('location', this.profileForm.get('location')?.value);
+          formData.append('profilePhoto', this.selectedImage);
+        } else {
+          formData.append(
+            'companyName',
+            this.profileForm.get('companyName')?.value
+          );
+          formData.append('website', this.profileForm.get('website')?.value);
+          formData.append(
+            'phoneNumber',
+            this.profileForm.get('phoneNumber')?.value
+          );
+          formData.append('email', this.profileForm.get('email')?.value);
+          formData.append('location', this.profileForm.get('location')?.value);
+          formData.append('size', this.profileForm.get('size')?.value);
+          formData.append('about', this.profileForm.get('about')?.value);
+
+          formData.append('companyLogoUrl', this.selectedImage);
+        }
+
+        this.jobService
+          .updateProfileDetails(formData, this.seekerProfile.profileId)
+          .subscribe({
+            next: (response) => {
+              console.log('sending a multipart');
+              console.log(response);
+            },
+            error: (error) => {
+              console.log(error);
+            },
+          });
+
+        for (const pair of formData.entries()) {
+          console.log(`with image: ${pair[0]}:`, pair[1]);
+        }
+      } else {
+        const payload = this.profileForm.getRawValue();
+        this.jobService
+          .updateProfileDetails(payload, this.seekerProfile.profileId)
+          .subscribe({
+            next: (response) => {
+              console.log(response);
+            },
+            error: (error) => {
+              console.log(error);
+            },
+          });
+        console.log('With no image:', payload);
+      }
     }
   }
 

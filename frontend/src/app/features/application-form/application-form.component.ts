@@ -15,6 +15,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job-service/job.service';
 import { isValidEmail } from '../../shared/utils/validators/common-validators';
+import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 
 @Component({
   selector: 'app-application-form',
@@ -25,6 +26,7 @@ import { isValidEmail } from '../../shared/utils/validators/common-validators';
     ReactiveFormsModule,
     CommonModule,
     ActionModalComponent,
+    BackButtonComponent,
   ],
   templateUrl: './application-form.component.html',
   styleUrl: './application-form.component.scss',
@@ -44,9 +46,16 @@ export class ApplicationFormComponent implements OnInit {
   route = inject(ActivatedRoute);
   appId!: string | null;
   invalidmsg: boolean = false;
+  jobTitle!: string | undefined;
 
   ngOnInit(): void {
     this.appId = this.route.snapshot.paramMap.get('id');
+
+    if (this.appId) {
+      this.jobService.getJobById(this.appId).subscribe((data) => {
+        this.jobTitle = data.data.title;
+      });
+    }
 
     if (!this.auth.isLoggedIn()) {
       this.showAuthModal = true;

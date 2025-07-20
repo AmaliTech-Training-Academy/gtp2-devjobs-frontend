@@ -24,6 +24,7 @@ import { Params } from '@angular/router';
     AsyncPipe,
     RouterLinkActive,
     RouterOutlet,
+    CommonModule,
   ],
   templateUrl: './seeker-dashboard.component.html',
   styleUrl: './seeker-dashboard.component.scss',

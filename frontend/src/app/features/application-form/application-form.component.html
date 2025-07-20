@@ -1,10 +1,20 @@
-<app-action-modal [open]="showAuthModal" title="You need to create an account before applying for this job"
+<!-- <app-action-modal [open]="showAuthModal" title="You need to create an account before applying for this job"
     message="Please log in or sign up to continue." [confirmText]="'Log in'" [cancelText]="'Sign up'" type="info"
     [showClose]="false" (onConfirm)="handleAuthModalConfirm('login')"
-    (onCancel)="handleAuthModalConfirm('signup')"></app-action-modal>
+    (onCancel)="handleAuthModalConfirm('signup')"></app-action-modal> -->
 <form [formGroup]="form">
+    <div class="top">
+        <app-back-button />
+        <div class="job-title">
+            <div class="img">
+                <img src="assets/logos/scoot.png" alt="job title">
+            </div>
+            <p>{{jobTitle || "job title"}}</p>
+        </div>
+    </div>
 
     <div class="wrapper">
+
 
         <div class="nav-desktop">
             @if(currentStep !== 1 && currentStep !== 5){

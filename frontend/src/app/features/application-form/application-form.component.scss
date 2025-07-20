@@ -1,7 +1,30 @@
 @use "../../styles/variables";
 @use "../../styles/mixins";
 @use "../../styles/fonts";
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 
+  @include mixins.breakpoint(700px) {
+    grid-template-columns: 1fr;
+  }
+  .job-title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    .img {
+      height: 66px;
+      width: 66px;
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    p {
+    }
+  }
+}
 .wrapper {
   width: 1200px;
   margin: auto;
@@ -78,6 +101,7 @@
     width: 121px !important;
     height: 48px;
     padding: 14px 27px;
+    border-radius: 5px;
   }
   .next-btn {
     border: none;
@@ -87,6 +111,7 @@
     width: 121px !important;
     height: 48px;
     padding: 14px 27px;
+    border-radius: 5px;
   }
 
   .form-section {
