@@ -1,4 +1,4 @@
 <div class="settings-container">
-    <app-profile [type]="type" (onSkills)="onSkillsPage()" />
+    <app-profile [type]="type" (onSkills)="onSkillsPage()" [employer]="employerProfile" (onSave)="onSubmit($event)" />
 
 </div>

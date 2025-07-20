@@ -16,6 +16,9 @@ import {
 } from '@angular/forms';
 import { ReusableFormGroupComponent } from '../reusable-form-group/reusable-form-group.component';
 import { EmployerProfile, SeekerProfile } from '../../model/profile';
+import { ProfileData } from '../../model/all.jobs';
+import { JobService } from '../../core/services/job-service/job.service';
+import { CompanyProfile } from '../../model/all.jobs';
 
 interface Field {
   label: string;
@@ -33,8 +36,8 @@ interface Field {
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnChanges, OnInit {
-  @Input() seekerProfile: SeekerProfile | null = null;
-  @Input() employer: EmployerProfile | null = null;
+  @Input() seekerProfile: ProfileData | null = null;
+  @Input() employer: CompanyProfile | null = null;
   @Input() type: 'employer' | 'seeker' = 'seeker';
   @Output() onSave = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<void>();
@@ -46,32 +49,38 @@ export class ProfileComponent implements OnChanges, OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.generateFieldGroups();
+    this.setprofileForm(this.type);
+    // if (this.type === 'seeker') {
+    //   this.uploadedImage =
+    //     'https://gtp2-devjobs-backend-c6aeaf5b.s3.eu-central-1.amazonaws.com/test-uploads/275c5908-5d9e-4e1f-87b4-360b3f1a77c5.png';
+    // }
   }
 
   ngOnInit(): void {
     this.setprofileForm(this.type);
     this.generateFieldGroups();
+    // console.log('email object', this.seekerProfile?.email);
   }
 
   setprofileForm(type: string) {
     if (type === 'seeker') {
       this.profileForm = this.fb.group({
         fullName: [
-          this.seekerProfile?.fullname || '',
+          this.seekerProfile?.fullName || '',
           [Validators.required, Validators.minLength(5)],
         ],
         phoneNumber: [
-          this.seekerProfile?.phoneNumber || '',
+          this.seekerProfile?.phone || '',
           [Validators.required, Validators.minLength(10)],
         ],
         email: [
           {
-            value: this.seekerProfile?.email || 'johnDoe@gmail.com',
+            value: this.seekerProfile?.email,
             disabled: true,
           },
         ],
         location: [this.seekerProfile?.location || '', Validators.required],
+        profileImage: [null],
       });
     } else {
       this.profileForm = this.fb.group({
@@ -81,7 +90,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         ],
         website: [this.employer?.website || '', [Validators.required]],
         phoneNumber: [
-          this.employer?.number || '',
+          this.employer?.phoneNumber || '',
           [Validators.required, Validators.minLength(10)],
         ],
         email: [
@@ -92,9 +101,65 @@ export class ProfileComponent implements OnChanges, OnInit {
         ],
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
-        about: [this.employer?.about || '', [Validators.required]],
+        about: [this.employer?.aboutCompany || '', [Validators.required]],
+        profileImage: [null], // add file control
       });
     }
+  }
+
+  onImageUpload(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      console.log('Uploaded file:', file); // log the file for inspection
+
+      this.profileForm.patchValue({ profileImage: file });
+      this.profileForm.get('profileImage')?.updateValueAndValidity();
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onSubmit() {
+    if (this.profileForm.invalid) {
+      console.log('Form invalid');
+      console.log(this.profileForm.value);
+      return;
+    }
+
+    const formData = new FormData();
+    const data: { [key: string]: any } = {};
+
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      const control = this.profileForm.get(key);
+      if (!control) return;
+
+      const value = control.value;
+
+      if (value instanceof File) {
+        // Append the file separately
+        formData.append(key, value);
+      } else if (value && typeof value === 'object' && 'value' in value) {
+        // Unwrap nested value objects like { value: "some@example.com" }
+        data[key] = value.value;
+      } else {
+        data[key] = value ?? '';
+      }
+    });
+
+    // Send non-file fields as JSON string under 'data'
+    formData.append('data', JSON.stringify(data));
+
+    console.log('Submitting FormData:');
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    console.log('Logging form data', formData.values);
+    this.onSave.emit(formData);
   }
 
   icons = {
@@ -228,20 +293,20 @@ export class ProfileComponent implements OnChanges, OnInit {
     }
   }
 
-  onImageUpload(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => (this.uploadedImage = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  // onImageUpload(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => (this.uploadedImage = reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
-  onSubmit() {
-    if (this.profileForm.valid) {
-      this.onSave.emit(this.profileForm.getRawValue());
-    }
-  }
+  // onSubmit() {
+  //   if (this.profileForm.valid) {
+  //     this.onSave.emit(this.profileForm.getRawValue());
+  //   }
+  // }
 
   cancelForm() {
     this.profileForm.reset();

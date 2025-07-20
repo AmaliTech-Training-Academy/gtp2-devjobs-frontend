@@ -1,46 +1,64 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchComponent } from '../../../components/search/search.component';
-import { RouterLink, RouterOutlet, ActivatedRoute, Router, NavigationEnd, RouterLinkActive } from '@angular/router';
+import {
+  RouterLink,
+  RouterOutlet,
+  ActivatedRoute,
+  Router,
+  NavigationEnd,
+  RouterLinkActive,
+} from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { SeekerNavComponent } from '../../../features/jobs/seeker-nav/seeker-nav.component';
 import { Params } from '@angular/router';
 
 @Component({
   selector: 'app-seeker-dashboard',
   standalone: true,
-  imports: [SearchComponent, SeekerNavComponent, RouterLink, AsyncPipe, RouterLinkActive, RouterOutlet],
+  imports: [
+    SearchComponent,
+    SeekerNavComponent,
+    RouterLink,
+    AsyncPipe,
+    RouterLinkActive,
+    RouterOutlet,
+    CommonModule,
+  ],
   templateUrl: './seeker-dashboard.component.html',
-  styleUrl: './seeker-dashboard.component.scss'
+  styleUrl: './seeker-dashboard.component.scss',
 })
 export class SeekerDashboardComponent implements OnInit {
   showSearch$: Observable<boolean>;
-  searchParams: { title: string; location: string } = { title: '', location: '' };
+  searchParams: { title: string; location: string } = {
+    title: '',
+    location: '',
+  };
   page = 1;
   size = 10;
   sort?: string;
   title?: string;
   salaryMin?: number;
   salaryMax?: number;
+  search: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
+    this.search = this.route.snapshot.data['search'];
     this.showSearch$ = combineLatest([
       this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         startWith(null)
       ),
-      this.route.firstChild?.data ?? this.route.data
-    ]).pipe(
-      map(([_, data]) => data['showSearch'] !== false)
-    );
+      this.route.firstChild?.data ?? this.route.data,
+    ]).pipe(map(([_, data]) => data['showSearch'] !== false));
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       this.searchParams = {
         title: params['title'] || '',
-        location: params['location'] || ''
+        location: params['location'] || '',
       };
       this.page = params['page'] ? +params['page'] : 1;
       this.size = params['size'] ? +params['size'] : 10;
@@ -58,7 +76,7 @@ export class SeekerDashboardComponent implements OnInit {
         ...this.route.snapshot.queryParams,
         title: params.title || undefined,
         location: params.location || undefined,
-        page: 1 // Reset to first page on new search
+        page: 1, // Reset to first page on new search
       },
       queryParamsHandling: 'merge',
     });
@@ -69,7 +87,7 @@ export class SeekerDashboardComponent implements OnInit {
       relativeTo: this.route,
       queryParams: {
         ...this.route.snapshot.queryParams,
-        page
+        page,
       },
       queryParamsHandling: 'merge',
     });
@@ -81,7 +99,7 @@ export class SeekerDashboardComponent implements OnInit {
       queryParams: {
         ...this.route.snapshot.queryParams,
         sort,
-        page: 1
+        page: 1,
       },
       queryParamsHandling: 'merge',
     });
@@ -93,7 +111,7 @@ export class SeekerDashboardComponent implements OnInit {
       queryParams: {
         ...this.route.snapshot.queryParams,
         title,
-        page: 1
+        page: 1,
       },
       queryParamsHandling: 'merge',
     });
@@ -105,7 +123,7 @@ export class SeekerDashboardComponent implements OnInit {
       queryParams: {
         ...this.route.snapshot.queryParams,
         size,
-        page: 1
+        page: 1,
       },
       queryParamsHandling: 'merge',
     });
@@ -118,7 +136,7 @@ export class SeekerDashboardComponent implements OnInit {
         ...this.route.snapshot.queryParams,
         salaryMin: range[0],
         salaryMax: range[1],
-        page: 1
+        page: 1,
       },
       queryParamsHandling: 'merge',
     });
