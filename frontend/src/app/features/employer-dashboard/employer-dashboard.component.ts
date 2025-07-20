@@ -59,6 +59,7 @@ export class EmployerDashboardComponent implements OnInit {
   }
   ];
 
+  
   ngOnInit(): void {
     this.employerHttp.getAllJobs().subscribe({
       next: ( jobs: any ) => {

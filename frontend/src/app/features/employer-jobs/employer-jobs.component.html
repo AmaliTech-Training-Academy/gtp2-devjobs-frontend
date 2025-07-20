@@ -24,10 +24,9 @@
 
     @if( modalService.showCreateJobFormModal ) {
         <section class="create-job-modal">
-            <app-create-job-modal />
+            <app-create-job-modal (jobCreated)="fetchAllEmployerJobs()" />
         </section>
     }
-
 
     @if( modalService.showJobDetailsFormModal ) {
         <app-job-details-modal />

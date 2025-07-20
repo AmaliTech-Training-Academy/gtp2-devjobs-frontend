@@ -9,7 +9,7 @@ import { PopoverModule } from 'primeng/popover'
 import { OverlayPanelModule } from 'primeng/overlaypanel'
 import { debounceTime } from 'rxjs';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
-
+import { JobSelectionServiceService } from '../../core/services/job-selection-service.service';
 
 
 @Component({
@@ -29,6 +29,7 @@ export class ActionsDataTableComponent {
   filterTerm = new FormControl('')
 
   modalService = inject( ModalsServiceService )
+  jobSelectionService = inject(JobSelectionServiceService)
 
   openJobDetailsFormModal() {
     this.modalService.showJobDetailsFormModal = true
@@ -69,7 +70,7 @@ export class ActionsDataTableComponent {
 
 
   handleViewClicked(jobData: any) {
-    // console.log(jobData)
+    this.jobSelectionService.setSelectedJob( jobData )
     this.openJobDetailsFormModal()
 
   }

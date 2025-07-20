@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef, Input } from '@angular/core';
+import { Component, inject, DestroyRef, Output, EventEmitter } from '@angular/core';
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -19,6 +19,8 @@ import { LoadingService } from '../utils/loading/loading.service';
   styleUrl: './create-job-modal.component.scss'
 })
 export class CreateJobModalComponent {
+
+  @Output() jobCreated = new EventEmitter<void>();
 
   modalService = inject( ModalsServiceService )
   employerHttp = inject( EmployerHttpRequestsService )
@@ -117,6 +119,8 @@ export class CreateJobModalComponent {
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
         next: ( newJob ) => {
+              this.jobCreated.emit()
+              this.closeJobCreationModal()
               console.log('job created', newJob)  
               this.toastService.success('Job Created!!');
           }

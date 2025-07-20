@@ -50,7 +50,7 @@ export class EmployerHttpRequestsService {
 
 
   getAllJobs(): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/jobs/employer`)
+    return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/employer/jobs`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching all jobs ', error ) 
