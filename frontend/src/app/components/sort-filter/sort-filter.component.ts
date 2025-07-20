@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
@@ -22,22 +22,34 @@ export class SortFilterComponent {
     { label: 'Company', value: 'company' }
   ];
 
-  titleOptions = [
-    { label: 'Title', value: 'title' },
-    { label: 'Position', value: 'position' }
-  ];
+  @Input() titleOptions: { label: string, value: string }[] = [];
+  @Output() titleChange = new EventEmitter<string>();
 
   dateOptions = [
     { label: 'All Dates', value: 'all' },
     { label: 'Today', value: 'today' },
-    { label: 'This Week', value: 'week' },
-    { label: 'This Month', value: 'month' }
+    { label: 'Last 2 days', value: 'twoDays' },
+    { label: 'Last Week', value: 'lastWeek' },
+    { label: 'Last 2 Weeks', value: 'last2Weeks' },
+    { label: 'Last Month', value: 'lastMonth' }
   ];
 
-  salaryRange: [number, number] = [30000, 800000];
+  @Input() salaryRange: [number, number] = [30000, 800000];
+
+  @Output() salaryRangeChange = new EventEmitter<[number, number]>();
+  @Output() sortChange = new EventEmitter<string>();
+
+  constructor() {
+    this.sortByControl.valueChanges.subscribe((value) => {
+      this.sortChange.emit(value ?? undefined);
+    });
+    this.titleControl.valueChanges.subscribe((value) => {
+      this.titleChange.emit(value ?? undefined);
+    });
+  }
 
   onSalaryRangeChange(newRange: [number, number]) {
     this.salaryRange = newRange;
-    // Optionally, trigger filtering logic here
+    this.salaryRangeChange.emit(newRange);
   }
 }

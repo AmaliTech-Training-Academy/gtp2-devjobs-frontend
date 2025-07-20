@@ -36,99 +36,120 @@ body {
   color: #fff;
   font-weight: 500;
 }
-/* Add these styles to your component's SCSS file */
 
-.validation-errors {
-  margin-bottom: 1.5rem;
-  animation: slideInFromTop 0.3s ease-out;
+
+.popover-wrapper {
+    width: 8.25rem;
+    height: 7.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // background-color: green;
 }
 
-.error-container {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.popover-div {
+    display: flex;
+    // justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    cursor: pointer;
+    color: black;
+    padding: 0.3rem;
+
+    p {
+      color: inherit;
+    }
+
+    &:hover {
+      background-color: $primary-color;
+      color: white;
+    }
 }
 
-.error-title {
-  color: #dc2626;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+
+
+.popover-wrapper-application-table {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+
+    .popover-option-application-table {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 2px;
+      width: 115px;
+      height: 32px;
+    }
+
+    .popover-option-application-table:nth-child(1) {
+      background-color: #F4F6F8;
+      color: #5964E0;
+    }
+
+    .popover-option-application-table:nth-child(2) {
+      background-color: #FFF7A3;
+      color: #19202D;
+    }
+
+    .popover-option-application-table:nth-child(3) {
+      background-color: #ECFDF3;
+      color: #2D7230;
+    }
+
+    .popover-option-application-table:nth-child(4) {
+      background-color: #FFC3C8;
+      color: #DC3545;
+    }
+
+
 }
 
-.error-title::before {
-  content: "⚠️";
-  font-size: 1rem;
+
+
+.p-popover-panel .p-popover-content {
+  padding: 0 !important;
 }
 
-.error-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+
+
+.popover-profile-dropdown {
+    width: 11.375rem;
+    height: 5.7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // padding: 0 !important;
+
+
+    .profile-option {
+      display: flex;
+      gap: 0.625rem;
+      padding: 0.625rem 0.938rem;
+      cursor: pointer;
+      height: 2.75rem;
+      width: 100%;
+      color: #5F6368;
+
+
+      &:hover {
+        background-color: #E8F7FF;
+        color: #0B76B7;
+      }
+
+
+      p {
+        font-weight: 500;
+      }
+
+
+
+    }
+
 }
 
-.error-item {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-bottom: 0.25rem;
-  padding-left: 1rem;
-  position: relative;
-  line-height: 1.4;
-}
 
-.error-item::before {
-  content: "•";
-  color: #dc2626;
-  position: absolute;
-  left: 0;
-  font-weight: bold;
-}
-
-.error-item:last-child {
-  margin-bottom: 0;
-}
-
-/* Animation for error appearance */
-@keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .error-container {
-    padding: 0.75rem;
-  }
-
-  .error-title {
-    font-size: 0.8rem;
-  }
-
-  .error-item {
-    font-size: 0.8rem;
-  }
-}
-
-/* Dark mode support (optional) */
-@media (prefers-color-scheme: dark) {
-  .error-container {
-    background-color: #451a1a;
-    border-color: #991b1b;
-  }
-
-  .error-title,
-  .error-item {
-    color: #fca5a5;
-  }
-}

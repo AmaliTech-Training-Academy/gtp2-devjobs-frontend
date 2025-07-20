@@ -130,7 +130,7 @@ export const routes: Routes = [
         data: { search: true },
       },
       {
-        path: 'job-details',
+        path: 'job-details/:id',
         component: JobDetailsComponent,
       },
       {
@@ -181,8 +181,8 @@ export const routes: Routes = [
     component: UnathorizedComponent,
   },
   // Catch-all Wildcard
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  // },
 ];

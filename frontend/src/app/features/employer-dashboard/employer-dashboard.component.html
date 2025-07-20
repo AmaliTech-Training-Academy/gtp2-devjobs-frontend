@@ -17,30 +17,16 @@
 
 
     <section class="table-display">
-        <p-table [value]="applications" [tableStyle]="{ 'min-width': '50rem' }" class="data-table">
-            <ng-template #header>
-                <tr>
-                    <th>Job Title</th>
-                    <th>Applicants</th>
-                    <th>Job Type</th>
-                    <th>Action</th>
-                </tr>
-            </ng-template>
-            <ng-template #body let-application>
-                <tr>
-                    <td>{{ application.jobTitle }}</td>
-                    <td>{{ application.applicants }}</td>
-                    <td>{{ application.jobType }}</td>
-                    <td (click)="openJobDetailsModalForm()">{{ application.action }}</td>
-                </tr>
-            </ng-template>
-        </p-table>    
-
+        <app-data-table [columns]="columns" [jobsArray]="jobsArray" />
     </section>
+
 
     @if( modalService.showJobDetailsFormModal ) {
         <app-job-details-modal />
     }
+
+
+    <!-- <td (click)="openJobDetailsModalForm()">{{ application.action }}</td> -->
 
 
 

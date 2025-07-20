@@ -8,8 +8,7 @@
 
   <div class="tabs-and-search">
     <div class="tabs">
-      <a [routerLink]="['/seeker/dashboard/jobs']" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">
+      <a [routerLink]="['/seeker/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         Job Search
       </a>
       <a [routerLink]="['/seeker/dashboard/application-status']" routerLinkActive="active">
@@ -18,7 +17,7 @@
     </div>
     @if(showSearch$ | async){
     <div class="search">
-      <app-search></app-search>
+      <app-search [searchParams]="searchParams" (search)="onSearch($event)"></app-search>
     </div>
     }
   </div>
