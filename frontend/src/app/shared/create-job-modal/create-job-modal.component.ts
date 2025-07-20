@@ -102,7 +102,7 @@ export class CreateJobModalComponent implements OnInit {
   createAdditionalJobData() {
     return this.formBuilder.group({
       description: ['', [Validators.required, Validators.minLength(20)]],
-      title: ['',[Validators.required, Validators.minLength(5)]]
+      title: ['',[Validators.required, Validators.minLength(5)]],
     })
   }
 
@@ -140,6 +140,7 @@ export class CreateJobModalComponent implements OnInit {
   extractAdditionalJobData() {
     return this.secondJobForm.get('additionalJobDetails') as FormArray
   }
+
 
 
 

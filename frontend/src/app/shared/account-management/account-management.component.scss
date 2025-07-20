@@ -7,6 +7,32 @@
   padding: 40px;
   margin-bottom: 20px;
 
+  .input-wrapper {
+    height: 48px;
+    background-color: white;
+    padding: 14px 12px;
+    width: 600px;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+
+    input {
+      height: 100%;
+      // padding: 14px 16px;
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 0;
+    }
+
+    @include mixins.breakpoint(788px) {
+      width: 100%;
+    }
+  }
+
   input {
     height: 48px;
     padding: 14px 16px;
@@ -14,7 +40,7 @@
     border: 1px solid #d3d3d3;
     border-radius: 5px;
 
-    @include mixins.breakpoint(500px) {
+    @include mixins.breakpoint(788px) {
       width: 100%;
     }
   }
@@ -36,9 +62,7 @@
       border: none;
       outline: none;
       padding: 10px;
-
-      font-weight: 700px;
-      font-size: 16px;
+      @include fonts.bodyB1;
     }
     .active {
       border-bottom: 3px solid variables.$primary-color !important;
@@ -49,7 +73,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 100px;
 
-    @include mixins.breakpoint(500px) {
+    @include mixins.breakpoint(1040px) {
       grid-template-columns: 1fr;
 
       .instruction {
@@ -60,8 +84,13 @@
     form {
       width: 100%;
 
+      // input {
+      //   margin-top: 8px;
+      // }
+
       .form-field {
         margin-bottom: 20px;
+        display: grid;
 
         label {
           @include fonts.header4;
@@ -204,7 +233,7 @@
   }
 
   .skill-chip {
-    width: 120px;
+    min-width: 120px;
     height: 40px;
     display: flex;
     justify-content: center;
@@ -222,5 +251,28 @@
       background-color: transparent;
       cursor: pointer;
     }
+  }
+}
+.error {
+  color: variables.$error;
+}
+.success {
+  color: green;
+}
+.visibility-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    font-size: 20px;
+    color: #666;
   }
 }

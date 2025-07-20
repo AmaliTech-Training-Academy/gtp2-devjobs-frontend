@@ -65,16 +65,16 @@ export class LandingJobCategoriesComponent implements OnInit {
 
   scroll(container: HTMLElement, direction: 'left' | 'right') {
     if (this.isDesktop) {
-      const scrollAmount = 370; // Card width + gap
+      const scrollAmount = 370; 
       direction === 'left'
         ? (container.scrollLeft -= scrollAmount)
         : (container.scrollLeft += scrollAmount);
     } else {
-      // For mobile, scroll by full container width
-      const scrollAmount = container.scrollWidth / this.cards.length;
+      // For mobile, scroll by full card width
+      const cardWidth = container.querySelector('.card')?.clientWidth || 0;
       direction === 'left'
-        ? (container.scrollLeft -= scrollAmount)
-        : (container.scrollLeft += scrollAmount);
+        ? (container.scrollLeft -= cardWidth)
+        : (container.scrollLeft += cardWidth);
     }
   }
 
