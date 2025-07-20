@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef, Output, EventEmitter } from '@angular/core';
+import { Component, inject, DestroyRef, Output, EventEmitter, OnInit } from '@angular/core';
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -9,7 +9,9 @@ import { CreateJobPayload } from '../../model/job';
 // import { ToastService } from '../../../../shared/utils/toast/toast.service';
 // import { LoadingService } from '../../../../shared/utils/loading/loading.service';
 import { ToastService } from '../utils/toast/toast.service';
-import { LoadingService } from '../utils/loading/loading.service';
+import { JobSelectionServiceService } from '../../core/services/job-selection-service.service';
+// import { LoadingService } from '../utils/loading/loading.service';
+
 
 
 @Component({
@@ -18,17 +20,21 @@ import { LoadingService } from '../utils/loading/loading.service';
   templateUrl: './create-job-modal.component.html',
   styleUrl: './create-job-modal.component.scss'
 })
-export class CreateJobModalComponent {
+export class CreateJobModalComponent implements OnInit {
 
   @Output() jobCreated = new EventEmitter<void>();
 
   modalService = inject( ModalsServiceService )
   employerHttp = inject( EmployerHttpRequestsService )
   toastService = inject( ToastService )
+  jobSelectionService = inject( JobSelectionServiceService )
 
   destroyRef = inject( DestroyRef )
-  
 
+  job: any
+
+  formRole: 'Create new job' | 'Update job' = 'Create new job'
+  
 
   firstJobForm = new FormGroup({
     jobTitle: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -36,7 +42,6 @@ export class CreateJobModalComponent {
     salary: new FormControl('', [Validators.required, Validators.min(1)]),
     companyName: new FormControl('', Validators.required),
     location: new FormControl('', Validators.required)
-
   })
 
   formBuilder = inject( FormBuilder )
@@ -46,6 +51,51 @@ export class CreateJobModalComponent {
     this.secondJobForm = this.formBuilder.group({
       additionalJobDetails: this.formBuilder.array([ this.createAdditionalJobData()])
     })
+  }
+
+  ngOnInit(): void {
+    this.jobSelectionService.selectedJob$.subscribe( receivedJob => {
+      this.job = receivedJob
+      if(!this.job) {
+        this.formRole = 'Create new job'
+        console.log("job received = ", this.job)
+      }
+      else {
+        this.formRole = 'Update job'
+        console.log("job received = ", this.job)
+        this.populateFormWithJobData(this.job )
+      }
+    })
+  }
+
+
+  populateFormWithJobData( job: any ) {
+    this.firstJobForm.patchValue({
+      jobTitle: job['Job Title'] || '',
+      jobType: job['Job Type'] || 'FULL_TIME',
+      salary: job['Salary'],
+      companyName: job['Company Name'] || '',
+      location: job['Location'] || ''
+    })
+
+
+    const descriptions = job['Descriptions'] || []
+
+    // Clear existing FormArray first
+    this.getAdditionalJobData.clear();
+
+
+    descriptions.forEach((desc: any) => {
+      this.getAdditionalJobData.push(
+        this.formBuilder.group({
+          title: [desc.title || '', [Validators.required, Validators.minLength(5)]],
+          description: [desc.description || '', [Validators.required, Validators.minLength(20)]]
+        })
+      );
+    });
+
+
+
   }
 
 
@@ -112,10 +162,9 @@ export class CreateJobModalComponent {
         companyName: this.firstJobForm.value.companyName!,
         salary: Number(this.firstJobForm.value.salary!),
         currency: 'USD',
-        // description: this.getAdditionalJobData.value[0].description,
       }
 
-      console.log( "combined data = ", combinedJobData )
+      // /companies
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
         next: ( newJob ) => {
@@ -131,6 +180,7 @@ export class CreateJobModalComponent {
       // })
 
     }
+
 
 
 
@@ -152,6 +202,7 @@ export class CreateJobModalComponent {
 
   closeJobCreationModal() {
     this.modalService.closeCreateJobFormModal()
+    this.job = null
   }
 
 

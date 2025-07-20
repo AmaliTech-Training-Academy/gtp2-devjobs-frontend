@@ -52,7 +52,7 @@ export class EmployerJobsComponent implements OnInit{
       "Job Title": employerJob.title,
       "Job Type": this.formatEmploymentType(employerJob.employmentType),
       "Date": this.formatDate(employerJob.createdAt),
-      "Salary": `$${employerJob.salary.toLocaleString()}`,
+      // "Salary": `$${employerJob.salary.toLocaleString()}`,
       "Location": employerJob.location,
       "Action": "View",
       "Company Name": employerJob.company.companyName,
@@ -65,12 +65,14 @@ export class EmployerJobsComponent implements OnInit{
 
   // Optional helper functions
   formatEmploymentType(type: string): string {
-    return type.replace('_', ' ').toUpperCase(); // e.g. PART_TIME -> PART TIME
+    return type.replace('_', ' ').toUpperCase(); 
   }
+
 
   formatDate(dateStr: string): string {
     return new Date(dateStr).toISOString().split('T')[0]; // e.g. 2025-07-19
   }
+  
 
   openJobDetailsFormModal() {
     this.modalService.showJobDetailsFormModal = true

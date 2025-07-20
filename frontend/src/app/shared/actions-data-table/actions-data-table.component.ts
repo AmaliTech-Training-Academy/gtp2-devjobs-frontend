@@ -77,7 +77,7 @@ export class ActionsDataTableComponent {
 
 
   handleEditClicked(jobData: any) {
-    // console.log(jobData) Midred is my best friend Yaaaaayyyy!! 
+    this.jobSelectionService.setSelectedJob( jobData )
     this.openJobCreationModal()
   }
 
