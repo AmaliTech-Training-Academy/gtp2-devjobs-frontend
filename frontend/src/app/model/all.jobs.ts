@@ -7,6 +7,28 @@ export interface AllJobsResponse<T = any> {
   errors: string[] | null;
 }
 
+export interface CompanyProfile {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  owner: {
+    id: string;
+    username: string;
+    email: string;
+    fullName: string | null;
+    roles: string[];
+  };
+  companyName: string;
+  website: string | null;
+  location: string | null;
+  companySize: number;
+  aboutCompany: string | null;
+  email: string;
+  jobCount: number;
+  companyLogoUrl: string | null;
+  phoneNumber: string | null;
+}
+
 export interface ProfileData {
   profileId: string;
   createdAt: string | null;

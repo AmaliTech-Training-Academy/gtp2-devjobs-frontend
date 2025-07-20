@@ -18,6 +18,7 @@ import { ReusableFormGroupComponent } from '../reusable-form-group/reusable-form
 import { EmployerProfile, SeekerProfile } from '../../model/profile';
 import { ProfileData } from '../../model/all.jobs';
 import { JobService } from '../../core/services/job-service/job.service';
+import { CompanyProfile } from '../../model/all.jobs';
 
 interface Field {
   label: string;
@@ -36,7 +37,7 @@ interface Field {
 })
 export class ProfileComponent implements OnChanges, OnInit {
   @Input() seekerProfile: ProfileData | null = null;
-  @Input() employer: EmployerProfile | null = null;
+  @Input() employer: CompanyProfile | null = null;
   @Input() type: 'employer' | 'seeker' = 'seeker';
   @Output() onSave = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<void>();
@@ -89,7 +90,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         ],
         website: [this.employer?.website || '', [Validators.required]],
         phoneNumber: [
-          this.employer?.number || '',
+          this.employer?.phoneNumber || '',
           [Validators.required, Validators.minLength(10)],
         ],
         email: [
@@ -100,7 +101,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         ],
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
-        about: [this.employer?.about || '', [Validators.required]],
+        about: [this.employer?.aboutCompany || '', [Validators.required]],
         profileImage: [null], // add file control
       });
     }
