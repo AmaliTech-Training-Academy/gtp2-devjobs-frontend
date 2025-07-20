@@ -13,16 +13,56 @@
         <form [formGroup]="passwordForm">
             <div class="form-field">
                 <label>Enter your old password</label>
-                <input type="text" formControlName="old" placeholder="Enter old password" />
+                <div class="input-wrapper">
+
+                    <input [type]="showOldPassword ? 'password' : 'text'" formControlName="old"
+                        placeholder="Enter old password" />
+                    <button type="button" (click)="toggleOldPasswordVisibility()" class="visibility-toggle">
+                        <mat-icon>{{ showOldPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </div>
+                <div class="error"
+                    *ngIf="passwordForm.get('old')?.touched && passwordForm.get('old')?.hasError('required')">
+                    Old password is required
+                </div>
             </div>
             <div class="form-field">
                 <label>Enter your new password</label>
-                <input type="text" formControlName="new" placeholder="Enter your new password" />
+                <div class="input-wrapper">
+                    <input [type]="showNewPassword ? 'password' : 'text'" formControlName="new"
+                        placeholder="Enter your new password" />
+                    <button type="button" (click)="toggleNewPasswordVisibility()" class="visibility-toggle">
+                        <mat-icon>{{ showNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+
+                </div>
+                <div class="error" *ngIf="passwordForm.get('new')?.touched">
+                    <div *ngIf="passwordForm.get('new')?.hasError('required')">New password is required</div>
+                    <div *ngIf="passwordForm.get('new')?.hasError('weakPassword')">
+                        Password must be 8+ characters, with uppercase, lowercase, number, and special character
+                    </div>
+                </div>
+
             </div>
             <div class="form-field">
                 <label>Confirm your new password</label>
-                <input type="text" formControlName="confirm" placeholder="Confirm your new password" />
+                <div class="input-wrapper">
+                    <input [type]="showConfirmPassword ? 'password' : 'text'" formControlName="confirm"
+                        placeholder="Confirm your new password" />
+                    <button type="button" (click)="toggleConfirmPasswordVisibility()" class="visibility-toggle">
+                        <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </div>
+                <div class="error" *ngIf="passwordForm.get('confirm')?.touched">
+                    <div *ngIf="passwordForm.get('confirm')?.hasError('required')">Confirmation is required</div>
+                    <div *ngIf="passwordForm.hasError('passwordsMismatch')">Passwords do not match</div>
+                </div>
+
             </div>
+
+            @if(success){
+            <div class="success">Password changed successfully</div>
+            }
 
             <div class="button-row">
                 <button class="cancel" (click)="cancelForm()">Cancel</button>
