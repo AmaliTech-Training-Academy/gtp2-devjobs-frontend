@@ -3,7 +3,7 @@
 
   .form-group {
     height: 80px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
   }
 
   .form-label {
@@ -191,9 +191,12 @@
           height: 44px;
           padding: 0 0.75rem;
         }
-
+        .mat-mdc-form-field-error {
+          color: #ef4444;
+          font-size: 2rem;
+        }
         .mat-mdc-input-element {
-          font-size: 16px; // Prevents zoom on iOS
+          font-size: 16px;
         }
 
         .mat-mdc-form-field-icon-prefix {
