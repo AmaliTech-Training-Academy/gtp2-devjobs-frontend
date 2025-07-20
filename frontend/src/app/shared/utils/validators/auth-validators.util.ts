@@ -69,7 +69,6 @@ export class AuthValidators {
     );
   }
 
-  // Angular Custom Validators
   static strictEmail(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
