@@ -9,6 +9,16 @@ export class ModalsServiceService {
 
   showCreateJobFormModal: boolean = false;
 
+  createOrUpdateJobActionType: string = 'Create'
+
+  setJobFormActionTypeToCreate() {
+    this.createOrUpdateJobActionType = 'Create'
+  }
+
+  setJobFormActionTypeToUpdate() {
+    this.createOrUpdateJobActionType = 'Update'
+  }
+
   openCreateJobFormModal() {
     this.showCreateJobFormModal = true
   }

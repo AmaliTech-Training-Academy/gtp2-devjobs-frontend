@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, Input } from '@angular/core';
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { ReactiveFormsModule, FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -6,7 +6,10 @@ import { CommonModule } from '@angular/common';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 import { CreateJobPayload } from '../../model/job';
-
+// import { ToastService } from '../../../../shared/utils/toast/toast.service';
+// import { LoadingService } from '../../../../shared/utils/loading/loading.service';
+import { ToastService } from '../utils/toast/toast.service';
+import { LoadingService } from '../utils/loading/loading.service';
 
 
 @Component({
@@ -19,14 +22,15 @@ export class CreateJobModalComponent {
 
   modalService = inject( ModalsServiceService )
   employerHttp = inject( EmployerHttpRequestsService )
+  toastService = inject( ToastService )
 
   destroyRef = inject( DestroyRef )
-
+  
 
 
   firstJobForm = new FormGroup({
-    jobTitle: new FormControl('', Validators.required),
-    jobType: new FormControl('', Validators.required),
+    jobTitle: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    jobType: new FormControl('FULL_TIME', Validators.required),
     salary: new FormControl('', [Validators.required, Validators.min(1)]),
     companyName: new FormControl('', Validators.required),
     location: new FormControl('', Validators.required)
@@ -45,8 +49,8 @@ export class CreateJobModalComponent {
 
   createAdditionalJobData() {
     return this.formBuilder.group({
-      description: ['', Validators.required],
-      title: ['', Validators.required]
+      description: ['', [Validators.required, Validators.minLength(20)]],
+      title: ['',[Validators.required, Validators.minLength(5)]]
     })
   }
 
@@ -81,19 +85,10 @@ export class CreateJobModalComponent {
   }
 
 
-// const jobDetails = this.getAdditionalJobData().value;
-
-// jobDetails.forEach((group: any, index: number) => {
-//   console.log(`Job #${index + 1} - Title:`, group.title);
-//   console.log(`Job #${index + 1} - Description:`, group.description);
-// });
-
-
   extractAdditionalJobData() {
     return this.secondJobForm.get('additionalJobDetails') as FormArray
   }
 
-  
 
 
   postJob() {
@@ -107,31 +102,29 @@ export class CreateJobModalComponent {
 
       const formArray = this.extractAdditionalJobData()
 
-      const secondGroup = formArray.at(0) as FormGroup
-
-      const title = secondGroup.get('title')?.value
-
-      const description = secondGroup.get('description')?.value
-
-
       const combinedJobData: CreateJobPayload = {
-        companyId: "68749670496346",
         title: this.firstJobForm.value.jobTitle!,
-        employmentType: this.firstJobForm.value.jobType!,
-        salary: Number(this.firstJobForm.value.salary!),
+        descriptions: this.getAdditionalJobData.value,
         location: this.firstJobForm.value.location!,
+        employmentType: this.firstJobForm.value.jobType!,
         companyName: this.firstJobForm.value.companyName!,
-        description: description,
+        salary: Number(this.firstJobForm.value.salary!),
         currency: 'USD',
-        applicationDeadline: new Date('2025-08-19').toISOString()
-
+        // description: this.getAdditionalJobData.value[0].description,
       }
 
       console.log( "combined data = ", combinedJobData )
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
-        next: ( newJob ) => console.log('job created', newJob)
+        next: ( newJob ) => {
+              console.log('job created', newJob)  
+              this.toastService.success('Job Created!!');
+          }
       })
+
+      // this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
+      //   next: ( newJob ) => console.log('job updated', newJob)
+      // })
 
     }
 

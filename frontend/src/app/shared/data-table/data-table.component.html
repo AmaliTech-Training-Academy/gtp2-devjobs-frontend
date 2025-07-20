@@ -7,82 +7,31 @@
     </div>
 
 
-    <div class="table-scroll-wrapper">
+    <article class="table-wrapper">
+        <p-table [columns]="columns" 
+                 [value]="filterArray"  
+                 [tableStyle]="{'min-width': '50rem'}"
+                 responsiveLayout="scroll"
+                 >
+            <ng-template #header>
+                <tr>
+                    <th *ngFor="let column of columns">
+                        {{ column }}
+                    </th>
+                </tr>
+            </ng-template>
 
-
-    <p-table
-        [value]="filterArray"
-        [paginator]="true"
-        [rows]="6"
-        [rowsPerPageOptions]="[6, 12, 24]"
-        [responsiveLayout]="'scroll'"
-        class="custom-table"
-        styleClass="data-table"
-
-        [tableStyle]="{ 'min-width': '50rem' }"    
-        >
-        <ng-template pTemplate="header">
-            <tr>
-            @for( property of properties; track property ) {
-                <th>{{ property }}</th>
-             }
-
-
-
-            </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-job>
-
-            <tr (click)="onOpenModal()">
-            @for( property of properties; track property) {
-                <td>{{ job[property]}}</td>
-            }
-            </tr>
-        </ng-template>
-    </p-table>
-        </div>
-
+            <ng-template #body let-rowData let-columns="columns">
+                <tr>
+                    <td *ngFor="let column of columns" 
+                        [ngClass]="{ 'blue-action': column === 'Action' }">
+                        {{ rowData[ column ]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </article>
 
 </section>
 
-
-
-            <!-- <td> -->
-                <!-- <button 
-
-                    pButton 
-                    type="button" 
-                    icon="pi pi-ellipsis-v" 
-                    class="p-button-text"
-                    (click)="overlayPanel.toggle($event, job)"
-                >
-
-                </button>
-                <p-overlayPanel #overlayPanel [dismissable]="true">
-
-                    <div class="popover-content">
-                        <button
-                            pButton
-                            class="p-button-text"
-                            icon="pi pi-eye"
-                            label="View"
-                            (click)="viewJob(job)"
-                        >
-                        </button>
-
-                        <button
-                            pButton
-                            class="p-button-text"
-                            icon="pi pi-pencil"
-                            label="Edit"
-                            (click)="editJob(job)"
-                        >
-                    </button>
-
-                        
-                    </div>
-
-                </p-overlayPanel> -->
-            <!-- </td> -->
 

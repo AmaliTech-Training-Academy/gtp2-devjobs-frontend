@@ -1,0 +1,177 @@
+@use '../../styles/_fonts' as *;
+@use '../../styles/_variables' as *;
+
+
+
+.display-jobs {
+    .search-filter {
+        position: relative;
+
+
+        .search-input {
+            width: 28rem;
+            height: 3rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            padding: 1rem 3rem;
+            @include regular;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 0.8rem;
+        }
+
+    }
+
+
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+
+
+    /* table styling */
+    // .ellipsis-btn {
+    //     background: none;
+    //     border: none;
+    //     font-size: 1.5rem;
+    //     cursor: pointer;
+    //     color: black;
+    //     line-height: 1;
+    //     padding: 0;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    // }
+
+    // .ellipsis-btn:hover {
+    //     color: $primary-color;
+    // }
+
+    /* table styling */
+    .blue-action {
+        color: $primary-color;
+        cursor: pointer;
+    }
+
+
+    /* status cell */
+    .status-cell {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: pointer;
+        }
+
+        .status-detail-div {
+            display: flex;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 2px;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            width: 115px;
+            height: 32px;
+        }
+
+        .status-div-applied {
+            background-color: #F4F6F8;
+        }
+
+        .status-div-interviewed {
+            background-color: #ECFDF3;
+        }
+
+        .status-div-rejected {
+            background-color: #FFC3C8;
+        }
+
+        .status-div-reviewed {
+            background-color: #FFF7A3;
+        }
+
+        .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        }
+
+        .dot-applied {
+            background-color: #5964E0;
+        }
+
+        .dot-reviewed {
+            background-color: #19202D;
+        }
+
+        .dot-interviewed {
+            background-color: #2D7230;
+        }
+
+        .dot-rejected {
+            background-color: #DC3545;
+        }
+
+        .status-text {
+            font-size: 14px;
+        }
+
+        .status-text-applied {
+            color: #5964E0;
+        }       
+
+        .status-text-interviewed {
+            color: #2D7230;
+        }       
+
+        .status-text-rejected {
+            color: #DC3545;
+        }       
+
+        .status-text-reviewed {
+            color: #19202D;
+        }       
+
+        .status-arrow {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        // .popover-wrapper {
+        // padding: 0.5rem;
+        // display: flex;
+        // flex-direction: column;
+        // gap: 0.3rem;
+
+        // }
+
+        // .popover-option {
+        // cursor: pointer;
+        // padding: 0.3rem;
+        // border-radius: 4px;
+        // }
+
+        // .popover-option:hover {
+        // background: #eee;
+        // }
+
+
+}
+
+
+
+
+
+// @media (max-width: 600px) {
+//   ::ng-deep .custom-table .p-datatable-thead th,
+//   ::ng-deep .custom-table .p-datatable-tbody td {
+//     font-size: 0.8rem;
+//     padding: 0.5rem;
+//   }
+// }
+

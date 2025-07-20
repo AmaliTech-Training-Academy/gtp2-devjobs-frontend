@@ -33,6 +33,38 @@ export interface EmployerJobsData {
 
 
 
+
+
+
+
+/* Employer CRUD */
+/* Get employer jobs */
+export interface GetEmployerJobsResponse {
+  success: boolean;
+  message: string;
+  data: EmployerJobsData;
+  timestamp: string;
+  error: boolean;
+  errors: string[];
+}
+
+
+export interface EmployerJobsData {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  sort: SortInfo;
+  pageable: Pageable;
+  content: EmployerJob[];
+  empty: boolean;
+}
+
+
+
 export interface EmployerJob {
   id: string;
   createdAt: string;
@@ -41,12 +73,13 @@ export interface EmployerJob {
   company: Company;
   title: string;
   description: string;
+  descriptions: JobDescription[],
   location: string;
   employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN' | string;
   salary: number;
   currency: string;
   isActive: boolean;
-  applicationDeadline: string;
+  applicationDeadline: string | null;
   requiredSkills: RequiredSkill[];
   applicationCount: number;
 }
@@ -96,19 +129,22 @@ export interface Pageable {
 }
 
 
+export interface JobDescription {
+  title: string,
+  description: string
+}
+
 
 
 /* Post Job Response */
 export interface CreateJobPayload {
-  companyId: string;
   title: string;
-  description: string;
+  descriptions: JobDescription[];
   location: string;
   employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN' | string;
   companyName: string;
   salary: number;
   currency: 'USD' | 'EUR' | 'GHS' | string;
-  applicationDeadline: string; // ISO string (e.g. "2025-07-17T19:21:18.262Z")
 }
 
 
@@ -118,7 +154,7 @@ export interface CreatedJobResponse {
   data: EmployerJob;
   timestamp: string;
   error: boolean;
-  errors: string[];
+  errors: any;
 }
 
 
