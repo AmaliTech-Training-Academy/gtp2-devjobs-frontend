@@ -68,6 +68,7 @@ jobs:
 
           docker build \
             --build-arg NG_APP_BASE_URL="$NG_APP_BASE_URL" \
+            -f Dockerfile.test \
             -t "$IMAGE_URI" .
 
           docker push "$IMAGE_URI"
