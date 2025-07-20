@@ -122,9 +122,16 @@ jobs:
             exit 1
           fi
 
+          # Sanitize cluster and service names
+          CLUSTER_NAME=$(echo -n "${{ secrets.ECS_CLUSTER }}")
+          SERVICE_NAME=$(echo -n "${{ secrets.ECS_SERVICE }}")
+          
+          echo "Using sanitized cluster name: '$CLUSTER_NAME'"
+          echo "Using sanitized service name: '$SERVICE_NAME'"
+          
           aws ecs update-service \
-            --cluster "${{ secrets.ECS_CLUSTER }}" \
-            --service "${{ secrets.ECS_SERVICE }}" \
+            --cluster "$CLUSTER_NAME" \
+            --service "$SERVICE_NAME" \
             --task-definition "$TASK_DEF_ARN" \
             --force-new-deployment \
             --region "${{ secrets.AWS_REGION }}"
