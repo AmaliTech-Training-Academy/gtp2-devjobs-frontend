@@ -3,7 +3,7 @@ name: Build and Deploy with CodeDeploy (Blue/Green)
 on:
   workflow_run:
     workflows: ["Frontend Production CI/CD"]
-    branches: [main, feature/devops]
+    branches: [main, testing, feature/devops]
     types:
       - completed
       
@@ -17,17 +17,29 @@ jobs:
   deploy:
     runs-on: self-hosted
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      DEBUG_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
     steps:
+      - name: Debug workflow trigger
+        run: |
+          echo "Workflow triggered by branch: $DEBUG_BRANCH"
+          echo "Current branch: ${{ github.ref_name }}"
+          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
+          echo "Workflow name: ${{ github.event.workflow_run.name }}"
+          echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
