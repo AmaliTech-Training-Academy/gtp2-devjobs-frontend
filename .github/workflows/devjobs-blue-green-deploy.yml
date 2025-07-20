@@ -69,9 +69,8 @@ jobs:
           IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
           
-          # Verify image exists
-          echo "Verifying image exists: $IMAGE_URI"
-          aws ecr describe-images --repository-name ${{ secrets.ECR_REPO_PROD }} --image-ids imageTag=$IMAGE_TAG --region ${{ secrets.AWS_REGION }}
+          # Skip image verification due to IAM permissions
+          echo "Using image: $IMAGE_URI"
 
       - name: Get current task definition
         run: |
