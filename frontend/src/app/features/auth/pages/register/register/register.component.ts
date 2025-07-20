@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.isMobile = window.innerWidth <= 768;
+  this.isMobile = window.innerWidth <= 1024;
   }
 
   switchRole(role: 'seeker' | 'employer') {

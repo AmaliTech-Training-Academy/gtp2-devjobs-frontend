@@ -1,7 +1,7 @@
 @use "../../../../styles/fonts" as *;
 
 .cta-section {
-  padding: 4rem 0;
+  padding: 4rem 2rem;
   max-width: 1300px;
   margin: auto;
   background-color: #f8f9fa;
@@ -9,25 +9,14 @@
   h2 {
     @include header1;
     margin-bottom: 3rem;
-    margin-left: 1.5rem;
     color: #333;
+    text-align: center;
 
-    // Highlight colors for specific words
-    .highlight-strong {
-      color: #6366f1;
-    }
-    .highlight-confident {
-      color: #6366f1;
-    }
-    .highlight-space {
-      color: #6366f1;
-    }
-    .highlight-grow {
-      color: #6366f1;
-    }
-    .highlight-land {
-      color: #6366f1;
-    }
+    .highlight-strong,
+    .highlight-confident,
+    .highlight-space,
+    .highlight-grow,
+    .highlight-land,
     .highlight-best {
       color: #6366f1;
     }
@@ -36,14 +25,17 @@
   .cards-wrapper {
     display: flex;
     gap: 1.5rem;
-    width: 1300px;
+    width: 100%;
+    max-width: 1300px;
     margin-bottom: 3rem;
-    overflow: hidden;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 1rem;
 
     .card {
       flex-shrink: 0;
-      min-width: 385px;
-      max-width: 229px;
+      width: 385px;
+      height: 200px;
       border-radius: 24px;
       padding: 1.5rem;
       transition: all 0.3s ease;
@@ -129,19 +121,20 @@
 
   // Tablet breakpoint
   @media (max-width: 1024px) {
-    padding: 3rem 1rem;
+    padding: 3rem 1.5rem;
 
     h2 {
       font-size: 2rem;
       margin-bottom: 2.5rem;
+      line-height: 1.3;
     }
 
     .cards-wrapper {
       gap: 1rem;
+      padding: 0 0.5rem;
 
       .card {
-        min-width: 280px;
-        max-width: 320px;
+        width: 300px;
         padding: 1.5rem;
       }
     }
@@ -155,18 +148,17 @@
       font-size: 1.5rem;
       margin-bottom: 2rem;
       line-height: 1.4;
+      margin-left: 0;
     }
 
     .cards-wrapper {
-      flex-direction: column;
-      align-items: center;
       gap: 1rem;
+      padding: 0;
 
       .card {
-        max-width: 100%;
-        width: 100%;
-        min-width: unset;
+        width: 280px;
         padding: 1.5rem;
+        height: 250px;
 
         h3 {
           font-size: 1.3rem;
@@ -175,17 +167,46 @@
 
         p {
           font-size: 0.95rem;
+          line-height: 1.5;
         }
       }
     }
 
     .navigation-buttons {
+      margin-top: 2rem;
+
       .nav-btn {
         width: 44px;
         height: 44px;
 
         .mat-icon {
           font-size: 20px;
+        }
+      }
+    }
+  }
+
+  // Extra small mobile breakpoint
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem;
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cards-wrapper {
+      .card {
+        width: 250px;
+        padding: 1.25rem;
+        height: 250px;
+
+        h3 {
+          font-size: 1.2rem;
+        }
+
+        p {
+          font-size: 0.9rem;
         }
       }
     }
