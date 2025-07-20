@@ -1,5 +1,6 @@
 <div [formGroup]="group" class="form-section">
-    <div *ngFor="let field of fields">
+    <div *ngFor="let field of fields" [ngClass]="{ 'disabled-bg': field.disabled }">
+
 
         @if(field.type === "textarea" || field.type === "text" || field.type === "email" || field.type==="number" ||
         field.type === "url"){
