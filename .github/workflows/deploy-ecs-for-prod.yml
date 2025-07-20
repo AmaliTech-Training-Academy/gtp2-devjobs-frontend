@@ -1,0 +1,152 @@
+name: Deploy to ECS (Production)
+
+on:
+  workflow_call:
+    secrets:
+      AWS_REGION:
+        required: true
+      AWS_ROLE_TO_ASSUME:
+        required: true
+      ECS_CLUSTER:
+        required: true
+      ECS_SERVICE:
+        required: true
+      PROD_ECR_REPO:
+        required: true
+      EXECUTION_ROLE_ARN:
+        required: true
+      TASK_CPU:
+        required: true
+      TASK_MEMORY:
+        required: true
+      CONTAINER_NAME:
+        required: true
+      CONTAINER_PORT:
+        required: true
+      TASK_FAMILY:
+        required: true
+      TASK_LOG_GROUP:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Construct image URI
+        id: compute
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}-prod
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.PROD_ECR_REPO }}:${IMAGE_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+      - name: Create ECS task definition dynamically
+        run: |
+          cat <<EOF > task-def.json
+          {
+            "family": "$(echo -n "${{ secrets.TASK_FAMILY }}")",
+            "networkMode": "awsvpc",
+            "cpu": "${{ secrets.TASK_CPU }}",
+            "memory": "${{ secrets.TASK_MEMORY }}",
+            "requiresCompatibilities": ["FARGATE"],
+            "executionRoleArn": "$(echo -n "${{ secrets.EXECUTION_ROLE_ARN }}")",
+            "containerDefinitions": [
+              {
+                "name": "$(echo -n "${{ secrets.CONTAINER_NAME }}")",
+                "image": "${IMAGE_URI}",
+                "portMappings": [
+                  {
+                    "containerPort": ${{ secrets.CONTAINER_PORT }},
+                    "hostPort": ${{ secrets.CONTAINER_PORT }},
+                    "protocol": "tcp"
+                  }
+                ],
+                "essential": true,
+                "logConfiguration": {
+                  "logDriver": "awslogs",
+                  "options": {
+                    "awslogs-group": "$(echo -n "${{ secrets.TASK_LOG_GROUP }}")",
+                    "awslogs-region": "$(echo -n "${{ secrets.AWS_REGION }}")",
+                    "awslogs-stream-prefix": "frontend-prod"
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+
+      - name: Validate task definition JSON
+        run: |
+          echo "Validating task definition JSON..."
+          cat task-def.json
+          jq . task-def.json > /dev/null || echo "Invalid JSON in task-def.json"
+
+      - name: Register new ECS task definition
+        id: task-def
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://task-def.json \
+            --query "taskDefinition.taskDefinitionArn" \
+            --output text)
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
+
+      - name: Debug ECS parameters
+        run: |
+          echo "Cluster: '${{ secrets.ECS_CLUSTER }}'"
+          echo "Service: '${{ secrets.ECS_SERVICE }}'"
+          echo "Task Definition ARN: '$TASK_DEF_ARN'"
+          echo "Region: '${{ secrets.AWS_REGION }}'"
+
+      - name: Check deployment controller
+        id: check-controller
+        run: |
+          # Sanitize cluster and service names
+          CLUSTER_NAME=$(echo -n "${{ secrets.ECS_CLUSTER }}")
+          SERVICE_NAME=$(echo -n "${{ secrets.ECS_SERVICE }}")
+          
+          echo "Using sanitized cluster name: '$CLUSTER_NAME'"
+          echo "Using sanitized service name: '$SERVICE_NAME'"
+          
+          # Get the deployment controller type
+          CONTROLLER_TYPE=$(aws ecs describe-services \
+            --cluster "$CLUSTER_NAME" \
+            --services "$SERVICE_NAME" \
+            --query "services[0].deploymentController.type" \
+            --output text \
+            --region "${{ secrets.AWS_REGION }}" || echo "ECS")
+          
+          echo "Deployment controller type: $CONTROLLER_TYPE"
+          echo "controller_type=$CONTROLLER_TYPE" >> $GITHUB_OUTPUT
+
+      - name: Skip deployment for CodeDeploy services
+        if: steps.check-controller.outputs.controller_type == 'CODE_DEPLOY'
+        run: |
+          echo "This service uses CodeDeploy for deployments."
+          echo "Skipping direct ECS deployment. The blue-green workflow will handle the deployment."
+          echo "Task definition has been registered with ARN: $TASK_DEF_ARN"
+
+      - name: Deploy to ECS (for ECS controller only)
+        if: steps.check-controller.outputs.controller_type == 'ECS'
+        run: |
+          # Sanitize cluster and service names
+          CLUSTER_NAME=$(echo -n "${{ secrets.ECS_CLUSTER }}")
+          SERVICE_NAME=$(echo -n "${{ secrets.ECS_SERVICE }}")
+          
+          echo "Deploying to ECS service with ECS controller"
+          aws ecs update-service \
+            --cluster "$CLUSTER_NAME" \
+            --service "$SERVICE_NAME" \
+            --task-definition "$TASK_DEF_ARN" \
+            --force-new-deployment \
+            --region "${{ secrets.AWS_REGION }}"
