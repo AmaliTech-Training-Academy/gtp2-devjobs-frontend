@@ -108,20 +108,9 @@ jobs:
           echo "Task Definition ARN: '$TASK_DEF_ARN'"
           echo "Region: '${{ secrets.AWS_REGION }}'"
 
-      - name: Force ECS deployment
+      - name: Check deployment controller
+        id: check-controller
         run: |
-          # Check if ECS_SERVICE is set
-          if [ -z "${{ secrets.ECS_SERVICE }}" ]; then
-            echo "Error: ECS_SERVICE secret is not set or is empty"
-            exit 1
-          fi
-
-          # Check if ECS_CLUSTER is set
-          if [ -z "${{ secrets.ECS_CLUSTER }}" ]; then
-            echo "Error: ECS_CLUSTER secret is not set or is empty"
-            exit 1
-          fi
-
           # Sanitize cluster and service names
           CLUSTER_NAME=$(echo -n "${{ secrets.ECS_CLUSTER }}")
           SERVICE_NAME=$(echo -n "${{ secrets.ECS_SERVICE }}")
@@ -129,6 +118,32 @@ jobs:
           echo "Using sanitized cluster name: '$CLUSTER_NAME'"
           echo "Using sanitized service name: '$SERVICE_NAME'"
           
+          # Get the deployment controller type
+          CONTROLLER_TYPE=$(aws ecs describe-services \
+            --cluster "$CLUSTER_NAME" \
+            --services "$SERVICE_NAME" \
+            --query "services[0].deploymentController.type" \
+            --output text \
+            --region "${{ secrets.AWS_REGION }}" || echo "ECS")
+          
+          echo "Deployment controller type: $CONTROLLER_TYPE"
+          echo "controller_type=$CONTROLLER_TYPE" >> $GITHUB_OUTPUT
+
+      - name: Skip deployment for CodeDeploy services
+        if: steps.check-controller.outputs.controller_type == 'CODE_DEPLOY'
+        run: |
+          echo "This service uses CodeDeploy for deployments."
+          echo "Skipping direct ECS deployment. The blue-green workflow will handle the deployment."
+          echo "Task definition has been registered with ARN: $TASK_DEF_ARN"
+
+      - name: Deploy to ECS (for ECS controller only)
+        if: steps.check-controller.outputs.controller_type == 'ECS'
+        run: |
+          # Sanitize cluster and service names
+          CLUSTER_NAME=$(echo -n "${{ secrets.ECS_CLUSTER }}")
+          SERVICE_NAME=$(echo -n "${{ secrets.ECS_SERVICE }}")
+          
+          echo "Deploying to ECS service with ECS controller"
           aws ecs update-service \
             --cluster "$CLUSTER_NAME" \
             --service "$SERVICE_NAME" \
