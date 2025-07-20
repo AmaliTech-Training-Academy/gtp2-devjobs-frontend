@@ -27,7 +27,6 @@ import { BackButtonComponent } from '../../../../../shared/back-button/back-butt
     MatIcon,
     AuthPublicNavbarComponent,
     BackButtonComponent,
-    RouterModule,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
