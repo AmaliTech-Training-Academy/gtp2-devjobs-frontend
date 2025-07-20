@@ -1,11 +1,11 @@
 name: Build and Deploy with CodeDeploy (Blue/Green)
 
 on:
-  workflow_run:
-    workflows: ["Frontend Production CI/CD"]
-    branches: [main, testing, feature/devops]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+      - testing
+      - feature/devops
       
   workflow_dispatch:
 
@@ -16,23 +16,18 @@ permissions:
 jobs:
   deploy:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
-      DEBUG_BRANCH: ${{ github.event.workflow_run.head_branch }}
+      DEBUG_BRANCH: ${{ github.ref_name }}
 
     steps:
       - name: Debug workflow trigger
         run: |
           echo "Workflow triggered by branch: $DEBUG_BRANCH"
           echo "Current branch: ${{ github.ref_name }}"
-          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
-          echo "Workflow name: ${{ github.event.workflow_run.name }}"
-          echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+          echo "Commit SHA: ${{ github.sha }}"
 
       - name: Checkout source
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -48,7 +43,7 @@ jobs:
         id: compute
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-          IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=${{ github.sha }}-prod
           IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
