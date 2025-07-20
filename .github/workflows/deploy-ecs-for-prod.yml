@@ -86,6 +86,12 @@ jobs:
           }
           EOF
 
+      - name: Validate task definition JSON
+        run: |
+          echo "Validating task definition JSON..."
+          cat task-def.json
+          jq . task-def.json > /dev/null || echo "Invalid JSON in task-def.json"
+
       - name: Register new ECS task definition
         id: task-def
         run: |
