@@ -101,11 +101,30 @@ jobs:
             --output text)
           echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
+      - name: Debug ECS parameters
+        run: |
+          echo "Cluster: '${{ secrets.ECS_CLUSTER }}'"
+          echo "Service: '${{ secrets.ECS_SERVICE }}'"
+          echo "Task Definition ARN: '$TASK_DEF_ARN'"
+          echo "Region: '${{ secrets.AWS_REGION }}'"
+
       - name: Force ECS deployment
         run: |
+          # Check if ECS_SERVICE is set
+          if [ -z "${{ secrets.ECS_SERVICE }}" ]; then
+            echo "Error: ECS_SERVICE secret is not set or is empty"
+            exit 1
+          fi
+
+          # Check if ECS_CLUSTER is set
+          if [ -z "${{ secrets.ECS_CLUSTER }}" ]; then
+            echo "Error: ECS_CLUSTER secret is not set or is empty"
+            exit 1
+          fi
+
           aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER }} \
-            --service ${{ secrets.ECS_SERVICE }} \
-            --task-definition $TASK_DEF_ARN \
+            --cluster "${{ secrets.ECS_CLUSTER }}" \
+            --service "${{ secrets.ECS_SERVICE }}" \
+            --task-definition "$TASK_DEF_ARN" \
             --force-new-deployment \
-            --region ${{ secrets.AWS_REGION }}
+            --region "${{ secrets.AWS_REGION }}"
