@@ -7,7 +7,7 @@ on:
         required: true
       AWS_REGION:
         required: true
-      ECR_REPO:
+      PROD_ECR_REPO:
         required: true
       EXECUTION_ROLE_ARN:
         required: true
@@ -40,7 +40,7 @@ jobs:
       - name: Build and push Docker image to ECR
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+          ECR_REPO: ${{ secrets.PROD_ECR_REPO }}
           NG_APP_BASE_URL_PROD: ${{ secrets.NG_APP_BASE_URL_PROD }}
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)

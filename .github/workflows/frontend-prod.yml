@@ -26,7 +26,7 @@ jobs:
     secrets:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-      ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+      PROD_ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
       EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
       NG_APP_BASE_URL_PROD: ${{ secrets.NG_APP_BASE_URL_PROD }}
 
@@ -39,7 +39,7 @@ jobs:
       AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       ECS_CLUSTER: ${{ secrets.ECS_CLUSTER_PROD }}
       ECS_SERVICE: ${{ secrets.ECS_SERVICE_PROD }}
-      ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+      PROD_ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
       EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
       TASK_CPU: ${{ secrets.TASK_CPU }}
       TASK_MEMORY: ${{ secrets.TASK_MEMORY }}

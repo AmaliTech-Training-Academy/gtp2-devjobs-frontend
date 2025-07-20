@@ -11,7 +11,7 @@ on:
         required: true
       ECS_SERVICE:
         required: true
-      ECR_REPO:
+      PROD_ECR_REPO:
         required: true
       EXECUTION_ROLE_ARN:
         required: true
@@ -48,7 +48,7 @@ jobs:
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
           IMAGE_TAG=${{ github.sha }}-prod
-          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.PROD_ECR_REPO }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
       - name: Create ECS task definition dynamically
