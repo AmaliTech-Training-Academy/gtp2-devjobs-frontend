@@ -1,11 +1,11 @@
 name: Build and Deploy with CodeDeploy (Blue/Green)
 
 on:
-  push:
-    branches:
-      - main
-      - testing
-      - feature/devops
+  workflow_run:
+    workflows: ["Frontend Production CI/CD"]
+    branches: [main, testing, feature/devops]
+    types:
+      - completed
       
   workflow_dispatch:
 
@@ -16,18 +16,24 @@ permissions:
 jobs:
   deploy:
     runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
-      DEBUG_BRANCH: ${{ github.ref_name }}
+      DEBUG_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
     steps:
       - name: Debug workflow trigger
         run: |
           echo "Workflow triggered by branch: $DEBUG_BRANCH"
           echo "Current branch: ${{ github.ref_name }}"
-          echo "Commit SHA: ${{ github.sha }}"
+          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
+          echo "Workflow name: ${{ github.event.workflow_run.name }}"
+          echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+          echo "Commit SHA: ${{ github.event.workflow_run.head_sha }}"
 
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
