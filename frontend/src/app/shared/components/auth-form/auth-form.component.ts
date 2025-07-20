@@ -20,7 +20,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule, RouterLink, Router } from '@angular/router';
 import { AuthValidators } from '../../utils/validators/auth-validators.util';
 
@@ -34,9 +33,7 @@ import { AuthValidators } from '../../utils/validators/auth-validators.util';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule,
     RouterModule,
-    RouterLink,
   ],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
