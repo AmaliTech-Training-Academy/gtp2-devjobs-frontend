@@ -27,7 +27,7 @@
 
     .card {
       min-width: 350px;
-      max-width: 400px;
+      max-width: 450px;
       flex-shrink: 0;
       border-radius: 16px;
       overflow: hidden;
@@ -61,7 +61,7 @@
       }
 
       .card-content {
-        padding: 1.5rem 0;
+        padding: 1.5rem 0.7rem;
 
         h3 {
           @include header3;
@@ -132,15 +132,11 @@
     }
 
     .carousel-container {
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      overflow-x: visible;
+      gap: 1rem;
 
       .card {
         min-width: 100%;
         max-width: 100%;
-        max-width: 380px;
 
         .card-image {
           height: 180px;

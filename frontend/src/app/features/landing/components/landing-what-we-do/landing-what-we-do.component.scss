@@ -24,6 +24,9 @@
     // Tablet view
     @media (max-width: 1024px) and (min-width: 769px) {
       grid-template-columns: repeat(2, 1fr);
+      .section-title {
+        margin-left: 20px;
+      }
     }
 
     // Mobile view

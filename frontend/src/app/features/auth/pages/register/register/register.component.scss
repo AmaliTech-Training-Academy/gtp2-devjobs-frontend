@@ -376,7 +376,6 @@
 
     padding: 1rem;
   }
-
   .left-section {
     display: none;
   }
@@ -422,27 +421,58 @@
   }
 }
 
-@media (max-width: 480px) {
+//Tablet responsiveness -
+@media (max-width: 1024px) {
   .register-container,
   .login-container {
-    padding-top: 70px;
+    padding-top: 80px;
+  }
+
+  .register-content,
+  .login-content {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .left-section {
+    display: none;
   }
 
   .right-section {
-    .form-container {
-      padding: 0.5rem;
+    flex: none;
+    max-width: 100%;
+    padding: 0;
+    justify-content: flex-start;
 
-      .form-title {
-        font-size: 1.25rem;
-        padding: 1rem;
-      }
+    .form-container {
+      padding: 1rem;
 
       .role-toggle {
+        margin: 0 auto;
         width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
 
-        button {
-          font-size: 13px;
-          padding: 2px 8px 7px 8px;
+      .form-title {
+        width: 100%;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: none;
+        background: transparent;
+        font-size: 1.5rem;
+
+        .auth-form {
+          margin-top: 20px;
+        }
+      }
+
+      .login-title {
+        padding: 2rem 1rem;
+        margin-bottom: 1rem;
+
+        .auth-form {
+          margin-top: 30px;
         }
       }
     }
