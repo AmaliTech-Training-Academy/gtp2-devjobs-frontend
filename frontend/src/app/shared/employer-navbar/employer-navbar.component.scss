@@ -41,15 +41,18 @@
         display: flex;
         gap: 0.75rem;
         width: 6rem;
+        cursor: pointer;
     }
 
     .user-name {
         width: 3rem;
-        padding: 0.9rem;
+        height: 3rem;
         color: $primary-color;
         background-color: $btn-light-blue;
         border-radius: 50px;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
     }
 
@@ -58,6 +61,8 @@
     }
 
   }
+
+
 }
 
 

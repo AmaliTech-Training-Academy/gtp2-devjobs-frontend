@@ -1,56 +1,76 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { StatsCardComponent } from '../../shared/stats-card/stats-card.component';
 import { TableModule } from 'primeng/table'
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 
 
 @Component({
   selector: 'app-employer-dashboard',
-  imports: [ StatsCardComponent, TableModule, JobDetailsModalComponent ],
+  imports: [ StatsCardComponent, TableModule, JobDetailsModalComponent, DataTableComponent ],
   templateUrl: './employer-dashboard.component.html',
   styleUrl: './employer-dashboard.component.scss'
 })
-export class EmployerDashboardComponent {
+export class EmployerDashboardComponent implements OnInit {
 
   modalService = inject( ModalsServiceService )
+  employerHttp = inject( EmployerHttpRequestsService )
 
-  openJobDetailsModalForm() {
-    console.log("see all clicked")
-    this.modalService.showJobDetailsFormModal = true 
-  }
+  columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
-applications = [
+  jobsArray: any = [
   {
-    jobTitle: 'Frontend Developer',
-    applicants: 25,
-    jobType: 'Full-time',
-    action: 'View'
+    "Job Title": "Frontend Developer",
+    "Applicants": 24,
+    "Job Type": "FULL_TIME",
+    "Action": "View"
   },
   {
-    jobTitle: 'Backend Developer',
-    applicants: 18,
-    jobType: 'Contract',
-    action: 'View'
+    "Job Title": "Data Analyst Intern",
+    "Applicants": 15,
+    "Job Type": "PART_TIME",
+    "Action": "View"
   },
   {
-    jobTitle: 'UI/UX Designer',
-    applicants: 12,
-    jobType: 'Part-time',
-    action: 'View'
+    "Job Title": "Product Manager",
+    "Applicants": 38,
+    "Job Type": "FULL_TIME",
+    "Action": "View"
   },
   {
-    jobTitle: 'DevOps Engineer',
-    applicants: 30,
-    jobType: 'Full-time',
-    action: 'View'
+    "Job Title": "Remote UX Designer",
+    "Applicants": 9,
+    "Job Type": "REMOTE",
+    "Action": "View"
   },
   {
-    jobTitle: 'QA Analyst',
-    applicants: 9,
-    jobType: 'Internship',
-    action: 'View'
+    "Job Title": "Contract QA Tester",
+    "Applicants": 12,
+    "Job Type": "CONTRACT",
+    "Action": "View"
+  },
+  {
+    "Job Title": "Marketing Assistant",
+    "Applicants": 6,
+    "Job Type": "PART_TIME",
+    "Action": "View"
   }
-];
+  ];
+
+  ngOnInit(): void {
+    this.employerHttp.getAllJobs().subscribe({
+      next: ( jobs: any ) => {
+        console.log("jobs fetched, ", jobs.data.content )
+        this.jobsArray = jobs.data.content
+        console.log("jobs array = ", this.jobsArray)
+      },
+      error: (err) => {
+        console.log("error while fetching jobs ", err)
+      }
+    })
+  }
+  
 
 }

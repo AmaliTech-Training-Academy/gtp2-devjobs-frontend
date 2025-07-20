@@ -1,5 +1,4 @@
-
-import { Component, Input, inject, OnInit } from '@angular/core';
+import { Component, Input, inject, Output, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
@@ -14,25 +13,32 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
 
 
 @Component({
-  selector: 'app-data-table',
+  selector: 'app-actions-data-table',
   imports: [ TableModule, PaginatorModule, ButtonModule, ReactiveFormsModule,
              MenuModule, CommonModule, PopoverModule, OverlayPanelModule],
-  templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.scss'
+  templateUrl: './actions-data-table.component.html',
+  styleUrl: './actions-data-table.component.scss',
 })
-export class DataTableComponent implements OnInit {
-  @Input() columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
+export class ActionsDataTableComponent {
+  @Input() columns: any = []
   @Input() jobsArray: any = []
-    
-  // @Input() properties: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
-  @Input() onOpenModal: any
 
+  @Output() openDeleteModal = new EventEmitter<boolean>()
 
   filterArray: any = []
   filterTerm = new FormControl('')
 
-
   modalService = inject( ModalsServiceService )
+
+  openJobDetailsFormModal() {
+    this.modalService.showJobDetailsFormModal = true
+  }
+
+  openJobCreationModal() {
+    this.modalService.createOrUpdateJobActionType = 'Update'
+    this.modalService.openCreateJobFormModal()
+  }
+
 
   ngOnInit(): void {
     this.filterArray = this.jobsArray
@@ -62,24 +68,23 @@ export class DataTableComponent implements OnInit {
   }
 
 
-  openJobDetailsFormModal() {
-    this.modalService.showJobDetailsFormModal = true
-    console.log("row clicked")
+  handleViewClicked(jobData: any) {
+    // console.log(jobData)
+    this.openJobDetailsFormModal()
+
   }
 
 
-  viewJob(job: any) {
-    console.log('Viewing job:', job);
-    // Optional: close the overlay
+  handleEditClicked(jobData: any) {
+    // console.log(jobData) Midred is my best friend Yaaaaayyyy!! 
+    this.openJobCreationModal()
   }
 
 
-  editJob(job: any) {
-    console.log('Editing job:', job);
-    // Optional: close the overlay
+  handleDeleteClicked(jobData: any) {
+    console.log(jobData)
+    this.openDeleteModal.emit( true )
   }
-
-
 
 
 

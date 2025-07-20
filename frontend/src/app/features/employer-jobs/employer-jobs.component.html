@@ -15,9 +15,10 @@
 
 
     @if( jobs.length > 0 ) {
-
-        <app-data-table [jobsArray]="jobs" [properties]="properties" [onOpenModal]="openJobDetailsFormModal.bind(this)" />
-
+        <app-actions-data-table 
+            [jobsArray]="jobs" 
+            [columns]="columns"
+            (openDeleteModal)="handleOpenDeleteModal($event)"  />
     }
 
 
@@ -27,8 +28,20 @@
         </section>
     }
 
+
     @if( modalService.showJobDetailsFormModal ) {
         <app-job-details-modal />
+    }
+
+
+    @if( showDeleteModal ) {
+        <app-action-modal 
+            [title]="'Are you sure you want to delete?'"
+            [message]="'Your item will be deleted from the table'"
+            [cancelText]="'Cancel'"
+            [confirmText]="'Delete'"
+            (closeModalOnEmployerSide)="handleCloseDeleteModal($event)"
+            />
     }
 
 
