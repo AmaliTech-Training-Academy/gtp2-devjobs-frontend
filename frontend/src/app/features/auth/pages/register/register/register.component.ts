@@ -31,8 +31,6 @@ export class RegisterComponent implements OnInit {
   showTooltip = false;
   currentTipIndex = 0;
   validationErrors: string[] = [];
-
-  // Add the missing backendErrors property
   backendErrors: string[] = [];
 
   constructor(
@@ -48,7 +46,7 @@ export class RegisterComponent implements OnInit {
   }
 
   checkScreenSize() {
-  this.isMobile = window.innerWidth <= 1024;
+    this.isMobile = window.innerWidth <= 1024;
   }
 
   switchRole(role: 'seeker' | 'employer') {
