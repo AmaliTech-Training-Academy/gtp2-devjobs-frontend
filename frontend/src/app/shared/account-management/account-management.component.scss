@@ -9,6 +9,7 @@
 
   .input-wrapper {
     height: 48px;
+    background-color: white;
     padding: 14px 12px;
     width: 600px;
     border: 1px solid #d3d3d3;
@@ -232,7 +233,7 @@
   }
 
   .skill-chip {
-    width: 120px;
+    min-width: 120px;
     height: 40px;
     display: flex;
     justify-content: center;

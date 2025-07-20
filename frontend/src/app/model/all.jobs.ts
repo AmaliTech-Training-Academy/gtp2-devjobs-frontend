@@ -29,6 +29,16 @@ export interface CompanyProfile {
   phoneNumber: string | null;
 }
 
+export interface Skill {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  category?: string;
+  usageCount: number;
+  createdByUserId: string;
+}
+
 export interface ProfileData {
   profileId: string;
   createdAt: string | null;

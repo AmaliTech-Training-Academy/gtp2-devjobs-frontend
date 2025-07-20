@@ -12,7 +12,11 @@ import {
   CreateJobPayload,
   UpdateJobPayload,
 } from '../../../model/job';
-import { AllJobsResponse, CompanyProfile } from '../../../model/all.jobs';
+import {
+  AllJobsResponse,
+  CompanyProfile,
+  Skill,
+} from '../../../model/all.jobs';
 
 @Injectable({
   providedIn: 'root',
@@ -123,5 +127,9 @@ export class EmployerHttpRequestsService {
       `${environment.apiUrl}/api/v1/companies/${id}`,
       data
     );
+  }
+
+  getSkills(): Observable<Skill[]> {
+    return this.httpClient.get<Skill[]>(`${environment.apiUrl}/api/v1/skills`);
   }
 }

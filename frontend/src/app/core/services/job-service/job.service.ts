@@ -12,6 +12,7 @@ import {
   ApplicationForm,
   ProfileData,
   SeekerProfile,
+  Skill,
 } from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
@@ -122,5 +123,9 @@ export class JobService {
     id: string
   ) {
     return this.http.put(`${this.BASE_URL_JOB}/api/v1/profiles/${id}`, data);
+  }
+
+  getSkills(): Observable<Skill[]> {
+    return this.http.get<Skill[]>(`${this.BASE_URL_JOB}/api/v1/skills`);
   }
 }
