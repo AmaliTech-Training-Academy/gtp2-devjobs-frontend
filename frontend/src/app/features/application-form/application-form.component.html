@@ -16,19 +16,6 @@
 
         <p-stepper [(value)]="currentStep" class="basis-[50rem]" [linear]="true">
 
-            <!-- <p-step-list>
-                <p-step [value]="1" styleClass="step-custom" [ngClass]="getStepClass(1)">
-                </p-step>
-                <p-step [value]="2" styleClass="step-custom" [ngClass]="getStepClass(2)">
-                </p-step>
-                <p-step [value]="3" styleClass="step-custom" [ngClass]="getStepClass(3)">
-                </p-step>
-                <p-step [value]="4" styleClass="step-custom" [ngClass]="getStepClass(4)">
-                </p-step>
-                <p-step [value]="5" styleClass="step-custom" [ngClass]="getStepClass(5)">
-                </p-step>
-            </p-step-list> -->
-
             <div class="step-list">
                 <div class="step-circle active" [ngClass]="getStepClass(1)">1</div>
                 <div class="line active-line" [ngClass]="getLineClass(1)"></div>
@@ -247,6 +234,9 @@
                             </div>
                             <div *ngSwitchCase="4">
                                 <div class="form-section group">
+                                    @if(invalidmsg){
+                                    <div class="msg">Please fill all required fields</div>
+                                    }
                                     <h3>Contact information</h3>
 
                                     <div class="experience-item">
@@ -277,7 +267,7 @@
 
                                     </div>
 
-                                    <button class="apply-more">
+                                    <button class="apply-more" (click)="onGoToDashboard()">
                                         Apply for more jobs
                                     </button>
 

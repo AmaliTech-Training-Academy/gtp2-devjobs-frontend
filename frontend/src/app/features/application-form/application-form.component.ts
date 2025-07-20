@@ -14,6 +14,7 @@ import { ActionModalComponent } from '../../components/action-modal/action-modal
 import { Auth } from '../../core/services/authservice/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job-service/job.service';
+import { isValidEmail } from '../../shared/utils/validators/common-validators';
 
 @Component({
   selector: 'app-application-form',
@@ -42,6 +43,7 @@ export class ApplicationFormComponent implements OnInit {
   private router = inject(Router);
   route = inject(ActivatedRoute);
   appId!: string | null;
+  invalidmsg: boolean = false;
 
   ngOnInit(): void {
     this.appId = this.route.snapshot.paramMap.get('id');
@@ -61,7 +63,7 @@ export class ApplicationFormComponent implements OnInit {
           '',
           [Validators.required, Validators.pattern(/^\+?[0-9]{10,15}$/)],
         ],
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.email, isValidEmail]],
         address: ['', Validators.required],
       }),
     });
@@ -224,24 +226,21 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
-    // const job = this.jobService.getSelectedJob();
-    this.currentStep = 5;
-
-    // console.log('id:', job?.id);
     if (this.form.valid && this.appId) {
+      this.invalidmsg = false;
       this.jobService
         .postJobApplication(this.form.value, this.appId)
         .subscribe({
           next: (response) => {
             console.log('Application submitted successfully:', response);
+            this.currentStep = 5;
           },
           error: (error) => {
             console.error('Error submitting application:', error);
           },
         });
     } else {
-      console.log('Form invalid');
-      console.log(this.form.value);
+      this.invalidmsg = true;
     }
   }
 
@@ -257,5 +256,9 @@ export class ApplicationFormComponent implements OnInit {
   handleAuthModalCancel() {
     this.showAuthModal = false;
     this.router.navigate(['/']);
+  }
+
+  onGoToDashboard() {
+    this.router.navigate(['/seeker/dashboard']);
   }
 }

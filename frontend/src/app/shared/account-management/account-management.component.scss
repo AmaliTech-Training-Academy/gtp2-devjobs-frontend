@@ -36,9 +36,7 @@
       border: none;
       outline: none;
       padding: 10px;
-
-      font-weight: 700px;
-      font-size: 16px;
+      @include fonts.bodyB1;
     }
     .active {
       border-bottom: 3px solid variables.$primary-color !important;
@@ -59,6 +57,10 @@
 
     form {
       width: 100%;
+
+      input {
+        margin-top: 8px;
+      }
 
       .form-field {
         margin-bottom: 20px;
@@ -223,4 +225,10 @@
       cursor: pointer;
     }
   }
+}
+.error {
+  color: variables.$error;
+}
+.success {
+  color: green;
 }

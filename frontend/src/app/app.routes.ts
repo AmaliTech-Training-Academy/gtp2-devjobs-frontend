@@ -127,6 +127,7 @@ export const routes: Routes = [
         path: '',
         component: JobListComponent,
         pathMatch: 'full',
+        data: { search: true },
       },
       {
         path: 'job-details',
