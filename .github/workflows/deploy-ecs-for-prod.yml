@@ -55,15 +55,15 @@ jobs:
         run: |
           cat <<EOF > task-def.json
           {
-            "family": "${{ secrets.TASK_FAMILY }}",
+            "family": "$(echo -n "${{ secrets.TASK_FAMILY }}")",
             "networkMode": "awsvpc",
             "cpu": "${{ secrets.TASK_CPU }}",
             "memory": "${{ secrets.TASK_MEMORY }}",
             "requiresCompatibilities": ["FARGATE"],
-            "executionRoleArn": "${{ secrets.EXECUTION_ROLE_ARN }}",
+            "executionRoleArn": "$(echo -n "${{ secrets.EXECUTION_ROLE_ARN }}")",
             "containerDefinitions": [
               {
-                "name": "${{ secrets.CONTAINER_NAME }}",
+                "name": "$(echo -n "${{ secrets.CONTAINER_NAME }}")",
                 "image": "${IMAGE_URI}",
                 "portMappings": [
                   {
@@ -76,8 +76,8 @@ jobs:
                 "logConfiguration": {
                   "logDriver": "awslogs",
                   "options": {
-                    "awslogs-group": "${{ secrets.TASK_LOG_GROUP }}",
-                    "awslogs-region": "${{ secrets.AWS_REGION }}",
+                    "awslogs-group": "$(echo -n "${{ secrets.TASK_LOG_GROUP }}")",
+                    "awslogs-region": "$(echo -n "${{ secrets.AWS_REGION }}")",
                     "awslogs-stream-prefix": "frontend-prod"
                   }
                 }
