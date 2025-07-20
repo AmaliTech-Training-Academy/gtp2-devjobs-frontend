@@ -54,7 +54,8 @@ jobs:
     uses: ./.github/workflows/devjobs-blue-green-deploy.yml
     secrets:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       ECR_REPO_PROD: ${{ secrets.ECR_REPO_PROD }}
       CONTAINER_NAME_PROD: ${{ secrets.CONTAINER_NAME_PROD }}
       CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
