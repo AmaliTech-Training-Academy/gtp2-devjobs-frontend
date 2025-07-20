@@ -53,6 +53,10 @@ export const routes: Routes = [
     path: 'forgot-password',
     component: ForgotPasswordComponent,
   },
+  {
+    path: 'reset-password/:token', // This handles the email link
+    component: ForgotPasswordComponent,
+  },
 
   // Employer Routes
   {

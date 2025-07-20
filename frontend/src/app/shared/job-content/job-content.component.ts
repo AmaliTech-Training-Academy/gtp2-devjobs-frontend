@@ -3,6 +3,7 @@ import { JobDescription } from '../../model/all.jobs';
 
 @Component({
   selector: 'app-job-content',
+  standalone: true,
   imports: [],
   templateUrl: './job-content.component.html',
   styleUrl: './job-content.component.scss',

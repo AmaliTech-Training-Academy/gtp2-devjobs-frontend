@@ -114,6 +114,8 @@ export class Auth {
     return user ? JSON.parse(user) : null;
   }
 
+
+  
   isLoggedIn(): boolean {
     const token = this.getAccessToken();
     return !!token && !JwtHelper.isTokenExpired(token);

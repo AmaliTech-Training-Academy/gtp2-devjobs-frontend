@@ -18,7 +18,6 @@
     width: 100%;
   }
 
-  // Custom styling for Material form fields
   ::ng-deep {
     .mat-mdc-form-field {
       .mat-mdc-form-field-label-wrapper {
@@ -61,7 +60,9 @@
 
       .mat-mdc-form-field-error {
         color: #ef4444;
-        font-size: 0.775rem;
+        margin-top: -5px;
+        font-size: 0.675rem;
+        line-height: 0.9;
       }
 
       .mat-mdc-form-field-subscript-wrapper {
@@ -257,7 +258,9 @@
         }
         .mat-mdc-form-field-error {
           color: #ef4444;
-          font-size: 2rem;
+          margin-top: -5px;
+          font-size: 0.475rem;
+          line-height: 0.9;
         }
         .mat-mdc-input-element {
           font-size: 16px;
@@ -352,7 +355,9 @@
         }
 
         .mat-mdc-form-field-error {
-          font-size: 0.7rem;
+          margin-top: -5px;
+          font-size: 0.575rem;
+          line-height: 0.9;
         }
       }
     }
