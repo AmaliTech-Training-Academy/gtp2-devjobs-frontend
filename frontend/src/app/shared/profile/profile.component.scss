@@ -90,7 +90,7 @@ form {
     column-gap: 40px;
     margin-top: 1.5rem;
 
-    @include mixins.breakpoint(500px) {
+    @include mixins.breakpoint(700px) {
       grid-template-columns: 1fr;
     }
 

@@ -14,7 +14,7 @@
     border: 1px solid #d3d3d3;
     border-radius: 5px;
 
-    @include mixins.breakpoint(500px) {
+    @include mixins.breakpoint(788px) {
       width: 100%;
     }
   }
@@ -47,7 +47,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 100px;
 
-    @include mixins.breakpoint(500px) {
+    @include mixins.breakpoint(1040px) {
       grid-template-columns: 1fr;
 
       .instruction {
@@ -64,6 +64,7 @@
 
       .form-field {
         margin-bottom: 20px;
+        display: grid;
 
         label {
           @include fonts.header4;
