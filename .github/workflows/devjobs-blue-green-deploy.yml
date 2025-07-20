@@ -37,7 +37,10 @@ jobs:
           IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-          docker build -t "$IMAGE_URI" . || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
+          docker build \
+            --build-arg NG_APP_BASE_URL_PROD="${{ secrets.NG_APP_BASE_URL_PROD }}" \
+            -f Dockerfile.prod \
+            -t "$IMAGE_URI" . || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
           docker push "$IMAGE_URI" || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
 
       - name: Get current task definition
