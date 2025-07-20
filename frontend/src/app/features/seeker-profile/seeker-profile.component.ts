@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 import { JobService } from '../../core/services/job-service/job.service';
 import { ProfileData } from '../../model/all.jobs';
+import { log } from 'console';
 
 @Component({
   selector: 'app-seeker-profile',
@@ -27,5 +28,20 @@ export class SeekerProfileComponent implements OnInit {
 
   onSkillsPage() {
     this.router.navigate(['/seeker/dashboard/account-management']);
+  }
+
+  onSubmit(formData: FormData) {
+    console.log('form data to parent', formData);
+
+    this.jobService
+      .updateProfileDetails(formData, this.profileData.profileId)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 }

@@ -35,7 +35,7 @@ interface Field {
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnChanges, OnInit {
-  @Input() seekerProfile!: ProfileData;
+  @Input() seekerProfile: ProfileData | null = null;
   @Input() employer: EmployerProfile | null = null;
   @Input() type: 'employer' | 'seeker' = 'seeker';
   @Output() onSave = new EventEmitter<any>();
@@ -44,9 +44,8 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   profileForm!: FormGroup;
   uploadedImage: string | ArrayBuffer | null = null;
-  selectedImage: File | null = null;
 
-  constructor(private fb: FormBuilder, private jobService: JobService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setprofileForm(this.type);
@@ -57,9 +56,9 @@ export class ProfileComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    // this.setprofileForm(this.type);
-    this.uploadedImage = this.seekerProfile?.profilePhoto || null;
+    this.setprofileForm(this.type);
     this.generateFieldGroups();
+    // console.log('email object', this.seekerProfile?.email);
   }
 
   setprofileForm(type: string) {
@@ -80,6 +79,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
         ],
         location: [this.seekerProfile?.location || '', Validators.required],
+        profileImage: [null],
       });
     } else {
       this.profileForm = this.fb.group({
@@ -101,8 +101,64 @@ export class ProfileComponent implements OnChanges, OnInit {
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
         about: [this.employer?.about || '', [Validators.required]],
+        profileImage: [null], // add file control
       });
     }
+  }
+
+  onImageUpload(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      console.log('Uploaded file:', file); // log the file for inspection
+
+      this.profileForm.patchValue({ profileImage: file });
+      this.profileForm.get('profileImage')?.updateValueAndValidity();
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onSubmit() {
+    if (this.profileForm.invalid) {
+      console.log('Form invalid');
+      console.log(this.profileForm.value);
+      return;
+    }
+
+    const formData = new FormData();
+    const data: { [key: string]: any } = {};
+
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      const control = this.profileForm.get(key);
+      if (!control) return;
+
+      const value = control.value;
+
+      if (value instanceof File) {
+        // Append the file separately
+        formData.append(key, value);
+      } else if (value && typeof value === 'object' && 'value' in value) {
+        // Unwrap nested value objects like { value: "some@example.com" }
+        data[key] = value.value;
+      } else {
+        data[key] = value ?? '';
+      }
+    });
+
+    // Send non-file fields as JSON string under 'data'
+    formData.append('data', JSON.stringify(data));
+
+    console.log('Submitting FormData:');
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    console.log('Logging form data', formData.values);
+    this.onSave.emit(formData);
   }
 
   icons = {
@@ -236,79 +292,20 @@ export class ProfileComponent implements OnChanges, OnInit {
     }
   }
 
-  onImageUpload(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedImage = file;
-      const reader = new FileReader();
-      reader.onload = () => (this.uploadedImage = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  // onImageUpload(event: Event) {
+  //   const file = (event.target as HTMLInputElement).files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => (this.uploadedImage = reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
-  onSubmit() {
-    if (this.profileForm.valid) {
-      if (this.selectedImage) {
-        const formData = new FormData();
-
-        if (this.type === 'seeker') {
-          formData.append('fullName', this.profileForm.get('fullName')?.value);
-          formData.append(
-            'phoneNumber',
-            this.profileForm.get('phoneNumber')?.value
-          );
-          formData.append('email', this.profileForm.get('email')?.value);
-          formData.append('location', this.profileForm.get('location')?.value);
-          formData.append('profilePhoto', this.selectedImage);
-        } else {
-          formData.append(
-            'companyName',
-            this.profileForm.get('companyName')?.value
-          );
-          formData.append('website', this.profileForm.get('website')?.value);
-          formData.append(
-            'phoneNumber',
-            this.profileForm.get('phoneNumber')?.value
-          );
-          formData.append('email', this.profileForm.get('email')?.value);
-          formData.append('location', this.profileForm.get('location')?.value);
-          formData.append('size', this.profileForm.get('size')?.value);
-          formData.append('about', this.profileForm.get('about')?.value);
-
-          formData.append('companyLogoUrl', this.selectedImage);
-        }
-
-        this.jobService
-          .updateProfileDetails(formData, this.seekerProfile.profileId)
-          .subscribe({
-            next: (response) => {
-              console.log('sending a multipart');
-              console.log(response);
-            },
-            error: (error) => {
-              console.log(error);
-            },
-          });
-
-        for (const pair of formData.entries()) {
-          console.log(`with image: ${pair[0]}:`, pair[1]);
-        }
-      } else {
-        const payload = this.profileForm.getRawValue();
-        this.jobService
-          .updateProfileDetails(payload, this.seekerProfile.profileId)
-          .subscribe({
-            next: (response) => {
-              console.log(response);
-            },
-            error: (error) => {
-              console.log(error);
-            },
-          });
-        console.log('With no image:', payload);
-      }
-    }
-  }
+  // onSubmit() {
+  //   if (this.profileForm.valid) {
+  //     this.onSave.emit(this.profileForm.getRawValue());
+  //   }
+  // }
 
   cancelForm() {
     this.profileForm.reset();

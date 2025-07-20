@@ -3,5 +3,6 @@
 
         <app-back-button />
     </div>
-    <app-profile [type]="'seeker'" (onSkills)="onSkillsPage()" [seekerProfile]="profileData" />
+    <app-profile [type]="'seeker'" (onSkills)="onSkillsPage()" [seekerProfile]="profileData"
+        (onSave)="onSubmit($event)" />
 </div>
