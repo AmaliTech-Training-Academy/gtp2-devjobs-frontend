@@ -1,0 +1,65 @@
+@use "../../styles/_fonts" as *;
+@use "../../styles/_variables" as *;
+
+.dashboard-component {
+  margin: auto;
+  padding: 40px;
+  // background-color: green;
+  width: 100%;
+  flex: 1;
+}
+
+.employer-dashboard {
+  .page-title {
+    @include header3;
+    margin-bottom: 1.625rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); // 6 equal columns
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .card {
+      grid-column: span 2;
+    }
+
+    // First row
+    .card-1 {
+      grid-column: span 3; // 3/6 = 50%
+    }
+    .card-2 {
+      grid-column: span 3;
+    }
+
+    // Second row
+    .card-3 {
+      grid-column: span 2;
+    }
+    .card-4 {
+      grid-column: span 2;
+    }
+    .card-5 {
+      grid-column: span 2;
+    }
+  }
+
+  .incoming-applications {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.7rem;
+
+    h3 {
+      @include header3;
+    }
+
+    p {
+      @include regular;
+    }
+  }
+
+  .data-table {
+    background-color: white;
+  }
+}

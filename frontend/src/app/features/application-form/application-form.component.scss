@@ -1,0 +1,234 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+@use "../../styles/fonts";
+
+.wrapper {
+  width: 1200px;
+  margin: auto;
+  background-color: white;
+  padding: 40px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  .step-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .active {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+      border: none !important;
+    }
+
+    .active-line {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+    }
+
+    .completed {
+      color: white !important;
+      background-color: variables.$primary-color !important;
+      border: none !important;
+    }
+    .next {
+      border: 4px solid variables.$primary-color !important;
+    }
+    .step-circle {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      color: #19202d;
+      font-weight: 700px;
+      font-size: 18px;
+      align-items: center;
+      font-weight: 600px;
+      border: 4px solid #d3d3d3;
+
+      @include mixins.breakpoint(700px) {
+        width: 45px;
+        height: 45px;
+      }
+      @include mixins.breakpoint(400px) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .line {
+      height: 2px;
+      background-color: #d3d3d3;
+      flex-grow: 1;
+    }
+  }
+
+  @include mixins.breakpoint(1200px) {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .back-btn {
+    border: none;
+    background-color: variables.$btn-light-blue !important;
+    color: variables.$primary-color !important;
+    @include fonts.header4;
+    width: 121px !important;
+    height: 48px;
+    padding: 14px 27px;
+  }
+  .next-btn {
+    border: none;
+    color: white;
+    background-color: variables.$primary-color !important;
+    @include fonts.header4;
+    width: 121px !important;
+    height: 48px;
+    padding: 14px 27px;
+  }
+
+  .form-section {
+    width: 704px;
+    margin: auto;
+    display: grid;
+    gap: 42px;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
+
+    .upload-container {
+      @include fonts.regular;
+      label {
+        width: 100%;
+        @include fonts.header3;
+        margin-bottom: 20px;
+      }
+
+      .drop-zone {
+        background-color: variables.$grey;
+        border-radius: 10px;
+        padding: 30px;
+        // text-align: center;
+
+        .drop-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          gap: 15px;
+        }
+        .file-preview {
+          padding: 8px 12px;
+          display: flex;
+          justify-content: space-between;
+          background-color: #ffffff;
+          width: 377px;
+
+          .file-name {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+          }
+
+          .remove-btn {
+            background-color: transparent;
+            outline: none;
+            border: none;
+            cursor: pointer;
+          }
+        }
+        .upload-btn {
+          @include mixins.button(white, variables.$primary-color, 207px, 30px);
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .error {
+    color: variables.$error;
+  }
+
+  .add-more {
+    @include mixins.button(variables.$primary-color, transparent, 184px, 39px);
+    margin: auto;
+  }
+
+  .experience-item {
+    padding: 17px 45px;
+    border: 2px solid #d3d3d3;
+    position: relative;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+
+  img {
+    width: 318px;
+    max-height: 237px;
+    margin: auto;
+  }
+
+  .done {
+    margin: auto;
+    text-align: center;
+
+    .thanks {
+      font-weight: 600;
+    }
+  }
+  .apply-more {
+    @include mixins.button(white, variables.$primary-color, 250px, 51px);
+    margin: auto;
+  }
+  .submit-btn {
+    @include mixins.button(white, variables.$primary-color);
+
+    p-button {
+      display: none;
+    }
+  }
+
+  .navigations-mobile {
+    display: none;
+  }
+
+  @include mixins.breakpoint(1200px) {
+    .navigations-mobile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+
+      .next-btn {
+        width: 100% !important;
+      }
+      .back-btn {
+        width: 100% !important;
+      }
+      .submit-btn {
+        width: 100% !important;
+      }
+
+      > button:only-child {
+        grid-column: span 2;
+      }
+    }
+
+    .nav-desktop {
+      display: none;
+    }
+  }
+}

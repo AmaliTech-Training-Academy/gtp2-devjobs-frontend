@@ -1,0 +1,226 @@
+@use "../../styles/variables";
+@use "../../styles/mixins";
+@use "../../styles/fonts";
+
+.wrapper {
+  background-color: transparent;
+  padding: 40px;
+  margin-bottom: 20px;
+
+  input {
+    height: 48px;
+    padding: 14px 16px;
+    width: 600px;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+
+    @include mixins.breakpoint(500px) {
+      width: 100%;
+    }
+  }
+
+  input::placeholder {
+    color: #515662;
+    font-size: 16px;
+  }
+
+  .nav-btn {
+    margin-bottom: 40px;
+
+    @include mixins.breakpoint(500px) {
+      text-align: center;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      padding: 10px;
+
+      font-weight: 700px;
+      font-size: 16px;
+    }
+    .active {
+      border-bottom: 3px solid variables.$primary-color !important;
+    }
+  }
+  .reset {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+
+    @include mixins.breakpoint(500px) {
+      grid-template-columns: 1fr;
+
+      .instruction {
+        display: none;
+      }
+    }
+
+    form {
+      width: 100%;
+
+      .form-field {
+        margin-bottom: 20px;
+
+        label {
+          @include fonts.header4;
+          // margin-bottom: 2rem;
+        }
+      }
+    }
+    .instruction {
+      padding: 20px 20px 20px 30px;
+      position: relative;
+
+      svg {
+        position: absolute;
+        left: 0;
+        top: 20px;
+      }
+      p {
+        margin-bottom: 10px;
+      }
+      ul {
+        list-style: none;
+      }
+
+      li {
+        position: relative;
+        padding-left: 24px;
+        margin-bottom: 10px;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 8px;
+          width: 8px;
+          height: 8px;
+          background-color: variables.$primary-color;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .button-row {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+
+    @include mixins.breakpoint(500px) {
+      justify-content: center;
+    }
+
+    .cancel {
+      @include mixins.button(#3e424e, transparent);
+    }
+    .save {
+      @include mixins.button(white, variables.$primary-color, 107px, 45px);
+    }
+
+    @include mixins.breakpoint(500px) {
+      .cancel {
+        @include mixins.button(#3e424e, transparent, 90px);
+      }
+      .save {
+        @include mixins.button(white, variables.$primary-color, 90px, 45px);
+      }
+    }
+  }
+
+  .skill {
+    margin-top: 30px;
+    .row1 {
+      margin-bottom: 30px;
+      h3 {
+        @include fonts.header3;
+        margin-bottom: 10px;
+      }
+    }
+
+    .row2 {
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        label {
+          @include fonts.header4;
+        }
+
+        @include mixins.breakpoint(500px) {
+          width: 100%;
+        }
+
+        .input-skill {
+          display: flex;
+          gap: 20px;
+
+          @include mixins.breakpoint(500px) {
+            flex-direction: column;
+            width: 100%;
+
+            input {
+              width: 100%;
+            }
+          }
+        }
+
+        button {
+          border: none;
+          outline: none;
+          width: 137px;
+          height: 48px;
+          padding: 14px 16px;
+          background-color: variables.$primary-color;
+          color: white;
+          display: flex;
+          border-radius: 4px;
+          align-items: center;
+          gap: 8px;
+          @include fonts.header4;
+
+          @include mixins.breakpoint(500px) {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+.row3 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 20px 0;
+  gap: 15px;
+  width: 600px;
+
+  @include mixins.breakpoint(600px) {
+    width: 100%;
+  }
+
+  .skill-chip {
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: variables.$primary-color;
+    color: white;
+    font-weight: 600;
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+}

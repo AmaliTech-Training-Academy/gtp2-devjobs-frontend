@@ -1,0 +1,53 @@
+<footer class="footer-container">
+  <div class="footer-content">
+    <!-- Left side -->
+    <div class="footer-left">
+      <h2>Open Designers</h2>
+      <p>
+        Open source is source code that is made freely available for possible
+        modification and redistribution. Products include permission to use the
+        source code, design documents, or content of the product.
+      </p>
+
+      <div class="social-icons">
+        <img src="assets/icons/discord.svg" alt="Discord" />
+        <img src="assets/icons/instagram.svg" alt="Instagram" />
+        <img src="assets/icons/facebook.svg" alt="Facebook" />
+        <img src="assets/icons/twitter.svg" alt="Twitter" />
+      </div>
+    </div>
+
+    <!-- Right side -->
+    <div class="footer-right">
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <a
+          *ngFor="let link of exploreLinks"
+          href="#"
+          [attr.aria-label]="link"
+          >{{ link }}</a
+        >
+      </div>
+      <div class="footer-column">
+        <h4>Innovate</h4>
+        <a
+          *ngFor="let link of innovateLinks"
+          href="#"
+          [attr.aria-label]="link"
+          >{{ link }}</a
+        >
+      </div>
+      <div class="footer-column">
+        <h4>About</h4>
+        <a *ngFor="let link of aboutLinks" href="#" [attr.aria-label]="link">{{
+          link
+        }}</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bottom strip -->
+<div class="footer-bottom">
+  <p>All Rights Reserved</p>
+</div>

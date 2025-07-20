@@ -1,0 +1,204 @@
+.auth-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(30, 41, 59, 0.04);
+
+    .menu-icon {
+      display: none;
+    }
+  
+    .nav-left {
+      .logo {
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #4f46e5;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+      }
+    }
+  
+    .nav-center {
+      list-style: none;
+      display: flex;
+      gap: 3rem;
+      margin: 0;
+      padding: 0;
+  
+      li {
+        cursor: pointer;
+        a {
+          text-decoration: none;
+          color: #19202d;
+          font-weight: 400;
+          font-size: 16px;
+          transition: color 0.3s ease;
+  
+          &:hover {
+            color: #4f46e5;
+          }
+  
+          &.active {
+            color: #4f46e5;
+          }
+        }
+      }
+    }
+  
+    .nav-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+  
+      .btn {
+        border-radius: 5px;
+        padding: 0.6rem 1.1rem;
+        font-size: 15px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+  
+      .loginbtn {
+        color: #5964e0;
+        background-color: #eff0fc;
+      }
+  
+      .signupbtn {
+        background-color: #4338ca;
+        color: white;
+      }
+    }
+  }
+  
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .nav-icon {
+    font-size: 1.3rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    &:hover {
+      color: #6366f1;
+    }
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  .profile-circle {
+    background: #eef0fd;
+    color: #6366f1;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(30, 41, 59, 0.12);
+    min-width: 160px;
+    z-index: 100;
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 1.2rem;
+      color: #222;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border: none;
+      background: none;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &.active,
+      &:hover {
+        background: #eaf6ff;
+        color: #1976d2;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .auth-navbar {
+      padding: 1rem;
+  
+      .nav-center {
+        display: none;
+      }
+  
+      .nav-right {
+        gap: 0.5rem;
+  
+        ::ng-deep {
+          .mat-mdc-button,
+          .mat-mdc-raised-button {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 14px !important;
+          }
+        }
+      }
+    }
+  }
+
+@media (max-width: 480px) {
+  .auth-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    .nav-left {
+      flex: 0 0 auto;
+    }
+    .menu-icon {
+      display: block;
+      font-size: 1.7rem;
+      color: #6366f1;
+      cursor: pointer;
+    }
+    .nav-center,
+    .nav-actions {
+      display: none !important;
+    }
+  }
+}
+
+.fixed-navbar-padding {
+  padding-top: 80px; // Adjust if navbar height changes
+}
+  

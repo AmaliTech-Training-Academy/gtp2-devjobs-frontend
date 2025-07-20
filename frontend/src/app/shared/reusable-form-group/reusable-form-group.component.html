@@ -1,0 +1,66 @@
+<div [formGroup]="group" class="form-section">
+    <div *ngFor="let field of fields">
+
+        @if(field.type === "textarea" || field.type === "text" || field.type === "email" || field.type==="number" ||
+        field.type === "url"){
+        <label class="form-label">{{field.label}}</label>
+        <mat-form-field appearance="outline" class="full-width" [class.disabled]="field.disabled">
+
+            <!-- Display inline SVG -->
+            <mat-icon matPrefix *ngIf="field.inlineSvg" [inline]="true">
+                <span [innerHTML]="getSanitizedSvg(field.inlineSvg)"></span>
+            </mat-icon>
+
+            <!-- OR display image -->
+            <mat-icon matPrefix *ngIf="field.iconSrc && !field.inlineSvg">
+                <img [src]="field.iconSrc" [alt]="field.label + ' icon'" />
+            </mat-icon>
+
+            <ng-container [ngSwitch]="field.type">
+                <textarea *ngSwitchCase="'textarea'" matInput [formControlName]="field.controlName"
+                    [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required
+                    rows="4"></textarea>
+
+
+                <!-- <mat-select [formControlName]="field.controlName" *ngSwitchCase="'select'">
+                    <mat-option *ngFor="let cat of categories" [value]="cat">
+                        {{ cat }}
+                    </mat-option>
+                </mat-select> -->
+
+                <!-- <select [formControlName]="field.controlName" *ngSwitchCase="'select'">
+                    <option *ngFor="let cat of categories" [value]="cat">
+                        {{ cat }}
+                    </option>
+                </select>
+  -->
+                <input *ngSwitchDefault matInput [type]="field.type" [formControlName]="field.controlName"
+                    [placeholder]="field.placeholder || 'Enter ' + field.label.toLowerCase()" required />
+
+            </ng-container>
+
+            <mat-error *ngIf="group.get(field.controlName)?.invalid && group.get(field.controlName)?.touched">
+                {{ field.label }} is required
+            </mat-error>
+
+        </mat-form-field>
+        }
+
+        <div *ngIf="field.type === 'select'" class="custom-select" [formGroup]="group">
+            <label class="form-label">{{field.label}}</label>
+            <button type="button" class="select-wrapper" (click)="toggleDropdown(field.controlName)">
+                <p>{{ group.get(field.controlName)?.value || field.placeholder || 'Select option' }}</p>
+                <span [innerHTML]="getSanitizedSvg(field.inlineSvg || '')"></span>
+            </button>
+
+            <ul class="selection" *ngIf="this.dropdownOpen">
+                <li *ngFor="let option of field.options; let i = index"
+                    (click)="selectOption(field.controlName, option)">
+
+                    {{ option }}
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

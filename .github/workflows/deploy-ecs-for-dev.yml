@@ -1,0 +1,105 @@
+name: Deploy to ECS (Dev)
+
+on:
+  workflow_call:
+    secrets:
+      AWS_REGION:
+        required: true
+      AWS_ROLE_TO_ASSUME:
+        required: true
+      ECS_CLUSTER:
+        required: true
+      ECS_SERVICE:
+        required: true
+      ECR_REPO:
+        required: true
+      EXECUTION_ROLE_ARN:
+        required: true
+      TASK_CPU:
+        required: true
+      TASK_MEMORY:
+        required: true
+      CONTAINER_NAME:
+        required: true
+      CONTAINER_PORT:
+        required: true
+      TASK_FAMILY:
+        required: true
+      TASK_LOG_GROUP:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Construct image URI
+        id: compute
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO }}:${IMAGE_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+      - name: Create ECS task definition dynamically
+        run: |
+          cat <<EOF > task-def.json
+          {
+            "family": "${{ secrets.TASK_FAMILY }}",
+            "networkMode": "awsvpc",
+            "cpu": "${{ secrets.TASK_CPU }}",
+            "memory": "${{ secrets.TASK_MEMORY }}",
+            "requiresCompatibilities": ["FARGATE"],
+            "executionRoleArn": "${{ secrets.EXECUTION_ROLE_ARN }}",
+            "containerDefinitions": [
+              {
+                "name": "${{ secrets.CONTAINER_NAME }}",
+                "image": "${IMAGE_URI}",
+                "portMappings": [
+                  {
+                    "containerPort": ${{ secrets.CONTAINER_PORT }},
+                    "hostPort": ${{ secrets.CONTAINER_PORT }},
+                    "protocol": "tcp"
+                  }
+                ],
+                "essential": true,
+                "logConfiguration": {
+                  "logDriver": "awslogs",
+                  "options": {
+                    "awslogs-group": "${{ secrets.TASK_LOG_GROUP }}",
+                    "awslogs-region": "${{ secrets.AWS_REGION }}",
+                    "awslogs-stream-prefix": "frontend"
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+
+      - name: Register new ECS task definition
+        id: task-def
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://task-def.json \
+            --query "taskDefinition.taskDefinitionArn" \
+            --output text)
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
+
+      - name: Force ECS deployment
+        run: |
+          aws ecs update-service \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service ${{ secrets.ECS_SERVICE }} \
+            --task-definition $TASK_DEF_ARN \
+            --force-new-deployment \
+            --region ${{ secrets.AWS_REGION }}

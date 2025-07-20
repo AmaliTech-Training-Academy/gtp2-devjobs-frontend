@@ -1,0 +1,30 @@
+<div class="container">
+  @if (jobs$ | async; as result) { 
+    @if (result?.data?.content) {
+      <app-sort-filter
+        [salaryRange]="salaryRange"
+        [titleOptions]="titleOptions"
+        (salaryRangeChange)="onSalaryRangeChange($event)"
+        (sortChange)="onSortChange($event)"
+        (titleChange)="onTitleChange($event)"
+      ></app-sort-filter>
+      <p>Showing list of {{result.data.totalElements}} Jobs</p>
+      <div class="job-list-flex">
+        <div class="jobs-list">
+          @if(result.data.content.length === 0){
+            <app-empty-state [header]="'No jobs posted yet'" [subHeader]="''"></app-empty-state>
+          }@else{ @for(job of result.data.content; track job.id) {
+            <app-job-card [job]="job"></app-job-card>
+          }
+        }
+        </div>
+        <app-pagination
+          [currentPage]="currentPage"
+          [totalPages]="result.data.totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      </div>
+    } 
+  }
+  <app-loading-spinner></app-loading-spinner>
+</div>

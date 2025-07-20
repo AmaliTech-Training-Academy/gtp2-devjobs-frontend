@@ -1,0 +1,23 @@
+.sort-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  width: fit-content;
+
+  @media (max-width:480px) {
+    flex-wrap: wrap;
+  }
+}
+
+.sort-label {
+  font-weight: 600;
+  color: #23293b;
+  margin-right: 0.5rem;
+}
+
+.sort-select {
+  min-width: 150px;
+  border-radius: 6px;
+}

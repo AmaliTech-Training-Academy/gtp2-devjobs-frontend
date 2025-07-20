@@ -1,0 +1,155 @@
+@use "../../styles//variables";
+@use "../../styles/fonts";
+@use "../../styles/mixins";
+
+.wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+
+  @include mixins.breakpoint(1200px) {
+    width: 100%;
+  }
+
+  .details-wrapper {
+    margin-bottom: 40px;
+    display: grid;
+    gap: 12px;
+    box-sizing: border-box;
+
+    @include mixins.breakpoint(1200px) {
+      width: 100%;
+    }
+
+    .company-detail {
+      background-color: #ffffff;
+      padding-right: 40px;
+      min-height: 107px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @include mixins.breakpoint(1200px) {
+        padding-right: 40px;
+      }
+
+      .logo {
+        height: 107px;
+        width: 100%;
+        max-width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        svg {
+          width: 107px;
+          height: 107px;
+        }
+        .company-name {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          h2,
+          p {
+            margin: 0;
+          }
+          h2 {
+            @include fonts.header2;
+          }
+        }
+      }
+
+      .salary {
+        font-weight: 600px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .value {
+          @include fonts.header2;
+        }
+      }
+      @include mixins.breakpoint(1200px) {
+        .salary {
+          display: none;
+        }
+      }
+
+      button {
+        @include mixins.button(
+          variables.$primary-color,
+          variables.$btn-light-blue,
+          164px,
+          14px
+        );
+      }
+    }
+
+    .job-description {
+      padding: 40px;
+      background-color: #ffffff;
+      display: grid;
+      gap: 50px;
+
+      .content {
+        display: grid;
+        gap: 75px;
+        strong {
+          @include fonts.header3;
+        }
+
+        .requirements,
+        .todo {
+          width: 100%;
+        }
+      }
+
+      header {
+        width: 100%;
+        margin-bottom: 10px;
+
+        .row2 {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .apply-btn {
+            @include mixins.button(white, variables.$primary-color);
+          }
+        }
+
+        .row3 {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+          span {
+            color: variables.$primary-color;
+          }
+        }
+
+        .row1 {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          .job-type {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .dot {
+              width: 8px;
+              height: 8px;
+              background-color: variables.$primary-color;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

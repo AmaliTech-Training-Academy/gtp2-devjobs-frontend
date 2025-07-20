@@ -1,0 +1,73 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <app-public-auth-navbar></app-public-auth-navbar>
+
+  <div class="login-content">
+    <div class="left-section">
+      <div class="content-list">
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Tailor your application with a custom cover letter and resume.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Use filters to narrow results by location, salary, job type, and
+            more.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Search anytime without logging in, but applying requires an account.
+          </div>
+        </div>
+
+        <div class="content-item">
+          <div class="icon">
+            <img src="./assets/icons/bulb.png" alt="lamp-icon" />
+          </div>
+          <div class="text">
+            Use keywords in the search barfor better results. <br />
+            "Try keywords like 'frontend', 'manager', or 'remote' to quickly
+            find relevant jobs."
+          </div>
+        </div>
+      </div>
+      <div class="decorative-shape">
+        <img src="./assets/icons/image 6.png" alt="" />
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="form-container">
+        <div class="form-title login-title">
+          <div class="mobile-register-content" *ngIf="isMobile">
+            <div class="mobile-form-container">
+              <app-tooltip [selectedRole]="'login'"></app-tooltip>
+            </div>
+          </div>
+          <h3 class="title">Login</h3>
+
+          <div class="auth-form">
+            <app-auth-form
+              [isRegister]="false"
+              [backendErrors]="backendErrors"
+              (formSubmit)="onLoginSubmit($event)"
+            ></app-auth-form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

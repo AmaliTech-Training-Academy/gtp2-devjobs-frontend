@@ -1,0 +1,30 @@
+<div class="sort-filter-bar">
+  
+  <span class="sort-label">Sort by:</span>
+  <app-salary-range-dropdown
+    [value]="salaryRange"
+    (valueChange)="onSalaryRangeChange($event)"
+    [min]="0"
+    [max]="900000"
+    [step]="1000"
+  ></app-salary-range-dropdown>
+
+
+  <p-select
+    class="sort-select"
+    [options]="titleOptions"
+    [formControl]="titleControl"
+    placeholder="Title"
+    [showClear]="false"
+    styleClass="p-inputtext-sm"
+  ></p-select>
+
+  <p-select
+    class="sort-select"
+    [options]="dateOptions"
+    [formControl]="dateControl"
+    placeholder="Date"
+    [showClear]="false"
+    styleClass="p-inputtext-sm"
+  ></p-select>
+</div>

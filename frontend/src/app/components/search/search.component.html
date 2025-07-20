@@ -1,0 +1,23 @@
+<form class="search-bar" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <span class="p-input-icon-left search-field">
+    <i class="pi pi-search"></i>
+    <input
+      pInputText
+      type="text"
+      formControlName="title"
+      placeholder="Filter by job title, companies, salary..."
+    />
+  </span>
+
+  <span class="p-input-icon-left search-field">
+    <i class="pi pi-map-marker"></i>
+    <input
+      pInputText
+      type="text"
+      formControlName="location"
+      placeholder="Enter location"
+    />
+  </span>
+
+  <button pButton type="submit" class="search-btn" label="Search" icon="pi pi-search"></button>
+</form>

@@ -1,0 +1,73 @@
+name: Build and Push Docker
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ROLE_TO_ASSUME:
+        required: true
+      AWS_REGION:
+        required: true
+      ECR_REPO:
+        required: true
+      EXECUTION_ROLE_ARN:
+        required: true
+      NG_APP_BASE_URL:
+        required: true
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Environment files are now part of the repository
+      
+      - name: Install dependencies and build Angular app
+        working-directory: frontend
+        env:
+          NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
+        run: |
+          # Update API URL in environment files
+          sed -i "s|apiUrl: process.env\['NG_APP_BASE_URL'\]|apiUrl: '${{ secrets.NG_APP_BASE_URL }}'|" src/environments/environment.ts
+          sed -i "s|apiUrl: 'https://api.example.com'|apiUrl: '${{ secrets.NG_APP_BASE_URL }}'|" src/environments/environment.prod.ts
+
+
+          # Test API URL
+          echo "Testing API URL: $NG_APP_BASE_URL"
+          curl -I "$NG_APP_BASE_URL/api/v1/jobs" || echo "API endpoint not reachable"
+
+          npm ci
+          npm run build -- --configuration production
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image to ECR
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECR_REPO: ${{ secrets.ECR_REPO }}
+          NG_APP_BASE_URL: ${{ secrets.NG_APP_BASE_URL }}
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
+
+          docker build \
+            --build-arg NG_APP_BASE_URL="$NG_APP_BASE_URL" \
+            -t "$IMAGE_URI" .
+
+          docker push "$IMAGE_URI"

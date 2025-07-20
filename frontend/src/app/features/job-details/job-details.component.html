@@ -1,0 +1,87 @@
+<div class="wrapper">
+
+    <app-back-button />
+
+    <div class="details-wrapper">
+        <div class="company-detail">
+            <div class="logo">
+                <svg width="107" height="107" viewBox="0 0 107 107" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0H107V107H4.61873C2.06788 107 0 104.932 0 102.381V0Z" fill="#E99210" />
+                </svg>
+
+                <div class="company-name">
+                    <h2>{{job?.company?.companyName}}</h2>
+                    <p>{{job?.company?.website}}</p>
+                </div>
+            </div>
+
+            <div class="salary">
+                <span>Salary:</span> <span class="value"> {{job?.salary | currency}}</span>
+            </div>
+
+            <button (click)="onWebsite()">Company webiste</button>
+
+
+
+        </div>
+
+        <div class="job-description">
+            <header>
+                <div class="row1">
+                    <div>{{getTime(job?.createdAt || "") || ""}} ago</div>
+                    <div class="job-type">
+                        <div class="dot"></div>
+                        {{formatJobType(job?.employmentType || "")}}
+                    </div>
+                </div>
+                <div class="row2">
+                    <h1>{{job?.title}}</h1>
+
+                    <button class="apply-btn" (click)="onApply()">Apply now</button>
+                </div>
+
+                <div class="row3">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_133_1792)">
+                            <path
+                                d="M12 1.99951C8.13 1.99951 5 5.12951 5 8.99951C5 14.2495 12 21.9995 12 21.9995C12 21.9995 19 14.2495 19 8.99951C19 5.12951 15.87 1.99951 12 1.99951ZM7 8.99951C7 6.23951 9.24 3.99951 12 3.99951C14.76 3.99951 17 6.23951 17 8.99951C17 11.8795 14.12 16.1895 12 18.8795C9.92 16.2095 7 11.8495 7 8.99951Z"
+                                fill="#586071" />
+                            <path
+                                d="M12 11.4995C13.3807 11.4995 14.5 10.3802 14.5 8.99951C14.5 7.6188 13.3807 6.49951 12 6.49951C10.6193 6.49951 9.5 7.6188 9.5 8.99951C9.5 10.3802 10.6193 11.4995 12 11.4995Z"
+                                fill="#586071" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_133_1792">
+                                <rect width="24" height="24" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <span>{{job?.location}}</span>
+
+                </div>
+            </header>
+
+
+            <app-job-content [content]="job?.descriptions || []" />
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<app-action-modal
+  *ngIf="showAuthModal && !auth.isLoggedIn()"
+  title="You need to create an account before applying for this job"
+  message="Please log in or sign up to continue."
+  [confirmText]="'Log in'"
+  [cancelText]="'Sign up'"
+  type="info"
+  [showClose]="false"
+  (onConfirm)="handleAuthModalConfirm('login')"
+  (onCancel)="handleAuthModalConfirm('signup')"
+></app-action-modal>
+
+

@@ -1,0 +1,192 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+  <!-- Display general backend errors -->
+  <div *ngIf="generalErrors.length > 0" class="general-errors">
+    <div *ngFor="let error of generalErrors" class="error-message">
+      {{ error }}
+    </div>
+  </div>
+
+  <!-- Job Seeker Fields -->
+  <ng-container *ngIf="isRegister && userType === 'seeker'">
+    <div class="form-group">
+      <label class="form-label">Full name</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="fullName"
+          placeholder="Enter your full name"
+          (input)="onFieldChange('fullName')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/name.png" alt="name-icon" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("fullName") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="username"
+          placeholder="Enter your username"
+          (input)="onFieldChange('username')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/username.png" alt="username-icon" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("username") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="email"
+          placeholder="Enter your email"
+          (input)="onFieldChange('email')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/email.png" alt="email" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("email") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </ng-container>
+
+  <!-- Employer Fields -->
+  <ng-container *ngIf="isRegister && userType === 'employer'">
+    <div class="form-group">
+      <label class="form-label">Company name</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="companyName"
+          placeholder="Enter your company name"
+          (input)="onFieldChange('companyName')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/name.png" alt="name-icon" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("companyName") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="username"
+          placeholder="Enter your username"
+          (input)="onFieldChange('username')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/username.png" alt="username-icon" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("username") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Company email address</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="companyEmail"
+          placeholder="Enter your company email"
+          (input)="onFieldChange('companyEmail')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/email.png" alt="email" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("companyEmail") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </ng-container>
+
+  <!-- Login Fields -->
+  <ng-container *ngIf="!isRegister">
+    <div class="form-group">
+      <label class="form-label">Email address or username</label>
+      <mat-form-field appearance="outline" class="full-width">
+        <input
+          matInput
+          formControlName="email"
+          placeholder="Enter your email or username"
+          (input)="onFieldChange('email')"
+          required
+        />
+        <mat-icon matPrefix>
+          <img src="./assets/icons/email.png" alt="email" />
+        </mat-icon>
+        <mat-error>
+          {{ getFieldErrorMessage("email") }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </ng-container>
+
+  <!-- Password Field -->
+  <div class="form-group">
+    <label class="form-label">Password</label>
+    <mat-form-field appearance="outline" class="full-width">
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        formControlName="password"
+        placeholder="Enter your password"
+        (input)="onFieldChange('password')"
+        required
+      />
+      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error>
+        {{ getFieldErrorMessage("password") }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Remember Me and Forgot Password -->
+    <div class="remember-forgot" *ngIf="!isRegister">
+      <mat-checkbox formControlName="rememberMe" color="primary">
+        Remember me
+      </mat-checkbox>
+      <a routerLink="/forgot-password" class="forgot-password-link">
+        Forgot password?
+      </a>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    mat-raised-button
+    color="primary"
+    class="full-width"
+    type="submit"
+    [disabled]="form.invalid"
+  >
+    {{ isRegister ? "Sign up" : "Login" }}
+  </button>
+</form>

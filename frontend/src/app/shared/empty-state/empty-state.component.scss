@@ -1,0 +1,44 @@
+@use '../../styles/_fonts' as *;
+@use '../../styles/_variables' as *;
+
+
+.jobs-empty {
+    // background-color: red;
+    width: 19rem;
+    height: 20.3rem;
+    margin: 0 auto;
+
+
+    .icon-div {
+        width: 15.6rem;
+        height: 12.5rem;
+        // background-color: blue;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+
+    .no-jobs-div {
+        height: 6.313rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+
+        h3 {
+            @include header4;
+        }
+
+
+        p {
+            @include bodyMedium;
+            text-align: center;
+        }
+
+    }
+
+}

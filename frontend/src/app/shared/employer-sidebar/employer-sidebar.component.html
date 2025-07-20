@@ -1,0 +1,43 @@
+<main class="employer-sidebar">
+    <article>
+        <div class="nav-items">
+            <a routerLink="/employer/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true}">
+                <section class="nav-section">
+                    <i class="pi pi-home" style="align-self: center"></i>
+                    <h3 class="sidebar-nav-item">Dashboard</h3>
+                </section>
+            </a>
+
+            <a routerLink="/employer/jobs" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true}">
+                <section class="nav-section">
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.5 6.5V4.5H10.5V6.5H14.5ZM4.5 8.5V19.5H20.5V8.5H4.5ZM20.5 6.5C21.61 6.5 22.5 7.39 22.5 8.5V19.5C22.5 20.61 21.61 21.5 20.5 21.5H4.5C3.39 21.5 2.5 20.61 2.5 19.5L2.51 8.5C2.51 7.39 3.39 6.5 4.5 6.5H8.5V4.5C8.5 3.39 9.39 2.5 10.5 2.5H14.5C15.61 2.5 16.5 3.39 16.5 4.5V6.5H20.5Z" fill="currentColor"/>
+                    </svg>
+                <h3 class="sidebar-nav-item">Jobs</h3>
+                </section>
+            </a>
+
+            <a routerLink="/employer/applications" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true}">
+                <section class="nav-section">
+                    <i class="pi pi-file" style="align-self: center"></i>
+                    <h3 class="sidebar-nav-item">Applications</h3>
+                </section>
+            </a>
+
+            <a routerLink="/employer/settings" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true}">
+                <section class="nav-section">
+                    <i class="pi pi-cog" style="align-self: center"></i>
+                    <h3 class="sidebar-nav-item">Settings</h3>
+                </section>
+            </a>
+        </div>
+
+
+        <div class="logout-div">
+            <section class="nav-section">
+                <i class="pi pi-sign-out" style="align-self: center"></i>
+                <h3 class="sidebar-nav-item" (click)="logout()">Logout</h3>
+            </section>
+        </div>
+    </article>
+</main>

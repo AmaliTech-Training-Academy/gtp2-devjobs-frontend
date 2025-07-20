@@ -1,0 +1,64 @@
+@use "../../styles/variables";
+@use "../../styles/fonts";
+
+.content {
+  display: grid;
+  gap: 40px;
+  strong {
+    @include fonts.header3;
+  }
+
+  p {
+    margin-top: 10px !important;
+    margin-bottom: 15px;
+  }
+
+  // .requirements,
+  // .todo {
+  //   width: 100%;
+  // }
+}
+.custom-list {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 7px;
+      height: 4px;
+      background-color: variables.$primary-color;
+      border-radius: 50%;
+    }
+  }
+}
+.custom-ol-list {
+  counter-reset: list-counter;
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    counter-increment: list-counter;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 10px;
+
+    &::before {
+      content: counter(list-counter) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: variables.$primary-color;
+      font-weight: bold;
+      width: 20px;
+      display: inline-block;
+    }
+  }
+}
