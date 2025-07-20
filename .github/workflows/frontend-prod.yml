@@ -47,3 +47,22 @@ jobs:
       CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
       TASK_FAMILY: ${{ secrets.TASK_FAMILY_PROD }}
       TASK_LOG_GROUP: ${{ secrets.TASK_LOG_GROUP_PROD }}
+      
+  blue-green-deploy:
+    name: Blue-Green Deployment with CodeDeploy
+    needs: deploy
+    uses: ./.github/workflows/devjobs-blue-green-deploy.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ECR_REPO_PROD: ${{ secrets.ECR_REPO_PROD }}
+      CONTAINER_NAME_PROD: ${{ secrets.CONTAINER_NAME_PROD }}
+      CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
+      TASK_FAMILY_PROD: ${{ secrets.TASK_FAMILY_PROD }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      S3_KEY: ${{ secrets.S3_KEY }}
+      CODEDEPLOY_APP_NAME: ${{ secrets.CODEDEPLOY_APP_NAME }}
+      CODEDEPLOY_GROUP_NAME: ${{ secrets.CODEDEPLOY_GROUP_NAME }}
+      CODEDEPLOY_CONFIG_NAME: ${{ secrets.CODEDEPLOY_CONFIG_NAME }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}

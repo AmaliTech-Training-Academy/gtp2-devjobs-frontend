@@ -1,11 +1,34 @@
-name: Build and Deploy with CodeDeploy (Blue/Green)
+name: Deploy with CodeDeploy (Blue/Green)
 
 on:
-  workflow_run:
-    workflows: ["Frontend Production CI/CD"]
-    branches: [main, testing, feature/devops]
-    types:
-      - completed
+  workflow_call:
+    secrets:
+      AWS_REGION:
+        required: true
+      AWS_ROLE_TO_ASSUME:
+        required: true
+      ECR_REPO_PROD:
+        required: true
+      CONTAINER_NAME_PROD:
+        required: true
+      CONTAINER_PORT:
+        required: true
+      TASK_FAMILY_PROD:
+        required: true
+      S3_BUCKET:
+        required: true
+      S3_KEY:
+        required: true
+      CODEDEPLOY_APP_NAME:
+        required: true
+      CODEDEPLOY_GROUP_NAME:
+        required: true
+      CODEDEPLOY_CONFIG_NAME:
+        required: true
+      SLACK_BOT_TOKEN:
+        required: true
+      SLACK_CHANNEL_ID:
+        required: true
       
   workflow_dispatch:
 
@@ -16,24 +39,16 @@ permissions:
 jobs:
   deploy:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    env:
-      DEBUG_BRANCH: ${{ github.event.workflow_run.head_branch }}
 
     steps:
-      - name: Debug workflow trigger
+      - name: Debug deployment info
         run: |
-          echo "Workflow triggered by branch: $DEBUG_BRANCH"
-          echo "Current branch: ${{ github.ref_name }}"
-          echo "Workflow run ID: ${{ github.event.workflow_run.id }}"
-          echo "Workflow name: ${{ github.event.workflow_run.name }}"
-          echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
-          echo "Commit SHA: ${{ github.event.workflow_run.head_sha }}"
+          echo "Starting blue-green deployment"
+          echo "SHA: ${{ github.event.workflow_run.head_sha || github.sha }}"
+          echo "Ref: ${{ github.ref_name }}"
 
       - name: Checkout source
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -45,19 +60,18 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Construct image URI and push image
+      - name: Construct image URI
         id: compute
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-          IMAGE_TAG=${{ github.sha }}-prod
+          # Use the SHA from the calling workflow
+          IMAGE_TAG=${{ github.event.workflow_run.head_sha || github.sha }}-prod
           IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_PROD }}:${IMAGE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
-
-          docker build \
-            --build-arg NG_APP_BASE_URL_PROD="${{ secrets.NG_APP_BASE_URL_PROD }}" \
-            -f Dockerfile.prod \
-            -t "$IMAGE_URI" . || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
-          docker push "$IMAGE_URI" || echo "DOCKER_FAILED=true" >> $GITHUB_ENV
+          
+          # Verify image exists
+          echo "Verifying image exists: $IMAGE_URI"
+          aws ecr describe-images --repository-name ${{ secrets.ECR_REPO_PROD }} --image-ids imageTag=$IMAGE_TAG --region ${{ secrets.AWS_REGION }}
 
       - name: Get current task definition
         run: |
@@ -149,7 +163,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend Dev CI:* ECS Blue/Green Deployment Failed!\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":x: *Frontend CI:* ECS Blue/Green Deployment Failed!\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
 
       - name: Notify Slack on successful deployment
         if: success() && !(env.DOCKER_FAILED == 'true' || env.TASKDEF_FAILED == 'true' || env.REG_TASKDEF_FAILED == 'true' || env.DEPLOY_FAILED == 'true')
@@ -157,4 +171,4 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":white_check_mark: *Frontend Dev CI:* ECS Blue/Green Deployment Successful!\n:rocket: Branch: `${{ github.ref_name }}`\n:package: Commit: `${{ github.sha }}`\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
+          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"text\":\":white_check_mark: *Frontend CI:* ECS Blue/Green Deployment Successful!\n:rocket: Branch: `${{ github.ref_name }}`\n:package: Commit: `${{ github.event.workflow_run.head_sha || github.sha }}`\n🔗 <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>\"}'
