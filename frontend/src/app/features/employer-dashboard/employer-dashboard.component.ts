@@ -21,6 +21,7 @@ export class EmployerDashboardComponent implements OnInit {
   columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
 
+
   jobsArray: any = [
   {
     "Job Title": "Frontend Developer",

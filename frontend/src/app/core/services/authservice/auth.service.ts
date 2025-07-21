@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/utils/toast/toast.service';
 import { environment } from '../../../../environments/environment';
@@ -10,6 +10,7 @@ import {
   LoginRequest,
   SeekerRegisterRequest,
   EmployerRegisterRequest,
+  LoggedInUserResponse,
 } from '../../../model/auth.model';
 
 @Injectable({
@@ -117,6 +118,74 @@ export class Auth {
   isLoggedIn(): boolean {
     const token = this.getAccessToken();
     return !!token && !JwtHelper.isTokenExpired(token);
+  }
+
+  /**
+   * Checks if the user is authenticated by calling the backend /api/v1/auth/me endpoint
+   * @returns Observable<boolean> - true if authenticated, false otherwise
+   */
+  checkAuthWithBackend(): Observable<boolean> {
+    const token = this.getAccessToken();
+    
+    if (!token) {
+      return new Observable(observer => {
+        observer.next(false);
+        observer.complete();
+      });
+    }
+
+    return this.http.get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
+      .pipe(
+        tap((response) => {
+          if (response.success && response.data) {
+            // Update stored user data with fresh data from backend
+            this.storeUser({
+              id: response.data.profileId,
+              email: response.data.email,
+              fullName: response.data.fullName,
+              profilePhoto: response.data.profilePhoto,
+              // Add any other user data you want to store
+            });
+          }
+        }),
+        map((response) => response.success && !response.error),
+        catchError((error) => {
+          console.error('Auth check failed:', error);
+          // If the request fails (401, 403, etc.), user is not authenticated
+          return new Observable<boolean>(observer => {
+            observer.next(false);
+            observer.complete();
+          });
+        })
+      );
+  }
+
+  /**
+   * Quick authentication check that doesn't update user data
+   * Use this for simple status checks without side effects
+   * @returns Observable<boolean> - true if authenticated, false otherwise
+   */
+  isAuthenticatedWithBackend(): Observable<boolean> {
+    const token = this.getAccessToken();
+    
+    if (!token) {
+      return new Observable(observer => {
+        observer.next(false);
+        observer.complete();
+      });
+    }
+
+    return this.http.get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
+      .pipe(
+        map((response) => response.success && !response.error),
+        catchError((error) => {
+          console.error('Quick auth check failed:', error);
+          return new Observable<boolean>(observer => {
+            observer.next(false);
+            observer.complete();
+          });
+        })
+      );
   }
 
   hasRole(role: string): boolean {

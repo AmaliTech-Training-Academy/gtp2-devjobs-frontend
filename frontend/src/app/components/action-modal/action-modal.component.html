@@ -1,5 +1,6 @@
 <div
   class="modal-backdrop"
+  *ngIf="open"
 >
   <div
     class="modal"
@@ -9,7 +10,7 @@
     aria-describedby="modalDesc"
     tabindex="-1"
   >
-    <button *ngIf="showClose" class="close-btn" aria-label="Close" (click)="cancel()">&times;</button>
+    <button *ngIf="showClose" class="close-btn" aria-label="Close" (click)="cancel()"><i class="pi pi-times-circle"></i></button>
     <h2 id="modalTitle">{{ title }}</h2>
     <p id="modalDesc">{{ message }}</p>
     <div class="modal-actions">

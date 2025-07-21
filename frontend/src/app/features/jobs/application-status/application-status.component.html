@@ -3,7 +3,13 @@
   <div class="applications-toolbar">
     <span class="p-input-icon-left search-input-wrapper">
       <i class="pi pi-search"></i>
-      <input pInputText type="text" placeholder="Filter by Name, date, status..." />
+      <input 
+        pInputText 
+        type="text" 
+        placeholder="Filter by Name, date, status..." 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+      />
     </span>
     <div class="applications-filter">
       <label>Filter</label>
@@ -15,9 +21,17 @@
         styleClass="p-inputtext-sm"
       ></p-select>
     </div>
+    <button 
+      pButton 
+      type="button" 
+      icon="pi pi-refresh" 
+      class="p-button-outlined p-button-sm"
+      (click)="refreshData()"
+      title="Refresh applications"
+    ></button>
   </div>
 
-  <p-table [value]="filteredApplications" class="applications-table" >
+  <p-table [value]="filteredApplications" stripedRows class="applications-table" >
     <ng-template pTemplate="header">
       <tr>
         <th>Company</th>
@@ -28,16 +42,32 @@
     </ng-template>
     <ng-template pTemplate="body" let-app>
       <tr>
-        <td>{{ app.company }}</td>
-        <td>{{ app.position }}</td>
-        <td>{{ app.dateApplied }}</td>
+        <td>{{ app.company?.companyName }}</td>
+        <td>{{ app.jobPosting?.title }}</td>
+        <td>{{ app.submittedAt | date:'M/d/y' }}</td>
         <td>
-          <span class="status-badge" [ngClass]="getStatusClass(app.status)">
-            <span class="dot" [ngClass]="app.status | lowercase"></span>
-            {{ app.status }}
+          <span class="status-badge" [ngClass]="getStatusClass(app.currentStatus)">
+            <span class="dot" [ngClass]="app.currentStatus | lowercase"></span>
+            <span class="status-text">{{ app.currentStatus }}</span>
           </span>
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="text-center">
+          <div class="empty-state">
+            <p>No applications found matching your criteria.</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
   </p-table>
+
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"
+    *ngIf="totalPages > 1"
+  ></app-pagination>
 </div>

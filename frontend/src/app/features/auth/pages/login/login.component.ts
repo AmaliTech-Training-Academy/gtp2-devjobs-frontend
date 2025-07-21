@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           // Get user from stored data (extracted from token)
           const user = this.authService.getCurrentUser();
-          console.log('User after login:', user); // Debug log
+          
 
           if (user?.roles?.includes('ROLE_EMPLOYER')) {
             this.router.navigate(['/employer/dashboard']);

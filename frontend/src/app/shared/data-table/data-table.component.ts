@@ -36,8 +36,7 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterArray = this.jobsArray
-    console.log("filter array = ", this.filterArray )
-
+    
     this.handleSearch()
   }
 
@@ -47,7 +46,7 @@ export class DataTableComponent implements OnInit {
     .pipe( debounceTime( 300 ))
     .subscribe({
       next: ( searchTerm ) => {
-        console.log(searchTerm)
+        
         if(!searchTerm) {
           this.filterArray = this.jobsArray
         }
@@ -64,18 +63,17 @@ export class DataTableComponent implements OnInit {
 
   openJobDetailsFormModal() {
     this.modalService.showJobDetailsFormModal = true
-    console.log("row clicked")
   }
 
 
   viewJob(job: any) {
-    console.log('Viewing job:', job);
+    
     // Optional: close the overlay
   }
 
 
   editJob(job: any) {
-    console.log('Editing job:', job);
+    
     // Optional: close the overlay
   }
 

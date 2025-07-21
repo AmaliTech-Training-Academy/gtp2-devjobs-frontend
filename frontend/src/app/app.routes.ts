@@ -116,7 +116,7 @@ export const routes: Routes = [
   // Seeker Routes
   {
     path: 'seeker/dashboard',
-    canActivate: [authGuard, roleGuard],
+    // canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'ROLE_JOB_SEEKER' },
     loadComponent: () =>
       import(
@@ -132,6 +132,7 @@ export const routes: Routes = [
       {
         path: 'job-details/:id',
         component: JobDetailsComponent,
+        data: { showSearch: false },
       },
       {
         path: 'application-status',
@@ -140,7 +141,7 @@ export const routes: Routes = [
             './features/jobs/application-status/application-status.component'
           ).then((m) => m.ApplicationStatusComponent),
         canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
+        data: { expectedRole: 'ROLE_JOB_SEEKER', showSearch: false },
       },
       {
         path: 'application-form/:id',
@@ -149,7 +150,7 @@ export const routes: Routes = [
             (m) => m.ApplicationFormComponent
           ),
         canActivate: [authGuard, roleGuard],
-        data: { expectedRole: 'ROLE_JOB_SEEKER' },
+        data: { expectedRole: 'ROLE_JOB_SEEKER', showSearch: false },
       },
       {
         path: 'job-details/:id',
@@ -157,6 +158,7 @@ export const routes: Routes = [
           import('./features/job-details/job-details.component').then(
             (m) => m.JobDetailsComponent
           ),
+        data: { showSearch: false },
       },
       {
         path: 'profile',
@@ -164,6 +166,7 @@ export const routes: Routes = [
           import('./features/seeker-profile/seeker-profile.component').then(
             (m) => m.SeekerProfileComponent
           ),
+        data: { showSearch: false },
       },
       {
         path: 'account-management',
@@ -171,6 +174,7 @@ export const routes: Routes = [
           import(
             './features/seeker-account-management/seeker-account-management.component'
           ).then((m) => m.SeekerAccountManagementComponent),
+        data: { showSearch: false },
       },
     ],
   },

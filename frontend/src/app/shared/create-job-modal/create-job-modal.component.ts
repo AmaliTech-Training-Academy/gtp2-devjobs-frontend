@@ -165,15 +165,12 @@ export class CreateJobModalComponent implements OnInit {
         currency: 'USD',
       }
 
-      // /companies
+
+      
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
-        next: ( newJob ) => {
-              this.jobCreated.emit()
-              this.closeJobCreationModal()
-              console.log('job created', newJob)  
-              this.toastService.success('Job Created!!');
-          }
+        next: ( newJob ) => {/*  */}
+
       })
 
       // this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
@@ -181,9 +178,6 @@ export class CreateJobModalComponent implements OnInit {
       // })
 
     }
-
-
-
 
   }
 

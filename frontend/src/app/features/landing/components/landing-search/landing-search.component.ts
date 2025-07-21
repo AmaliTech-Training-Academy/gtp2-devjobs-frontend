@@ -28,7 +28,7 @@ export class LandingSearchComponent {
 
   onSearch() {
     if (this.keywords.trim() || this.location.trim()) {
-      console.log('Searching for:', this.keywords, 'in', this.location);
+      
     }
   }
 }

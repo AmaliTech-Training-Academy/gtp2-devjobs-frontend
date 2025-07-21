@@ -3,6 +3,7 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobContentComponent } from '../../shared/job-content/job-content.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
+
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
@@ -15,7 +16,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
     CommonModule,
     BackButtonComponent,
     JobContentComponent,
-    ActionModalComponent,
+    ActionModalComponent
   ],
   templateUrl: './job-details.component.html',
   styleUrl: './job-details.component.scss',
@@ -25,7 +26,7 @@ export class JobDetailsComponent implements OnInit {
   public auth = inject(Auth);
   jobService = inject(JobService);
   route = inject(ActivatedRoute);
-  showAuthModal = false;
+  showAuthModal: boolean = false; // Explicitly initialize to false
   job!: Job | null;
 
   getTime = getTimeAgo;
@@ -48,12 +49,27 @@ export class JobDetailsComponent implements OnInit {
     window.open(`${this.job?.company.website}`, '_blank');
   }
 
+  /**
+   * Handles the apply button click by checking authentication with the backend
+   */
   onApply() {
-    if (!this.auth.isLoggedIn()) {
-      this.showAuthModal = true;
-    } else {
-      this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
-    }
+    // Check authentication with the backend
+    this.auth.checkAuthWithBackend().subscribe({
+      next: (isAuthenticated) => {
+        if (isAuthenticated) {
+          // User is authenticated, proceed to application form
+          this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
+        } else {
+          // User is not authenticated, show auth modal
+          this.showAuthModal = true;
+        }
+      },
+      error: (error) => {
+        console.error('Auth check failed:', error);
+        // If auth check fails, show auth modal as fallback
+        this.showAuthModal = true;
+      }
+    });
   }
 
   handleAuthModalConfirm(action: 'login' | 'signup') {

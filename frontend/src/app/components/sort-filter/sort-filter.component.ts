@@ -12,27 +12,40 @@ import { SalaryRangeDropdownComponent } from '../../shared/components/salary-ran
   styleUrls: ['./sort-filter.component.scss']
 })
 export class SortFilterComponent {
-  sortByControl = new FormControl('salary');
+  sortControl = new FormControl('salary,desc');
   titleControl = new FormControl('title');
   dateControl = new FormControl('all');
 
-  sortByOptions = [
-    { label: 'Salary', value: 'salary' },
-    { label: 'Relevance', value: 'relevance' },
-    { label: 'Company', value: 'company' }
+  sortOptions = [
+    {
+      label: 'Salary',
+      items: [
+        { label: 'Ascending', value: 'salary,asc' },
+        { label: 'Descending', value: 'salary,desc' }
+      ]
+    },
+    {
+      label: 'Title',
+      items: [
+        { label: 'A-Z', value: 'title,asc' },
+        { label: 'Z-A', value: 'title,desc' }
+      ]
+    }
   ];
 
   @Input() titleOptions: { label: string, value: string }[] = [];
   @Output() titleChange = new EventEmitter<string>();
 
   dateOptions = [
-    { label: 'All Dates', value: 'all' },
-    { label: 'Today', value: 'today' },
-    { label: 'Last 2 days', value: 'twoDays' },
-    { label: 'Last Week', value: 'lastWeek' },
-    { label: 'Last 2 Weeks', value: 'last2Weeks' },
-    { label: 'Last Month', value: 'lastMonth' }
+    { label: 'Today', value: 'TODAY' },
+    { label: 'Last 2 Days', value: 'LAST_2_DAYS' },
+    { label: 'Last Week', value: 'LAST_WEEK' },
+    { label: 'Last 2 Weeks', value: 'LAST_2_WEEKS' },
+    { label: 'Last Month', value: 'LAST_MONTH' },
+    { label: 'All Dates', value: 'ALL_DATES' }
   ];
+
+  @Output() dateChange = new EventEmitter<string>();
 
   @Input() salaryRange: [number, number] = [30000, 800000];
 
@@ -40,11 +53,14 @@ export class SortFilterComponent {
   @Output() sortChange = new EventEmitter<string>();
 
   constructor() {
-    this.sortByControl.valueChanges.subscribe((value) => {
+    this.sortControl.valueChanges.subscribe((value) => {
       this.sortChange.emit(value ?? undefined);
     });
     this.titleControl.valueChanges.subscribe((value) => {
       this.titleChange.emit(value ?? undefined);
+    });
+    this.dateControl.valueChanges.subscribe((value) => {
+      this.dateChange.emit(value ?? undefined);
     });
   }
 

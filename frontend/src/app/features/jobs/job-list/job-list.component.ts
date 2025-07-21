@@ -39,6 +39,7 @@ export class JobListComponent implements OnInit {
   selectedTitle?: string;
   salaryMin?: number;
   salaryMax?: number;
+  dateRange?: string;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -52,6 +53,7 @@ export class JobListComponent implements OnInit {
       this.selectedTitle = params['title'] || undefined;
       this.salaryMin = params['salaryMin'] ? +params['salaryMin'] : undefined;
       this.salaryMax = params['salaryMax'] ? +params['salaryMax'] : undefined;
+      this.dateRange = params['dateRange'] || 'ALL_DATES';
       this.fetchJobs();
     });
   }
@@ -66,10 +68,12 @@ export class JobListComponent implements OnInit {
       this.sort,
       this.searchParams.title || undefined,
       undefined, // query is now unused
-      this.searchParams.location || undefined
+      this.searchParams.location || undefined,
+      this.dateRange // pass dateRange to jobService
     );
     this.jobs$.subscribe({
       next: (res) => {
+        
         // Extract unique job titles from the fetched jobs
         const jobs = res?.data?.content || [];
         const uniqueTitles = Array.from(new Set(jobs.map((job: any) => String(job.title)))) as string[];
@@ -108,11 +112,12 @@ export class JobListComponent implements OnInit {
   }
 
   onSortChange(sort: string) {
+    this.sort = sort;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
         ...this.route.snapshot.queryParams,
-        sort,
+        sort: sort,
         page: 1
       },
       queryParamsHandling: 'merge',
@@ -137,6 +142,19 @@ export class JobListComponent implements OnInit {
       queryParams: {
         ...this.route.snapshot.queryParams,
         size,
+        page: 1
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  onDateChange(dateRange: string) {
+    this.dateRange = dateRange;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        dateRange: dateRange,
         page: 1
       },
       queryParamsHandling: 'merge',
