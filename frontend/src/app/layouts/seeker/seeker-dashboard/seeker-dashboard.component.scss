@@ -54,6 +54,7 @@ main{
     text-decoration: none;
     transition: color 0.2s;
     cursor: pointer;
+    text-align: center;
 
     &.active {
       color: #3730a3;
@@ -63,12 +64,15 @@ main{
       content: '';
       display: block;
       height: 3px;
-      width: 60%;
+      width: 100%;
       background: #6366f1;
       border-radius: 2px;
       margin: 0.5rem auto 0 auto;
       position: absolute;
-      left: 0; right: 0; bottom: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: width 0.2s;
     }
   }
 }

@@ -16,7 +16,7 @@ export class EmployerDashboardComponent {
   modalService = inject( ModalsServiceService )
 
   openJobDetailsModalForm() {
-    console.log("see all clicked")
+    
     this.modalService.showJobDetailsFormModal = true 
   }
 

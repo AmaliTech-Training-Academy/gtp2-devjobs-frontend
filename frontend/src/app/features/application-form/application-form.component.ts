@@ -14,6 +14,7 @@ import { ActionModalComponent } from '../../components/action-modal/action-modal
 import { Auth } from '../../core/services/authservice/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job-service/job.service';
+import { ApplicationStatusService } from '../../core/services/application-status/application-status.service';
 
 @Component({
   selector: 'app-application-form',
@@ -33,6 +34,7 @@ export class ApplicationFormComponent implements OnInit {
   resumeFile: File | null = null;
 
   jobService = inject(JobService);
+  applicationStatusService = inject(ApplicationStatusService);
   fb = inject(FormBuilder);
   form!: FormGroup;
   isHoveringResume = false;
@@ -224,24 +226,24 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
-    // const job = this.jobService.getSelectedJob();
     this.currentStep = 5;
 
-    // console.log('id:', job?.id);
     if (this.form.valid && this.appId) {
       this.jobService
         .postJobApplication(this.form.value, this.appId)
         .subscribe({
           next: (response) => {
-            console.log('Application submitted successfully:', response);
+            
+            // Clear the application status cache to ensure fresh data
+            this.applicationStatusService.clearCache();
           },
           error: (error) => {
             console.error('Error submitting application:', error);
           },
         });
     } else {
-      console.log('Form invalid');
-      console.log(this.form.value);
+      
+      
     }
   }
 

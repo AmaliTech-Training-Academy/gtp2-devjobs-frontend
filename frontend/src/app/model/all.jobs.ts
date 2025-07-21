@@ -49,10 +49,12 @@ export interface Job {
 }
 
 export interface Company {
-  id: string;
-  companyName: string;
-  location: string;
-  website: string;
+  id:             string;
+  companyName:    string;
+  location:       string;
+  website:        string;
+  phoneNumber:    string;
+  companyLogoUrl: string;
 }
 
 export interface Employer {

@@ -81,14 +81,6 @@ export class CreateJobModalComponent {
   }
 
 
-// const jobDetails = this.getAdditionalJobData().value;
-
-// jobDetails.forEach((group: any, index: number) => {
-//   console.log(`Job #${index + 1} - Title:`, group.title);
-//   console.log(`Job #${index + 1} - Description:`, group.description);
-// });
-
-
   extractAdditionalJobData() {
     return this.secondJobForm.get('additionalJobDetails') as FormArray
   }
@@ -127,16 +119,13 @@ export class CreateJobModalComponent {
 
       }
 
-      console.log( "combined data = ", combinedJobData )
+      
 
       this.employerHttp.createNewJob(combinedJobData).subscribe({
-        next: ( newJob ) => console.log('job created', newJob)
+        next: ( newJob ) => {/*  */}
       })
 
     }
-
-
-
   }
 
 

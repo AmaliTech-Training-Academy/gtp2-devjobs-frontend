@@ -83,7 +83,6 @@ export class AccountManagementComponent implements OnInit {
   onSubmit() {
     if (this.passwordForm.valid) {
       this.onSave.emit(this.passwordForm.getRawValue());
-      console.log('values emitted');
     }
   }
 
