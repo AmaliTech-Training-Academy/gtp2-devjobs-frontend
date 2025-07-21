@@ -123,42 +123,78 @@ export class ProfileComponent implements OnChanges, OnInit {
     }
   }
 
+  // onSubmit() {
+  //   if (this.profileForm.invalid) {
+  //     console.log('Form invalid');
+  //     console.log(this.profileForm.value);
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   const data: { [key: string]: any } = {};
+
+  //   Object.keys(this.profileForm.controls).forEach((key) => {
+  //     const control = this.profileForm.get(key);
+  //     if (!control) return;
+
+  //     const value = control.value;
+
+  //     if (value instanceof File) {
+  //       // Append the file separately
+  //       formData.append(key, value);
+  //     } else if (value && typeof value === 'object' && 'value' in value) {
+  //       // Unwrap nested value objects like { value: "some@example.com" }
+  //       data[key] = value.value;
+  //     } else {
+  //       data[key] = value ?? '';
+  //     }
+  //   });
+
+  //   // Send non-file fields as JSON string under 'data'
+  //   formData.append('data', JSON.stringify(data));
+
+  //   console.log('Submitting FormData:');
+  //   for (const pair of formData.entries()) {
+  //     console.log(pair[0], pair[1]);
+  //   }
+
+  //   console.log('Logging form data', formData.values);
+  //   this.onSave.emit(formData);
+  // }
+
   onSubmit() {
     if (this.profileForm.invalid) {
-      console.log('Form invalid');
-      console.log(this.profileForm.value);
+      console.error('Form is invalid');
       return;
     }
-
+    // Create FormData and prepare the payload
     const formData = new FormData();
-    const data: { [key: string]: any } = {};
-
-    Object.keys(this.profileForm.controls).forEach((key) => {
-      const control = this.profileForm.get(key);
-      if (!control) return;
-
-      const value = control.value;
-
-      if (value instanceof File) {
-        // Append the file separately
-        formData.append(key, value);
-      } else if (value && typeof value === 'object' && 'value' in value) {
-        // Unwrap nested value objects like { value: "some@example.com" }
-        data[key] = value.value;
-      } else {
-        data[key] = value ?? '';
+    const profileData: any = {};
+    // Process non-file fields
+    Object.keys(this.profileForm.controls).forEach(key => {
+      if (key !== 'profileImage') {
+        const control = this.profileForm.get(key);
+        if (control && control.valid) {
+          const value = control.value;
+          // Handle disabled controls that might be objects
+          profileData[key] = (value && typeof value === 'object' && 'value' in value)
+            ? value.value
+            : value ?? '';
+        }
       }
     });
-
-    // Send non-file fields as JSON string under 'data'
-    formData.append('data', JSON.stringify(data));
-
-    console.log('Submitting FormData:');
-    for (const pair of formData.entries()) {
+    // Process file upload - must match backend's expected field name
+    const profileImage = this.profileForm.get('profileImage')?.value;
+    if (profileImage instanceof File) {
+      formData.append('profilePicture', profileImage, profileImage.name);
+    }
+    // Add JSON data - must match backend's expected field name
+    formData.append('data', JSON.stringify(profileData));
+    // Debug: Log FormData contents
+    console.log('FormData contents:');
+    for (const pair of (formData as any).entries()) {
       console.log(pair[0], pair[1]);
     }
-
-    console.log('Logging form data', formData.values);
     this.onSave.emit(formData);
   }
 

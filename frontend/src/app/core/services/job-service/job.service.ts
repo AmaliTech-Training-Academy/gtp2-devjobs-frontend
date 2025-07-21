@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, retry, of } from 'rxjs';
+import { catchError, Observable, retry, of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 
@@ -107,10 +107,14 @@ export class JobService {
     return this.selectedJob;
   }
 
-  postJobApplication(data: ApplicationForm, id: string) {
+
+
+  postJobApplication(formData: FormData) {
+
+
     return this.http.post(
-      `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
-      data
+      `${this.BASE_URL_JOB}/api/v1/applications`,
+      formData
     );
   }
 
@@ -126,6 +130,7 @@ export class JobService {
   ) {
     return this.http.put(`${this.BASE_URL_JOB}/api/v1/profiles/${id}`, data);
   }
+
 
   getSkills(): Observable<Skill[]> {
     return this.http.get<Skill[]>(`${this.BASE_URL_JOB}/api/v1/skills`);

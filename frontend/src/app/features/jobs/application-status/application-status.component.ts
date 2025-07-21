@@ -40,10 +40,10 @@ export class ApplicationStatusComponent implements OnInit {
   selectedFilter: string | null = 'all';
   filterOptions = [
     { label: 'All', value: 'all' },
-    { label: 'Applied', value: 'Applied' },
-    { label: 'Rejected', value: 'Rejected' },
-    { label: 'Reviewed', value: 'Reviewed' },
-    { label: 'Interviewed', value: 'Interviewed' },
+    { label: 'Applied', value: 'APPLIED' },
+    { label: 'Rejected', value: 'REJECTED' },
+    { label: 'Reviewed', value: 'REVIEWED' },
+    { label: 'Interviewed', value: 'INTERVIEWED' },
   ];
 
   currentPage: number = 1;
@@ -88,8 +88,9 @@ export class ApplicationStatusComponent implements OnInit {
 
     // Apply status filter
     if (this.selectedFilter && this.selectedFilter !== 'all') {
-      filtered = filtered.filter(app => app.currentStatus === this.selectedFilter);
-      
+      filtered = filtered.filter(app => 
+        app.currentStatus && app.currentStatus.toLowerCase() === this.selectedFilter!.toLowerCase()
+      );
     }
 
     // Apply search filter
@@ -101,7 +102,6 @@ export class ApplicationStatusComponent implements OnInit {
         app.currentStatus?.toLowerCase().includes(searchLower) ||
         this.formatDate(app.submittedAt).includes(searchLower)
       );
-      
     }
 
     // Calculate pagination for filtered results
