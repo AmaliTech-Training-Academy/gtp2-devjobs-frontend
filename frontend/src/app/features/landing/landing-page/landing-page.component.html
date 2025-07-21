@@ -1,25 +1,17 @@
-<app-public-auth-navbar></app-public-auth-navbar>
-<div class="landing-container">
-  <!-- Hero Section: Search Bar -->
-  <section class="hero-section">
-    <app-landing-search></app-landing-search>
-  </section>
 
-  <!-- What We Do -->
-  <section class="what-we-do">
-    <app-landing-what-we-do></app-landing-what-we-do>
-  </section>
+<div class="main-container">
 
-  <!-- CTA Carousel -->
-  <section class="cta-carousel">
-    <app-landing-card-carousel></app-landing-card-carousel>
-  </section>
-
-  <!-- Job Categories -->
-  <section class="job-categories"><app-landing-job-categories /></section>
-
-  <!-- Footer -->
+  <app-public-auth-navbar></app-public-auth-navbar>
+  
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  
+  
   <footer class="footer">
     <app-footer></app-footer>
   </footer>
+
 </div>
+
+
