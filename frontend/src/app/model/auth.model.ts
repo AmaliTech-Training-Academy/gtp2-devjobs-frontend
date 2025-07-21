@@ -70,3 +70,21 @@ export interface LoggedInUserData {
 }
 
 
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  newPassword: string;
+  confirmPassword: string;
+  passwordsMatch: boolean;
+}
+
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+  data: string;
+  timestamp: string;
+  error: boolean;
+  errors: string[] | null;
+}

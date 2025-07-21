@@ -12,6 +12,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
 
 @Component({
   selector: 'app-job-details',
+  standalone: true,
   imports: [
     CommonModule,
     BackButtonComponent,
