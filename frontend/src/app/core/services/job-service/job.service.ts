@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, retry, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+
 
 import {
   AllJobsResponse,
@@ -16,6 +16,9 @@ import {
 } from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
+import { environment } from '../../../../environments/environment';
+
+
 
 interface AllProfileData {
   location: string | null;

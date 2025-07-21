@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationStatusResponse } from '../../../model/application.status';
 import { catchError, Observable, retry, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
+import { environment } from '../../../../environments/environment';
+
 
 
 @Injectable({

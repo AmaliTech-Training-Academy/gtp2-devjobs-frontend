@@ -89,7 +89,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           [Validators.required, Validators.minLength(5)],
         ],
         website: [this.employer?.website || '', [Validators.required]],
-        phoneNumber: [
+        phone: [
           this.employer?.phone || '',
           [Validators.required, Validators.minLength(10)],
         ],
@@ -209,7 +209,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
           {
             label: 'Phone number',
-            controlName: 'phoneNumber',
+            controlName: 'phone',
             type: 'text',
             placeholder: 'Type your phone number',
             inlineSvg: this.icons.numberSvg,
@@ -283,7 +283,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
           {
             label: 'Phone number',
-            controlName: 'phoneNumber',
+            controlName: 'phone',
             type: 'text',
             placeholder: 'Enter phone number',
             inlineSvg: this.icons.numberSvg,
