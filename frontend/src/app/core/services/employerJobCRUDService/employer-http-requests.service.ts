@@ -2,15 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { EmployerApplicationsResponse } from '../../../model/applicationObject';
 
 import {
-  // EmployerJob,
   CreatedJobResponse,
   GetEmployerJobsResponse,
-  UpdatedJobResponse,
   DeleteJobResponse,
   CreateJobPayload,
-  UpdateJobPayload,
 } from '../../../model/job';
 import {
   AllJobsResponse,
@@ -32,7 +30,7 @@ export class EmployerHttpRequestsService {
     return this.httpClient.post<CreatedJobResponse>(`${ environment.apiUrl }/api/v1/jobs`, jobData )
     .pipe(
       catchError((error: any) => {
-        console.error('Job creation failed:', error);
+        // console.error('Job creation failed:', error);
         return throwError(() => new Error('Failed to create job. Please try again later.'))
       })
     )
@@ -42,7 +40,7 @@ export class EmployerHttpRequestsService {
     return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/employer/jobs`)
     .pipe(
       catchError(( error: any ) => {
-        console.log('Error fetching all jobs ', error ) 
+        // console.log('Error fetching all jobs ', error ) 
         return throwError(() => new Error('Failed to fetch all jobs. Please try again later'))
       })
     )
@@ -72,13 +70,21 @@ export class EmployerHttpRequestsService {
     return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/jobs/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
-        console.log('Error fetching job ', error ) 
+        // console.log('Error fetching job ', error ) 
         return throwError(() => new Error('Failed to fetch job. Please try again later'))
       })
     )
   }
 
-  getApplications() {}
+  getApplications(): Observable<EmployerApplicationsResponse> {
+    return this.httpClient.get<EmployerApplicationsResponse>(`${ environment.apiUrl }/api/v1/applications/employer`)
+    .pipe(
+      catchError(( error: any ) => {
+        console.log('Error fetching job ', error ) 
+        return throwError(() => new Error('Failed to fetch job. Please try again later'))
+      })
+    )
+  }
 
   getProfileDetails(): Observable<AllJobsResponse<CompanyProfile>> {
     return this.httpClient.get<AllJobsResponse<CompanyProfile>>(

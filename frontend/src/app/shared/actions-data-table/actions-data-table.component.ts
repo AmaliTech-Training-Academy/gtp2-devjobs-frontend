@@ -43,8 +43,7 @@ export class ActionsDataTableComponent {
 
   ngOnInit(): void {
     this.filterArray = this.jobsArray
-    console.log("filter array = ", this.filterArray )
-
+    // console.log("filter array = ", this.filterArray )
     this.handleSearch()
   }
 

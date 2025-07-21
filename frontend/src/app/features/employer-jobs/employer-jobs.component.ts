@@ -40,7 +40,7 @@ export class EmployerJobsComponent implements OnInit{
       next: ( fetchedJobs ) => {
         const jobList = fetchedJobs.data.content 
         this.jobs = this.transformJobsForDataTable(jobList)
-        console.log("from jobs route, jobs fetched, ", this.jobs )
+        // console.log("from jobs route, jobs fetched, ", this.jobs )
       }
     })
   }
@@ -52,7 +52,7 @@ export class EmployerJobsComponent implements OnInit{
       "Job Title": employerJob.title,
       "Job Type": this.formatEmploymentType(employerJob.employmentType),
       "Date": this.formatDate(employerJob.createdAt),
-      // "Salary": `$${employerJob.salary.toLocaleString()}`,
+      "Salary": `$${employerJob.salary.toLocaleString()}`,
       "Location": employerJob.location,
       "Action": "View",
       "Company Name": employerJob.company.companyName,

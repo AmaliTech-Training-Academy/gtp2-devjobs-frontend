@@ -5,7 +5,6 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { ApplicationActionDataTableComponent } from '../../shared/application-action-data-table/application-action-data-table.component'
 
 
-
 @Component({
   selector: 'app-employer-applications',
   imports: [ EmptyStateComponent, DataTableComponent, ApplicationActionDataTableComponent ],
@@ -53,6 +52,9 @@ export class EmployerApplicationsComponent implements OnInit {
   }
 ]
 
+
+  
+  
     
     activeTab: 'incoming' | 'statuses' = 'incoming';
 
