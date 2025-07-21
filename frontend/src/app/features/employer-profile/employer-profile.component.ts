@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { CompanyProfile } from '../../model/all.jobs';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 type ProfileType = 'employer' | 'seeker';
 
 @Component({
@@ -18,6 +18,7 @@ export class EmployerProfileComponent {
   employerService = inject(EmployerHttpRequestsService);
   type!: ProfileType;
   employerProfile!: CompanyProfile;
+  snackBar = inject(MatSnackBar);
 
   constructor(private route: ActivatedRoute) {
     this.type = this.route.snapshot.data['type'] as ProfileType;
@@ -40,7 +41,10 @@ export class EmployerProfileComponent {
       .updateProfileDetails(formData, this.employerProfile.id)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.snackBar.open('Profile has been updated!', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+          });
         },
         error: (err) => {
           console.log(err);

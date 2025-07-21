@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, retry, of } from 'rxjs';
+import { catchError, Observable, retry, of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
 
 import {
   AllJobsResponse,
@@ -17,8 +16,7 @@ import {
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
 import { environment } from '../../../../environments/environment';
-
-
+import { ErrorService } from '../error.service';
 
 interface AllProfileData {
   location: string | null;
@@ -36,6 +34,7 @@ export class JobService {
   private selectedJob: Job | null = null;
 
   private http = inject(HttpClient);
+  errorHandler2 = inject(ErrorService);
 
   // In-memory cache for job search results
   private jobsCache: { [key: string]: AllJobsResponse<Data> } = {};
@@ -107,27 +106,52 @@ export class JobService {
     return this.selectedJob;
   }
 
-  postJobApplication(data: ApplicationForm, id: string) {
-    return this.http.post(
-      `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
-      data
-    );
+  postJobApplication(data: FormData, id: string) {
+    return this.http
+      .post(`${this.BASE_URL_JOB}/api/v1/applications/${id}`, data)
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getProfileDetails(): Observable<AllJobsResponse<ProfileData>> {
-    return this.http.get<AllJobsResponse<ProfileData>>(
-      `${this.BASE_URL_JOB}/api/v1/auth/me`
-    );
+    return this.http
+      .get<AllJobsResponse<ProfileData>>(`${this.BASE_URL_JOB}/api/v1/auth/me`)
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   updateProfileDetails(
     data: SeekerProfile | FormData | AllProfileData,
     id: string
   ) {
-    return this.http.put(`${this.BASE_URL_JOB}/api/v1/profiles/${id}`, data);
+    return this.http
+      .put(`${this.BASE_URL_JOB}/api/v1/profiles/${id}`, data)
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getSkills(): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.BASE_URL_JOB}/api/v1/skills`);
+    return this.http.get<Skill[]>(`${this.BASE_URL_JOB}/api/v1/skills`).pipe(
+      retry(3),
+      catchError((err: HttpErrorResponse) => {
+        this.errorHandler2.handle(err);
+        return throwError(() => err);
+      })
+    );
   }
 }

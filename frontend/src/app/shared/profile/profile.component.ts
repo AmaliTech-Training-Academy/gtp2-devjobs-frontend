@@ -44,22 +44,25 @@ export class ProfileComponent implements OnChanges, OnInit {
   @Output() onSkills = new EventEmitter<void>();
 
   profileForm!: FormGroup;
-  uploadedImage: string | ArrayBuffer | null = null;
+  uploadedImage: string | undefined | null | ArrayBuffer = null;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setprofileForm(this.type);
-    // if (this.type === 'seeker') {
-    //   this.uploadedImage =
-    //     'https://gtp2-devjobs-backend-c6aeaf5b.s3.eu-central-1.amazonaws.com/test-uploads/275c5908-5d9e-4e1f-87b4-360b3f1a77c5.png';
-    // }
+    if (this.type === 'seeker') {
+      this.uploadedImage = this.seekerProfile?.profilePhoto;
+    }
   }
 
   ngOnInit(): void {
     this.setprofileForm(this.type);
     this.generateFieldGroups();
-    // console.log('email object', this.seekerProfile?.email);
+    console.log('email object', this.seekerProfile);
+    this.uploadedImage =
+      this.seekerProfile &&
+      this.seekerProfile.profilePhoto &&
+      this.seekerProfile.profilePhoto;
   }
 
   setprofileForm(type: string) {
@@ -80,7 +83,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
         ],
         location: [this.seekerProfile?.location || '', Validators.required],
-        profilePicture: [null],
+        profilePhoto: [null],
       });
     } else {
       this.profileForm = this.fb.group({
@@ -102,7 +105,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
         about: [this.employer?.aboutCompany || '', [Validators.required]],
-        profilePicture: [null], // add file control
+        profilePhoto: [null], // add file control
       });
     }
   }
@@ -110,14 +113,12 @@ export class ProfileComponent implements OnChanges, OnInit {
   onImageUpload(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      console.log('Uploaded file:', file); // log the file for inspection
-
-      this.profileForm.patchValue({ profilePicture: file });
-      this.profileForm.get('profilePicture')?.updateValueAndValidity();
+      this.profileForm.patchValue({ profilePhoto: file });
+      this.profileForm.get('profilePhoto')?.updateValueAndValidity();
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.uploadedImage = reader.result;
+        this.uploadedImage = reader.result as unknown as ArrayBuffer;
       };
       reader.readAsDataURL(file);
     }
@@ -125,8 +126,8 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   onSubmit() {
     if (this.profileForm.invalid) {
-      console.log('Form invalid');
-      console.log(this.profileForm.value);
+      // console.log('Form invalid');
+      // console.log(this.profileForm.value);
       return;
     }
 
@@ -155,10 +156,10 @@ export class ProfileComponent implements OnChanges, OnInit {
 
     console.log('Submitting FormData:');
     for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
+      // console.log(pair[0], pair[1]);
     }
 
-    console.log('Logging form data', formData.values);
+    // console.log('Logging form data', formData.values);
     this.onSave.emit(formData);
   }
 

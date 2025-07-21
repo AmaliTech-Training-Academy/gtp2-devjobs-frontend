@@ -20,7 +20,6 @@ import { ApplicationStatusService } from '../../core/services/application-status
 import { isValidEmail } from '../../shared/utils/validators/common-validators';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 
-
 @Component({
   selector: 'app-application-form',
   imports: [
@@ -240,35 +239,34 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
-
-
-
-
     if (this.form.valid && this.appId) {
+      const formValue = this.form.value;
+      const formData = new FormData();
       this.invalidmsg = false;
-      this.jobService
-        .postJobApplication(this.form.value, this.appId)
-        .subscribe({
-          next: (response) => {
 
-            
-            // Clear the application status cache to ensure fresh data
-            this.applicationStatusService.clearCache();
+      if (formValue.resume) {
+        formData.append('resume', formValue.resume);
+      }
+      if (formValue.coverLetter) {
+        formData.append('coverLetter', formValue.coverLetter);
+      }
+      formData.append('experiences', JSON.stringify(formValue.experiences));
+      formData.append('education', JSON.stringify(formValue.education));
 
+      formData.append('contact', JSON.stringify(formValue.contact));
 
-            this.currentStep = 5;
+      this.jobService.postJobApplication(formData, this.appId).subscribe({
+        next: (response) => {
+          this.applicationStatusService.clearCache();
 
-          },
-          error: (error) => {
-            console.error('Error submitting application:', error);
-          },
-        });
+          this.currentStep = 5;
+        },
+        error: (error) => {
+          console.error('Error submitting application:', error);
+        },
+      });
     } else {
-
-      
-
       this.invalidmsg = true;
-
     }
   }
 
