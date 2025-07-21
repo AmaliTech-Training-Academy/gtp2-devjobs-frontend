@@ -1,51 +1,62 @@
 <div class="wrapper">
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <div class="nav-btn">
-            <button type="button" class="active">Profile Management</button>
-            <button type="button" (click)="onSkills.emit()">
-                Skill & Account Management
-            </button>
-        </div>
+  <form
+    [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()"
+    enctype="multipart/form-data"
+  >
+    <div class="nav-btn">
+      <button type="button" class="active">Profile Management</button>
+      <button type="button" (click)="onSkills.emit()">
+        Skill & Account Management
+      </button>
+    </div>
 
-        <div class="upload-section">
-            <div class="img-section">
-                <label class="upload-avatar">
-                    <input type="file" accept="image/*" (change)="onImageUpload($event)" />
-                    <ng-container *ngIf="uploadedImage; else placeholder">
-                        <img [src]="uploadedImage" alt="Profile Image" />
-                    </ng-container>
-                    <ng-template #placeholder>
-                        <div class="placeholder">
-                            <!-- SVG omitted for brevity -->
-                            <div>Upload</div>
-                        </div>
-                    </ng-template>
-                </label>
+    <div class="upload-section">
+      <div class="img-section">
+        <label class="upload-avatar">
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onImageUpload($event)"
+          />
+          <ng-container *ngIf="uploadedImage; else placeholder">
+            <img [src]="uploadedImage" alt="Profile Image" />
+          </ng-container>
+          <ng-template #placeholder>
+            <div class="placeholder">
+              <!-- SVG omitted for brevity -->
+              <div>Upload</div>
             </div>
+          </ng-template>
+        </label>
+      </div>
 
-            <div class="instruction">
-                <h2>Upload profile picture here</h2>
-                <p class="hint">
-                    For best results, upload a square-shaped image (200×200 pixels or
-                    larger) in PNG or JPEG format with a maximum file size of 2MB to
-                    represent your profile.
-                </p>
-            </div>
-        </div>
+      <div class="instruction">
+        <h2>Upload profile picture here</h2>
+        <p class="hint">
+          For best results, upload a square-shaped image (200×200 pixels or
+          larger) in PNG or JPEG format with a maximum file size of 2MB to
+          represent your profile.
+        </p>
+      </div>
+    </div>
 
-        <div class="profile-grid">
-            <div class="column" *ngFor="let group of fieldGroups">
-                <ng-container *ngFor="let field of group">
-                    <app-reusable-form-group [group]="profileForm" [fields]="[field]"></app-reusable-form-group>
-                </ng-container>
-            </div>
-        </div>
+    <div class="profile-grid">
+      <div class="column" *ngFor="let group of fieldGroups">
+        <ng-container *ngFor="let field of group">
+          <app-reusable-form-group
+            [group]="profileForm"
+            [fields]="[field]"
+          ></app-reusable-form-group>
+        </ng-container>
+      </div>
+    </div>
 
-        <div class="button-row">
-            <button type="button" class="cancel" (click)="cancelForm()">
-                Cancel
-            </button>
-            <button type="submit" class="save">Save</button>
-        </div>
-    </form>
+    <div class="button-row">
+      <button type="button" class="cancel" (click)="cancelForm()">
+        Cancel
+      </button>
+      <button type="submit" class="save">Save</button>
+    </div>
+  </form>
 </div>

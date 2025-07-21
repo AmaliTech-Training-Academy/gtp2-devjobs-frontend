@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.example.com',
+  apiUrl: 'http://gtp2-be-testing-alb-114080375.eu-central-1.elb.amazonaws.com',
 };

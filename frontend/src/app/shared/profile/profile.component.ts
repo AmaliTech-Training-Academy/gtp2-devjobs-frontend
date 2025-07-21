@@ -69,7 +69,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           this.seekerProfile?.fullName || '',
           [Validators.required, Validators.minLength(5)],
         ],
-        phoneNumber: [
+        phone: [
           this.seekerProfile?.phone || '',
           [Validators.required, Validators.minLength(10)],
         ],
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
         ],
         location: [this.seekerProfile?.location || '', Validators.required],
-        profileImage: [null],
+        profilePicture: [null],
       });
     } else {
       this.profileForm = this.fb.group({
@@ -89,8 +89,8 @@ export class ProfileComponent implements OnChanges, OnInit {
           [Validators.required, Validators.minLength(5)],
         ],
         website: [this.employer?.website || '', [Validators.required]],
-        phoneNumber: [
-          this.employer?.phoneNumber || '',
+        phone: [
+          this.employer?.phone || '',
           [Validators.required, Validators.minLength(10)],
         ],
         email: [
@@ -102,7 +102,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
         about: [this.employer?.aboutCompany || '', [Validators.required]],
-        profileImage: [null], // add file control
+        profilePicture: [null], // add file control
       });
     }
   }
@@ -112,8 +112,8 @@ export class ProfileComponent implements OnChanges, OnInit {
     if (file) {
       console.log('Uploaded file:', file); // log the file for inspection
 
-      this.profileForm.patchValue({ profileImage: file });
-      this.profileForm.get('profileImage')?.updateValueAndValidity();
+      this.profileForm.patchValue({ profilePicture: file });
+      this.profileForm.get('profilePicture')?.updateValueAndValidity();
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -245,7 +245,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
           {
             label: 'Phone number',
-            controlName: 'phoneNumber',
+            controlName: 'phone',
             type: 'text',
             placeholder: 'Type your phone number',
             inlineSvg: this.icons.numberSvg,
@@ -319,7 +319,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
           {
             label: 'Phone number',
-            controlName: 'phoneNumber',
+            controlName: 'phone',
             type: 'text',
             placeholder: 'Enter phone number',
             inlineSvg: this.icons.numberSvg,
