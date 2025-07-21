@@ -54,6 +54,11 @@ export const routes: Routes = [
     component: ForgotPasswordComponent,
   },
 
+  {
+    path: 'reset-password/:token',
+    component: ForgotPasswordComponent,
+  },
+
   // Employer Routes
   {
     path: 'employer',
@@ -116,7 +121,7 @@ export const routes: Routes = [
   // Seeker Routes
   {
     path: 'seeker/dashboard',
-    // canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'ROLE_JOB_SEEKER' },
     loadComponent: () =>
       import(
@@ -185,8 +190,8 @@ export const routes: Routes = [
     component: UnathorizedComponent,
   },
   // Catch-all Wildcard
-  // {
-  //   path: '**',
-  //   component: PageNotFoundComponent,
-  // },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
+  },
 ];
