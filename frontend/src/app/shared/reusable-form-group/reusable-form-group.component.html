@@ -1,5 +1,6 @@
 <div [formGroup]="group" class="form-section">
-    <div *ngFor="let field of fields">
+    <div *ngFor="let field of fields" [ngClass]="{ 'disabled-bg': field.disabled }">
+
 
         @if(field.type === "textarea" || field.type === "text" || field.type === "email" || field.type==="number" ||
         field.type === "url"){
@@ -40,8 +41,31 @@
             </ng-container>
 
             <mat-error *ngIf="group.get(field.controlName)?.invalid && group.get(field.controlName)?.touched">
-                {{ field.label }} is required
+                <ng-container *ngIf="group.get(field.controlName)?.errors?.['required']">
+                    {{ field.label }} is required
+                </ng-container>
+
+                <ng-container *ngIf="group.get(field.controlName)?.errors?.['minlength']">
+                    {{ field.label }} must be at least {{
+                    group.get(field.controlName)?.errors?.['minlength']?.requiredLength }} characters
+                </ng-container>
+
+                <ng-container *ngIf="group.get(field.controlName)?.errors?.['maxlength']">
+                    {{ field.label }} cannot be more than {{
+                    group.get(field.controlName)?.errors?.['maxlength']?.requiredLength }} characters
+                </ng-container>
+
+                <ng-container *ngIf="group.get(field.controlName)?.errors?.['pattern']">
+                    {{ field.label }} format is invalid
+                </ng-container>
+
+                <ng-container *ngIf="group.get(field.controlName)?.errors?.['email']">
+                    Please enter a valid email address
+                </ng-container>
+
+                <!-- Add more conditions for custom validators here -->
             </mat-error>
+
 
         </mat-form-field>
         }

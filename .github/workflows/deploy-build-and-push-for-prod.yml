@@ -1,0 +1,60 @@
+name: Build and Push Docker for Production
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ROLE_TO_ASSUME:
+        required: true
+      AWS_REGION:
+        required: true
+      PROD_ECR_REPO:
+        required: true
+      EXECUTION_ROLE_ARN:
+        required: true
+      NG_APP_BASE_URL_PROD:
+        required: true
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image to ECR
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECR_REPO: ${{ secrets.PROD_ECR_REPO }}
+          NG_APP_BASE_URL_PROD: ${{ secrets.NG_APP_BASE_URL_PROD }}
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+          IMAGE_TAG=${{ github.sha }}-prod
+          IMAGE_URI="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
+
+          echo "Building production image with API URL: $NG_APP_BASE_URL_PROD"
+          
+          docker build \
+            --build-arg NG_APP_BASE_URL_PROD="$NG_APP_BASE_URL_PROD" \
+            -f Dockerfile.prod \
+            -t "$IMAGE_URI" .
+
+          docker push "$IMAGE_URI"
+          
+          # Store the image URI for the next job
+          echo "PROD_IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV

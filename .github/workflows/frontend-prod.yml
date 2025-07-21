@@ -1,0 +1,69 @@
+name: Frontend Production CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - testing
+      - feature/devops
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    name: Run Tests and Notify
+    uses: ./.github/workflows/deploy-test-and-notify-for-dev.yml
+    secrets:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+
+  build:
+    name: Build & Push Production Docker Image
+    needs: test
+    uses: ./.github/workflows/deploy-build-and-push-for-prod.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      PROD_ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+      EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+      NG_APP_BASE_URL_PROD: ${{ secrets.NG_APP_BASE_URL_PROD }}
+
+  deploy:
+    name: Deploy to ECS (Production)
+    needs: build
+    uses: ./.github/workflows/deploy-ecs-for-prod.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER_PROD }}
+      ECS_SERVICE: ${{ secrets.ECS_SERVICE_PROD }}
+      PROD_ECR_REPO: ${{ secrets.ECR_REPO_PROD }}
+      EXECUTION_ROLE_ARN: ${{ secrets.EXECUTION_ROLE_ARN }}
+      TASK_CPU: ${{ secrets.TASK_CPU }}
+      TASK_MEMORY: ${{ secrets.TASK_MEMORY }}
+      CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+      CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
+      TASK_FAMILY: ${{ secrets.TASK_FAMILY_PROD }}
+      TASK_LOG_GROUP: ${{ secrets.TASK_LOG_GROUP_PROD }}
+      
+  blue-green-deploy:
+    name: Blue-Green Deployment with CodeDeploy
+    needs: deploy
+    uses: ./.github/workflows/devjobs-blue-green-deploy.yml
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ECR_REPO_PROD: ${{ secrets.ECR_REPO_PROD }}
+      CONTAINER_NAME_PROD: ${{ secrets.CONTAINER_NAME_PROD }}
+      CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
+      TASK_FAMILY_PROD: ${{ secrets.TASK_FAMILY_PROD }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      S3_KEY: ${{ secrets.S3_KEY }}
+      CODEDEPLOY_APP_NAME: ${{ secrets.CODEDEPLOY_APP_NAME }}
+      CODEDEPLOY_GROUP_NAME: ${{ secrets.CODEDEPLOY_GROUP_NAME }}
+      CODEDEPLOY_CONFIG_NAME: ${{ secrets.CODEDEPLOY_CONFIG_NAME }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}

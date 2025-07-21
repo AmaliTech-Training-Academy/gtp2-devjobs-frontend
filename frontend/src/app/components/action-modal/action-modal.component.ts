@@ -30,6 +30,7 @@ export class ActionModalComponent implements AfterViewInit, OnDestroy {
 
   @Output() onConfirm = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
+  @Output() closeModalOnEmployerSide = new EventEmitter<boolean>()
 
   private previouslyFocused: HTMLElement | null = null;
 
@@ -108,5 +109,6 @@ export class ActionModalComponent implements AfterViewInit, OnDestroy {
 
   cancel() {
     this.onCancel.emit();
+    this.closeModalOnEmployerSide.emit( false )
   }
 }

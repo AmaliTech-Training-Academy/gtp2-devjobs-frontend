@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 1024;
   }
 
   onLoginSubmit(formData: any): void {

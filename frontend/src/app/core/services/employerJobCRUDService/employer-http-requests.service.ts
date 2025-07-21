@@ -2,34 +2,26 @@ import { Injectable, inject } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { 
-        // EmployerJob, 
-        CreatedJobResponse, 
-        GetEmployerJobsResponse, 
-        UpdatedJobResponse,
-        DeleteJobResponse,
-        CreateJobPayload,
-        UpdateJobPayload
-      } from '../../../model/job';
+
+import {
+  // EmployerJob,
+  CreatedJobResponse,
+  GetEmployerJobsResponse,
+  UpdatedJobResponse,
+  DeleteJobResponse,
+  CreateJobPayload,
+  UpdateJobPayload,
+} from '../../../model/job';
+import {
+  AllJobsResponse,
+  CompanyProfile,
+  Skill,
+} from '../../../model/all.jobs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployerHttpRequestsService {
-  // create job: Post: /api/v1/jobs
-  // get job: GET /api/v1/jobs/employer
-  /*update a job posting:
-    PUT /api/v1/jobs/{id}
-    
-    delete a job posting:
-    DELETE /api/v1/jobs/{id}
-    
-    get job posting details:
-    GET /api/v1/jobs/{id}*/
-
-
-  baseUrl = `${environment.apiUrl}/api/v1/jobs`
-
   
   httpClient = inject( HttpClient )
 
@@ -37,7 +29,7 @@ export class EmployerHttpRequestsService {
 
 
   createNewJob(jobData: CreateJobPayload ): Observable<CreatedJobResponse> {
-    return this.httpClient.post<CreatedJobResponse>(`${ this.baseUrl }`, jobData )
+    return this.httpClient.post<CreatedJobResponse>(`${ environment.apiUrl }/api/v1/jobs`, jobData )
     .pipe(
       catchError((error: any) => {
         console.error('Job creation failed:', error);
@@ -46,10 +38,8 @@ export class EmployerHttpRequestsService {
     )
   }
 
-
-
   getAllJobs(): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`${ this.baseUrl }`)
+    return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/employer/jobs`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching all jobs ', error ) 
@@ -58,9 +48,8 @@ export class EmployerHttpRequestsService {
     )
   }
 
-
-  updateJob(jobID: string, jobData: UpdateJobPayload): Observable<UpdatedJobResponse> {
-    return this.httpClient.put<UpdatedJobResponse>(`${this.baseUrl}/${jobID}`, jobData)
+  updateJob(jobID: string, jobData: CreateJobPayload): Observable<CreatedJobResponse> {
+    return this.httpClient.put<CreatedJobResponse>(`${ environment.apiUrl }/api/v1/jobs/${jobID}`, jobData)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -68,10 +57,9 @@ export class EmployerHttpRequestsService {
       })
     )
   }
-
 
   deleteJob(jobID: string): Observable<DeleteJobResponse> {
-    return this.httpClient.delete<DeleteJobResponse>(`${this.baseUrl}/${jobID}`)
+    return this.httpClient.delete<DeleteJobResponse>(`${ environment.apiUrl }/api/v1/jobs/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error updating job ', error ) 
@@ -80,9 +68,8 @@ export class EmployerHttpRequestsService {
     )
   }
 
-
   getJob(jobID: string): Observable<GetEmployerJobsResponse> {
-    return this.httpClient.get<GetEmployerJobsResponse>(`${this.baseUrl}/${jobID}`)
+    return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/jobs/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching job ', error ) 
@@ -91,5 +78,22 @@ export class EmployerHttpRequestsService {
     )
   }
 
+  getApplications() {}
 
+  getProfileDetails(): Observable<AllJobsResponse<CompanyProfile>> {
+    return this.httpClient.get<AllJobsResponse<CompanyProfile>>(
+      `${environment.apiUrl}/api/v1/companies`
+    );
+  }
+
+  updateProfileDetails(data: FormData, id: string) {
+    return this.httpClient.put(
+      `${environment.apiUrl}/api/v1/companies/${id}`,
+      data
+    );
+  }
+
+  getSkills(): Observable<Skill[]> {
+    return this.httpClient.get<Skill[]>(`${environment.apiUrl}/api/v1/skills`);
+  }
 }

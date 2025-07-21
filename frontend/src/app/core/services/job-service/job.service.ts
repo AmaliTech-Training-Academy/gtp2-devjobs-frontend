@@ -9,9 +9,19 @@ import {
   Data,
   Job,
   ApplicationForm,
+  ProfileData,
+  SeekerProfile,
+  Skill,
 } from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
+
+interface AllProfileData {
+  location: string | null;
+  profilePhoto: string | null;
+  fullName: string;
+  email: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +31,11 @@ export class JobService {
   private errorHandler = inject(ErrorHandlingService);
   private selectedJob: Job | null = null;
 
-  
-
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
 
   // In-memory cache for job search results
   private jobsCache: { [key: string]: AllJobsResponse<Data> } = {};
+
 
 getJobs(
   page: number = 0,
@@ -64,34 +73,61 @@ getJobs(
     );
 }
 
-getJobById(id: string): Observable<AllJobsResponse<Job>>{
-  return this.http.get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`).pipe(
-    retry(3),
-    catchError((error) => this.errorHandler.handleHttpError(error))
-  )
-}
-
-getJobTitles(): Observable<string[]> {
-  return this.http.get<string[]>(`${this.BASE_URL_JOB}/api/v1/jobs/titles`).pipe(
-    retry(3),
-    catchError((error) => this.errorHandler.handleHttpError(error))
-  );
-}
-
-setSelectedJob(job: Job) {
-  this.selectedJob = job;
-}
-
-getSelectedJob(): Job | null {
-  return this.selectedJob;
-}
+ 
+  getJobById(id: string): Observable<AllJobsResponse<Job>> {
+    return this.http
+      .get<AllJobsResponse<Job>>(`${this.BASE_URL_JOB}/api/v1/jobs/${id}`)
+      .pipe(
+        retry(3),
+        catchError((error) => this.errorHandler.handleHttpError(error))
+      );
+  }
 
 
-postJobApplication(data: ApplicationForm, id: string) {
-  return this.http.post(
-    `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
-    data
-  );
-}
+  getJobTitles(): Observable<string[]> {
+    return this.http
+      .get<string[]>(`${this.BASE_URL_JOB}/api/v1/jobs/titles`)
+      .pipe(
+        retry(3),
+        catchError((error) => this.errorHandler.handleHttpError(error))
+      );
+  }
 
+  setSelectedJob(job: Job) {
+    this.selectedJob = job;
+  }
+
+  getSelectedJob(): Job | null {
+    return this.selectedJob;
+  }
+
+  getApplications(): Observable<ApplicationStatus[]> {
+    return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
+  }
+
+
+  postJobApplication(data: ApplicationForm, id: string) {
+    return this.http.post(
+      `${this.BASE_URL_JOB}/api/v1/applications/${id}`,
+      data
+    );
+  }
+
+  getProfileDetails(): Observable<AllJobsResponse<ProfileData>> {
+    return this.http.get<AllJobsResponse<ProfileData>>(
+      `${this.BASE_URL_JOB}/api/v1/auth/me`
+    );
+  }
+
+
+  updateProfileDetails(
+    data: SeekerProfile | FormData | AllProfileData,
+    id: string
+  ) {
+    return this.http.put(`${this.BASE_URL_JOB}/api/v1/profiles/${id}`, data);
+  }
+
+  getSkills(): Observable<Skill[]> {
+    return this.http.get<Skill[]>(`${this.BASE_URL_JOB}/api/v1/skills`);
+  }
 }

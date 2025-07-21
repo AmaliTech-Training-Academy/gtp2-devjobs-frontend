@@ -6,6 +6,61 @@ export interface AllJobsResponse<T = any> {
   error: boolean;
   errors: string[] | null;
 }
+
+export interface CompanyProfile {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  owner: {
+    id: string;
+    username: string;
+    email: string;
+    fullName: string | null;
+    roles: string[];
+  };
+  companyName: string;
+  website: string | null;
+  location: string | null;
+  companySize: number;
+  aboutCompany: string | null;
+  email: string;
+  jobCount: number;
+  companyLogoUrl: string | null;
+  phoneNumber: string | null;
+}
+
+export interface Skill {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  category?: string;
+  usageCount: number;
+  createdByUserId: string;
+}
+
+export interface ProfileData {
+  profileId: string;
+  createdAt: string | null;
+  updatedAt: string | null;
+  phone: string | null;
+  bio: string | null;
+  location: string | null;
+  residentialAddress: string | null;
+  profileImage: string | null;
+  fullName: string;
+  email: string;
+}
+
+export interface SeekerProfile {
+  location: string | null;
+  residentialAddress: string | null;
+  profilePhoto: string | null;
+  fullName: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}
 export interface JobByIdResponse {
   success: boolean;
   message: string;

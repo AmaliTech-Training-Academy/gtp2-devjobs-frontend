@@ -58,8 +58,8 @@ export const routes: Routes = [
   {
     path: 'employer',
     component: EmployerLayoutComponent,
-    canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_EMPLOYER' },
+    // canActivate: [authGuard, roleGuard],
+    // data: { expectedRole: 'ROLE_EMPLOYER' },
     children: [
       {
         path: 'dashboard',
@@ -127,6 +127,7 @@ export const routes: Routes = [
         path: '',
         component: JobListComponent,
         pathMatch: 'full',
+        data: { search: true },
       },
       {
         path: 'job-details/:id',
@@ -184,8 +185,8 @@ export const routes: Routes = [
     component: UnathorizedComponent,
   },
   // Catch-all Wildcard
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  // },
 ];
