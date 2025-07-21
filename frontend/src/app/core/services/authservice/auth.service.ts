@@ -7,10 +7,12 @@ import { environment } from '../../../../environments/environment';
 import { JwtHelper } from '../../../shared/utils/jwt-helper.util';
 import {
   AuthResponse,
-  LoginRequest,
+  ForgotPasswordRequest,
   SeekerRegisterRequest,
   EmployerRegisterRequest,
   LoggedInUserResponse,
+  ResetPasswordRequest,
+  ForgotPasswordResponse,
 } from '../../../model/auth.model';
 
 @Injectable({
@@ -94,6 +96,36 @@ export class Auth {
       );
   }
 
+  forgotPassword(email: string): Observable<ForgotPasswordResponse> {
+    return this.http
+      .post<ForgotPasswordResponse>(
+        `${this.base_Url}/api/v1/user/security/forgot`,
+        {
+          email,
+        }
+      )
+      .pipe(catchError(this.handleError.bind(this)));
+  }
+
+  resetPassword(
+    token: string,
+    newPassword: string,
+    confirmPassword: string
+  ): Observable<ForgotPasswordResponse> {
+    const payload: ResetPasswordRequest = {
+      newPassword,
+      confirmPassword,
+      passwordsMatch: newPassword === confirmPassword,
+    };
+
+    return this.http
+      .post<ForgotPasswordResponse>(
+        `${this.base_Url}/api/v1/user/security/reset-password/${token}`,
+        payload
+      )
+      .pipe(catchError(this.handleError.bind(this)));
+  }
+
   logout(): void {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
@@ -126,15 +158,16 @@ export class Auth {
    */
   checkAuthWithBackend(): Observable<boolean> {
     const token = this.getAccessToken();
-    
+
     if (!token) {
-      return new Observable(observer => {
+      return new Observable((observer) => {
         observer.next(false);
         observer.complete();
       });
     }
 
-    return this.http.get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
+    return this.http
+      .get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
       .pipe(
         tap((response) => {
           if (response.success && response.data) {
@@ -152,7 +185,7 @@ export class Auth {
         catchError((error) => {
           console.error('Auth check failed:', error);
           // If the request fails (401, 403, etc.), user is not authenticated
-          return new Observable<boolean>(observer => {
+          return new Observable<boolean>((observer) => {
             observer.next(false);
             observer.complete();
           });
@@ -165,22 +198,24 @@ export class Auth {
    * Use this for simple status checks without side effects
    * @returns Observable<boolean> - true if authenticated, false otherwise
    */
+
   isAuthenticatedWithBackend(): Observable<boolean> {
     const token = this.getAccessToken();
-    
+
     if (!token) {
-      return new Observable(observer => {
+      return new Observable((observer) => {
         observer.next(false);
         observer.complete();
       });
     }
 
-    return this.http.get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
+    return this.http
+      .get<LoggedInUserResponse>(`${this.base_Url}/api/v1/auth/me`)
       .pipe(
         map((response) => response.success && !response.error),
         catchError((error) => {
           console.error('Quick auth check failed:', error);
-          return new Observable<boolean>(observer => {
+          return new Observable<boolean>((observer) => {
             observer.next(false);
             observer.complete();
           });
