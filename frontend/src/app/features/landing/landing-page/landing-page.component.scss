@@ -1,3 +1,13 @@
-.landing-container {
-  padding-top: 4rem;
+
+.main-container{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .content {
+    padding-top: 4rem;
+    flex: 1;
+  }
 }
+
+
+
