@@ -250,15 +250,18 @@ export class ApplicationFormComponent implements OnInit {
       if (formValue.coverLetter) {
         formData.append('coverLetter', formValue.coverLetter);
       }
-      formData.append('experiences', JSON.stringify(formValue.experiences));
-      formData.append('education', JSON.stringify(formValue.education));
 
-      formData.append('contact', JSON.stringify(formValue.contact));
+      const dataPayload = {
+        experiences: formValue.experiences,
+        education: formValue.education,
+        contact: formValue.contact,
+      };
+
+      formData.append('data', JSON.stringify(dataPayload));
 
       this.jobService.postJobApplication(formData, this.appId).subscribe({
         next: (response) => {
           this.applicationStatusService.clearCache();
-
           this.currentStep = 5;
         },
         error: (error) => {

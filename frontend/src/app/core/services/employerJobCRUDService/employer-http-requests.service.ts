@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, throwError, retry } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { ErrorService } from '../error.service';
 
@@ -24,6 +24,7 @@ import {
 })
 export class EmployerHttpRequestsService {
   httpClient = inject(HttpClient);
+  errorHandler2 = inject(ErrorService);
 
   constructor() {}
 
@@ -105,19 +106,40 @@ export class EmployerHttpRequestsService {
   getApplications() {}
 
   getProfileDetails(): Observable<AllJobsResponse<CompanyProfile>> {
-    return this.httpClient.get<AllJobsResponse<CompanyProfile>>(
-      `${environment.apiUrl}/api/v1/companies`
-    );
+    return this.httpClient
+      .get<AllJobsResponse<CompanyProfile>>(
+        `${environment.apiUrl}/api/v1/companies`
+      )
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   updateProfileDetails(data: FormData, id: string) {
-    return this.httpClient.put(
-      `${environment.apiUrl}/api/v1/companies/${id}`,
-      data
-    );
+    return this.httpClient
+      .put(`${environment.apiUrl}/api/v1/companies/${id}`, data)
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getSkills(): Observable<Skill[]> {
-    return this.httpClient.get<Skill[]>(`${environment.apiUrl}/api/v1/skills`);
+    return this.httpClient
+      .get<Skill[]>(`${environment.apiUrl}/api/v1/skills`)
+      .pipe(
+        retry(3),
+        catchError((err: HttpErrorResponse) => {
+          this.errorHandler2.handle(err);
+          return throwError(() => err);
+        })
+      );
   }
 }
