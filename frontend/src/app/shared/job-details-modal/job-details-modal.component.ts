@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ModalsServiceService } from '../../core/services/modalsService/modals-service.service';
+import { JobSelectionServiceService } from '../../core/services/job-selection-service.service';
 
 
 @Component({
@@ -8,9 +9,19 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
   templateUrl: './job-details-modal.component.html',
   styleUrl: './job-details-modal.component.scss'
 })
-export class JobDetailsModalComponent {
+export class JobDetailsModalComponent implements OnInit {
+  job: any
 
   modalService = inject( ModalsServiceService) 
+  jobSelectionService = inject( JobSelectionServiceService )
+
+
+  ngOnInit(): void {
+    this.jobSelectionService.selectedJob$.subscribe( receivedJob => {
+      this.job = receivedJob
+      console.log("job received = ", this.job)
+    })
+  }
 
 
   openJobDetailsFormModal() {

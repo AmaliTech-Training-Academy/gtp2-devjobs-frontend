@@ -1,6 +1,6 @@
 export interface SeekerProfile {
   fullname: string;
-  phoneNumber: number;
+  phone: number;
   email: string;
   location: string;
   image: File;
