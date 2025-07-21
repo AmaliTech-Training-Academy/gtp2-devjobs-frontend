@@ -29,7 +29,7 @@ getApplicationStatus(page: number = 0, size: number = 20): Observable<Applicatio
     return of(this.applicationsCache[cacheKey]);
   }
 
-  return this.http.get<ApplicationStatusResponse>(`${this.BASE_URL_APP}/api/v1/applications/my-applications?${queryString}`).pipe(
+  return this.http.get<ApplicationStatusResponse>(`${this.BASE_URL_APP}/api/v1/applications/my-applications`).pipe(
     retry(3),
     catchError((error) => this.errorHandler.handleHttpError(error)),
     tap((result) => { 
