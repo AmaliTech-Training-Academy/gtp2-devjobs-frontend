@@ -1,6 +1,8 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { PopoverModule } from 'primeng/popover';
+import { Auth } from '../../core/services/authservice/auth.service';
+
 
 
 
@@ -13,28 +15,17 @@ import { PopoverModule } from 'primeng/popover';
 })
 export class EmployerNavbarComponent {
 
-  // @ViewChild('profile') profilePopover! : ElementRef;
- 
-  // closePopover() {
-  //   const popover = this.profilePopover?.nativeElement;  
-  //     if (popover && popover.hide) {
-  //       popover.hide();
-  //     }
+  authService = inject( Auth )
+  router = inject( Router )
+
+
+  logout() {
+    this.authService.logout();
+  }
+
   
-  // }
-
-  // showPopover: boolean = false;
-
-  // togglePopOver() {
-  //   this.showPopover = !this.showPopover
-  // }
-
-
-  // handleOptionClick() {
-  //   // Perform your logic
-  //   this.closePopover();
-  // }
-
-
+  navigateToSettings() {
+    this.router.navigate(['/employer/settings'])
+  }
 
 }

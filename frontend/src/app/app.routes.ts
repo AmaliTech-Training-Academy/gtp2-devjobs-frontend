@@ -58,8 +58,8 @@ export const routes: Routes = [
   {
     path: 'employer',
     component: EmployerLayoutComponent,
-    canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'ROLE_EMPLOYER' },
+    // canActivate: [authGuard, roleGuard],
+    // data: { expectedRole: 'ROLE_EMPLOYER' },
     children: [
       {
         path: 'dashboard',
