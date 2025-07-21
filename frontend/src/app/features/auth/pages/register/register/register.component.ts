@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit {
       },
       error: (err) => {
         this.loadingService.hide();
-        this.handleErrors(err.error);
+        this.backendErrors = err.error;
         console.error('Registration error:', err);
       },
     });

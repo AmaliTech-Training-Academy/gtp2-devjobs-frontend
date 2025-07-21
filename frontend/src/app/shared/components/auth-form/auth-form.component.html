@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
-  <!-- Display general backend errors -->
-  <div *ngIf="generalErrors.length > 0" class="general-errors">
-    <div *ngFor="let error of generalErrors" class="error-message">
-      {{ error }}
+  <!-- Display general backend error -->
+  <div *ngIf="generalErrorMessage" class="general-error">
+    <div class="error-message">
+      {{ generalErrorMessage }}
     </div>
   </div>
 
