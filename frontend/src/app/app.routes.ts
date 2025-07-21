@@ -9,15 +9,22 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found/page-not-found.component';
 import { JobDetailsComponent } from './features/job-details/job-details.component';
+import { LandingPageComponent } from './features/landing/landing-page/landing-page.component';
+import { HomeComponent } from './features/landing/pages/home/home.component';
+import { LandingJoblistComponent } from './layouts/public/landing-joblist/landing-joblist.component';
 
 export const routes: Routes = [
   // Public Routes
   {
     path: '',
-    loadComponent: () =>
-      import('./features/landing/landing-page/landing-page.component').then(
-        (m) => m.LandingPageComponent
-      ),
+  component: LandingPageComponent,
+  children: [
+    {path: "", component: HomeComponent},
+    {path: "jobs", component: LandingJoblistComponent},
+    {path: 'jobs/:id', component: JobDetailsComponent, data: { showSearch: false }},
+  ]
+      
+
   },
   {
     path: 'start-search',
@@ -25,20 +32,6 @@ export const routes: Routes = [
       import(
         './features/landing/pages/start-search/start-search.component'
       ).then((m) => m.StartSearchComponent),
-  },
-  {
-    path: 'jobs',
-    loadComponent: () =>
-      import('./features/landing/pages/jobs-list/jobs-list.component').then(
-        (m) => m.JobsListComponent
-      ),
-  },
-  {
-    path: 'salary-estimate',
-    loadComponent: () =>
-      import(
-        './features/landing/pages/salary-estimate/salary-estimate.component'
-      ).then((m) => m.SalaryEstimateComponent),
   },
 
   {
@@ -134,11 +127,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         data: { search: true },
       },
-      {
-        path: 'job-details/:id',
-        component: JobDetailsComponent,
-        data: { showSearch: false },
-      },
+      // Remove job-details/:id from here unless you want a protected version
       {
         path: 'application-status',
         loadComponent: () =>
@@ -156,14 +145,6 @@ export const routes: Routes = [
           ),
         canActivate: [authGuard, roleGuard],
         data: { expectedRole: 'ROLE_JOB_SEEKER', showSearch: false },
-      },
-      {
-        path: 'job-details/:id',
-        loadComponent: () =>
-          import('./features/job-details/job-details.component').then(
-            (m) => m.JobDetailsComponent
-          ),
-        data: { showSearch: false },
       },
       {
         path: 'profile',

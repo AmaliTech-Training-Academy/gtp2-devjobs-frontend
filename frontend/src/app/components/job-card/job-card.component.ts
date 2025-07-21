@@ -25,6 +25,6 @@ export class JobCardComponent {
 
   onCardClick(job: Job) {
     this.jobService.setSelectedJob(job);
-    this.router.navigate(['seeker/dashboard/job-details', job.id]);
+    this.router.navigate(['/jobs', job.id]);
   }
 }

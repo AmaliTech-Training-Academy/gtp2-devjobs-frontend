@@ -37,6 +37,8 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 export class ApplicationFormComponent implements OnInit {
   coverLetterFile: File | null = null;
   resumeFile: File | null = null;
+  resumeFileSizeError: string | null = null;
+  coverLetterFileSizeError: string | null = null;
 
   jobService = inject(JobService);
   applicationStatusService = inject(ApplicationStatusService);
@@ -186,6 +188,13 @@ export class ApplicationFormComponent implements OnInit {
     this.isHoveringResume = false;
     const file = event.dataTransfer?.files[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        this.resumeFileSizeError = 'Resume file size exceeds 10MB limit.';
+        return;
+      } else {
+        this.resumeFileSizeError = null;
+      }
       this.resumeFile = file;
       this.form.patchValue({ resume: file });
     }
@@ -205,6 +214,13 @@ export class ApplicationFormComponent implements OnInit {
     this.isHoveringCoverLetter = false;
     const file = event.dataTransfer?.files[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        this.coverLetterFileSizeError = 'Cover letter file size exceeds 10MB limit.';
+        return;
+      } else {
+        this.coverLetterFileSizeError = null;
+      }
       this.coverLetterFile = file;
       this.form.patchValue({ coverLetter: file });
     }
@@ -214,6 +230,21 @@ export class ApplicationFormComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        if (type === 'resume') {
+          this.resumeFileSizeError = 'Resume file size exceeds 10MB limit.';
+        } else {
+          this.coverLetterFileSizeError = 'Cover letter file size exceeds 10MB limit.';
+        }
+        return;
+      } else {
+        if (type === 'resume') {
+          this.resumeFileSizeError = null;
+        } else {
+          this.coverLetterFileSizeError = null;
+        }
+      }
       if (type === 'resume') {
         this.resumeFile = file;
         this.form.patchValue({ resume: file });
@@ -240,26 +271,28 @@ export class ApplicationFormComponent implements OnInit {
 
   submitForm() {
     if (this.form.valid && this.appId) {
-      const formValue = this.form.value;
-      const formData = new FormData();
       this.invalidmsg = false;
 
-      if (formValue.resume) {
-        formData.append('resume', formValue.resume);
+      // Build FormData
+      const formData = new FormData();
+      formData.append('jobId', this.appId);
+
+      if (this.resumeFile) {
+        formData.append('resume', this.resumeFile);
       }
-      if (formValue.coverLetter) {
-        formData.append('coverLetter', formValue.coverLetter);
+      if (this.coverLetterFile) {
+        formData.append('coverLetter', this.coverLetterFile);
       }
 
-      const dataPayload = {
-        experiences: formValue.experiences,
-        education: formValue.education,
-        contact: formValue.contact,
+      // Prepare the rest of the data (experiences, education, contact)
+      const data = {
+        experiences: this.form.value.experiences,
+        education: this.form.value.education,
+        contact: this.form.value.contact,
       };
+      formData.append('data', JSON.stringify(data));
 
-      formData.append('data', JSON.stringify(dataPayload));
-
-      this.jobService.postJobApplication(formData, this.appId).subscribe({
+      this.jobService.postJobApplication(formData).subscribe({
         next: (response) => {
           this.applicationStatusService.clearCache();
           this.currentStep = 5;
