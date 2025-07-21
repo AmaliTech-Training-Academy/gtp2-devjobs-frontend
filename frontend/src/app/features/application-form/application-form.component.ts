@@ -20,7 +20,6 @@ import { ApplicationStatusService } from '../../core/services/application-status
 import { isValidEmail } from '../../shared/utils/validators/common-validators';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 
-
 @Component({
   selector: 'app-application-form',
   imports: [
@@ -38,6 +37,8 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 export class ApplicationFormComponent implements OnInit {
   coverLetterFile: File | null = null;
   resumeFile: File | null = null;
+  resumeFileSizeError: string | null = null;
+  coverLetterFileSizeError: string | null = null;
 
   jobService = inject(JobService);
   applicationStatusService = inject(ApplicationStatusService);
@@ -187,6 +188,13 @@ export class ApplicationFormComponent implements OnInit {
     this.isHoveringResume = false;
     const file = event.dataTransfer?.files[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        this.resumeFileSizeError = 'Resume file size exceeds 10MB limit.';
+        return;
+      } else {
+        this.resumeFileSizeError = null;
+      }
       this.resumeFile = file;
       this.form.patchValue({ resume: file });
     }
@@ -206,6 +214,13 @@ export class ApplicationFormComponent implements OnInit {
     this.isHoveringCoverLetter = false;
     const file = event.dataTransfer?.files[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        this.coverLetterFileSizeError = 'Cover letter file size exceeds 10MB limit.';
+        return;
+      } else {
+        this.coverLetterFileSizeError = null;
+      }
       this.coverLetterFile = file;
       this.form.patchValue({ coverLetter: file });
     }
@@ -215,6 +230,21 @@ export class ApplicationFormComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) {
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (file.size > MAX_FILE_SIZE) {
+        if (type === 'resume') {
+          this.resumeFileSizeError = 'Resume file size exceeds 10MB limit.';
+        } else {
+          this.coverLetterFileSizeError = 'Cover letter file size exceeds 10MB limit.';
+        }
+        return;
+      } else {
+        if (type === 'resume') {
+          this.resumeFileSizeError = null;
+        } else {
+          this.coverLetterFileSizeError = null;
+        }
+      }
       if (type === 'resume') {
         this.resumeFile = file;
         this.form.patchValue({ resume: file });
@@ -240,35 +270,39 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
-
-
-
-
     if (this.form.valid && this.appId) {
       this.invalidmsg = false;
-      this.jobService
-        .postJobApplication(this.form.value, this.appId)
-        .subscribe({
-          next: (response) => {
 
-            
-            // Clear the application status cache to ensure fresh data
-            this.applicationStatusService.clearCache();
+      // Build FormData
+      const formData = new FormData();
+      formData.append('jobId', this.appId);
 
+      if (this.resumeFile) {
+        formData.append('resume', this.resumeFile);
+      }
+      if (this.coverLetterFile) {
+        formData.append('coverLetter', this.coverLetterFile);
+      }
 
-            this.currentStep = 5;
+      // Prepare the rest of the data (experiences, education, contact)
+      const data = {
+        experiences: this.form.value.experiences,
+        education: this.form.value.education,
+        contact: this.form.value.contact,
+      };
+      formData.append('data', JSON.stringify(data));
 
-          },
-          error: (error) => {
-            console.error('Error submitting application:', error);
-          },
-        });
+      this.jobService.postJobApplication(formData).subscribe({
+        next: (response) => {
+          this.applicationStatusService.clearCache();
+          this.currentStep = 5;
+        },
+        error: (error) => {
+          console.error('Error submitting application:', error);
+        },
+      });
     } else {
-
-      
-
       this.invalidmsg = true;
-
     }
   }
 

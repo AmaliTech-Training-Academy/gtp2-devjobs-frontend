@@ -14,7 +14,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 
 @Component({
   selector: 'app-job-list',
-
+standalone: true,
   imports: [SortFilterComponent, EmptyStateComponent, JobCardComponent, AsyncPipe, PaginationComponent, LoadingSpinnerComponent],
 
   templateUrl: './job-list.component.html',

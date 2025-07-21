@@ -3,7 +3,6 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobContentComponent } from '../../shared/job-content/job-content.component';
 import { ActionModalComponent } from '../../components/action-modal/action-modal.component';
-
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../core/services/job-service/job.service';
 import { Job } from '../../model/all.jobs';
@@ -12,6 +11,7 @@ import { Auth } from '../../core/services/authservice/auth.service';
 
 @Component({
   selector: 'app-job-details',
+  standalone: true,
   imports: [
     CommonModule,
     BackButtonComponent,
@@ -26,7 +26,7 @@ export class JobDetailsComponent implements OnInit {
   public auth = inject(Auth);
   jobService = inject(JobService);
   route = inject(ActivatedRoute);
-  showAuthModal: boolean = false; // Explicitly initialize to false
+  showAuthModal: boolean = false;
   job!: Job | null;
 
   getTime = getTimeAgo;
@@ -53,31 +53,35 @@ export class JobDetailsComponent implements OnInit {
    * Handles the apply button click by checking authentication with the backend
    */
   onApply() {
-    // Check authentication with the backend
-    this.auth.checkAuthWithBackend().subscribe({
-      next: (isAuthenticated) => {
-        if (isAuthenticated) {
-          // User is authenticated, proceed to application form
-          this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
-        } else {
-          // User is not authenticated, show auth modal
-          this.showAuthModal = true;
-        }
-      },
-      error: (error) => {
-        console.error('Auth check failed:', error);
-        // If auth check fails, show auth modal as fallback
-        this.showAuthModal = true;
-      }
-    });
+    // First check if user is logged in
+    if (!this.auth.isLoggedIn()) {
+      this.showAuthModal = true;
+      return;
+    }
+
+    // Then check if user has the correct role
+    if (!this.auth.hasRole('ROLE_JOB_SEEKER')) {
+      // If user is logged in but doesn't have seeker role, show appropriate message
+      this.router.navigate(['/unauthorized'], { 
+        queryParams: { 
+          message: 'You need a job seeker account to apply for jobs.',
+          returnUrl: `/jobs/${this.job?.id}`
+        } 
+      });
+      return;
+    }
+
+    // If we get here, user is logged in and has correct role
+    this.router.navigate(['seeker/dashboard/application-form', this.job?.id]);
   }
 
   handleAuthModalConfirm(action: 'login' | 'signup') {
     this.showAuthModal = false;
+    const returnUrl = `/jobs/${this.job?.id}`;
     if (action === 'login') {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: { returnUrl } });
     } else {
-      this.router.navigate(['/register']);
+      this.router.navigate(['/register'], { queryParams: { returnUrl } });
     }
   }
 }
