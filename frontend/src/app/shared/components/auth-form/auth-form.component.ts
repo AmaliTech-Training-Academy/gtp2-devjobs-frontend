@@ -263,7 +263,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  goToForgotPassword(): void {
-    this.router.navigate(['/forgot-password']);
+  goToResetPassword(): void {
+    this.router.navigate(['/reset-password']);
   }
 }

@@ -10,6 +10,7 @@ import { TimeAgoPipe } from '../../shared/utils/time-ago-pipe/time-ago.pipe';
 
 @Component({
   selector: 'app-job-card',
+  standalone: true,
   imports: [CommonModule, CardModule, TimeAgoPipe, TitleCasePipe, CurrencyPipe],
   templateUrl: './job-card.component.html',
   styleUrls: ['./job-card.component.scss'],
