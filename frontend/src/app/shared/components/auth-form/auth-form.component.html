@@ -168,26 +168,26 @@
       </mat-error>
     </mat-form-field>
 
-  <!-- Remember Me and Forgot Password -->
-<div class="remember-forgot" *ngIf="!isRegister">
-  <div class="checkbox-container">
-    <input 
-      type="checkbox" 
-      id="rememberMe" 
-      formControlName="rememberMe" 
-      class="custom-checkbox"
-    >
-    <label for="rememberMe" class="checkbox-label">Remember me</label>
+    <!-- Remember Me and Forgot Password -->
+    <div class="remember-forgot" *ngIf="!isRegister">
+      <div class="checkbox-container">
+        <input
+          type="checkbox"
+          id="rememberMe"
+          formControlName="rememberMe"
+          class="custom-checkbox"
+        />
+        <label for="rememberMe" class="checkbox-label">Remember me</label>
+      </div>
+      <a
+        routerLink="/reset-password"
+        class="forgot-password-link"
+        (click)="goToResetPassword()"
+      >
+        Forgot password?
+      </a>
+    </div>
   </div>
-  <a
-    routerLink="/forgot-password"
-    class="forgot-password-link"
-    (click)="goToForgotPassword()"
-  >
-    Forgot password?
-  </a>
-</div>
-</div>
 
   <!-- Submit Button -->
   <button

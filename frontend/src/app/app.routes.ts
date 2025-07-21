@@ -50,7 +50,7 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'forgot-password',
+    path: 'reset-password',
     component: ForgotPasswordComponent,
   },
 
