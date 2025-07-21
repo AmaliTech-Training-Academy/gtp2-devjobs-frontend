@@ -240,35 +240,39 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
-
-
-
-
     if (this.form.valid && this.appId) {
       this.invalidmsg = false;
-      this.jobService
-        .postJobApplication(this.form.value, this.appId)
-        .subscribe({
-          next: (response) => {
 
-            
-            // Clear the application status cache to ensure fresh data
-            this.applicationStatusService.clearCache();
+      // Build FormData
+      const formData = new FormData();
+      formData.append('jobId', this.appId);
 
+      if (this.resumeFile) {
+        formData.append('resume', this.resumeFile);
+      }
+      if (this.coverLetterFile) {
+        formData.append('coverLetter', this.coverLetterFile);
+      }
 
-            this.currentStep = 5;
+      // Prepare the rest of the data (experiences, education, contact)
+      const data = {
+        experiences: this.form.value.experiences,
+        education: this.form.value.education,
+        contact: this.form.value.contact,
+      };
+      formData.append('data', JSON.stringify(data));
 
-          },
-          error: (error) => {
-            console.error('Error submitting application:', error);
-          },
-        });
+      this.jobService.postJobApplication(formData).subscribe({
+        next: (response) => {
+          this.applicationStatusService.clearCache();
+          this.currentStep = 5;
+        },
+        error: (error) => {
+          console.error('Error submitting application:', error);
+        },
+      });
     } else {
-
-      
-
       this.invalidmsg = true;
-
     }
   }
 
