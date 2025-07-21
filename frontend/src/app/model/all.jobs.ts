@@ -26,7 +26,7 @@ export interface CompanyProfile {
   email: string;
   jobCount: number;
   companyLogoUrl: string | null;
-  phoneNumber: string | null;
+  phone: string | null;
 }
 
 export interface Skill {
@@ -47,7 +47,7 @@ export interface ProfileData {
   bio: string | null;
   location: string | null;
   residentialAddress: string | null;
-  profileImage: string | null;
+  profilePicture: string | null;
   fullName: string;
   email: string;
 }
@@ -55,7 +55,7 @@ export interface ProfileData {
 export interface SeekerProfile {
   location: string | null;
   residentialAddress: string | null;
-  profilePhoto: string | null;
+  profilePicture: string | null;
   fullName: string;
   email: string;
   firstName?: string;
@@ -84,6 +84,16 @@ export interface Data {
   empty: boolean;
 }
 
+export enum ApplicationStatus {
+  PENDING,
+  CONFIRMED,
+  REVIEWED,
+  ACCEPTED,
+  REJECTED,
+  INTERVIEWED,
+  APPLIED,
+}
+
 export interface Job {
   id: string;
   createdAt: Date;
@@ -104,11 +114,11 @@ export interface Job {
 }
 
 export interface Company {
-  id:             string;
-  companyName:    string;
-  location:       string;
-  website:        string;
-  phoneNumber:    string;
+  id: string;
+  companyName: string;
+  location: string;
+  website: string;
+  phoneNumber: string;
   companyLogoUrl: string;
 }
 
