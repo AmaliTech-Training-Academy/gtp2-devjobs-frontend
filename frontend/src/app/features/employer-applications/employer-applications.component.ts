@@ -102,14 +102,13 @@ export class EmployerApplicationsComponent implements OnInit {
       this.activeTab = tab;
       this.toggleSecondActiveTab()
       // alert( this.activeTab )
-      console.log( this.activeTab )
       
     }
 
 
     setSecondActiveTab( tab:'reviewed' | 'interviewed' | 'rejected' ) {
       this.secondActiveTab = tab
-      console.log( this.secondActiveTab )
+      
     }
 
     toggleSecondActiveTab() {
@@ -117,7 +116,7 @@ export class EmployerApplicationsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      console.log( this.activeTab )
+      
     }
 
 

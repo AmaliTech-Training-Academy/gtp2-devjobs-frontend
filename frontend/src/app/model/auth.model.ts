@@ -46,3 +46,27 @@ export interface LoginResponse {
     user: User;
   };
 }
+
+export interface LoggedInUserResponse {
+  success: boolean;
+  message: string;
+  data: LoggedInUserData;
+  timestamp: string;
+  error: boolean;
+  errors: string[];
+}
+
+export interface LoggedInUserData {
+  profileId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  phone: string;
+  bio: string;
+  location: string;
+  residentialAddress: string;
+  profilePhoto: string;
+  fullName: string;
+  email: string;
+}
+
+

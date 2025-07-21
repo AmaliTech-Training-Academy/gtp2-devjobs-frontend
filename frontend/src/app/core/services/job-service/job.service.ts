@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, retry, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ApplicationStatus } from '../../../model/application.status';
-import { environment } from '../../../../environments/environment';
+
 
 import {
   AllJobsResponse,
@@ -13,9 +12,13 @@ import {
   ProfileData,
   SeekerProfile,
   Skill,
+  ApplicationStatus,
 } from '../../../model/all.jobs';
 
 import { ErrorHandlingService } from '../error-handling/error-handler.service';
+import { environment } from '../../../../environments/environment';
+
+
 
 interface AllProfileData {
   location: string | null;
@@ -30,7 +33,6 @@ interface AllProfileData {
 export class JobService {
   private BASE_URL_JOB = environment.apiUrl;
   private errorHandler = inject(ErrorHandlingService);
-  private BASE_URL_APP = 'assets/application-status.json';
   private selectedJob: Job | null = null;
 
   private http = inject(HttpClient);
@@ -46,7 +48,8 @@ export class JobService {
     sort?: string,
     title?: string,
     query?: string,
-    location?: string
+    location?: string,
+    dateRange?: string // add dateRange param
   ): Observable<AllJobsResponse<Data>> {
     // Build query string in required order
     let queryString = '';
@@ -57,6 +60,7 @@ export class JobService {
     if (salaryMin !== undefined) queryString += `&salaryMin=${salaryMin}`;
     if (salaryMax !== undefined) queryString += `&salaryMax=${salaryMax}`;
     if (sort) queryString += `&sort=${encodeURIComponent(sort)}`;
+    if (dateRange) queryString += `&dateRange=${encodeURIComponent(dateRange)}`;
 
     // Use the query string as the cache key
     const cacheKey = queryString;
@@ -65,7 +69,9 @@ export class JobService {
     }
 
     return this.http
-      .get<AllJobsResponse>(`${this.BASE_URL_JOB}/api/v1/jobs?${queryString}`)
+      .get<AllJobsResponse<Data>>(
+        `${this.BASE_URL_JOB}/api/v1/jobs?${queryString}`
+      )
       .pipe(
         retry(3),
         catchError((error) => this.errorHandler.handleHttpError(error)),
@@ -99,10 +105,6 @@ export class JobService {
 
   getSelectedJob(): Job | null {
     return this.selectedJob;
-  }
-
-  getApplications(): Observable<ApplicationStatus[]> {
-    return this.http.get<ApplicationStatus[]>(this.BASE_URL_APP);
   }
 
   postJobApplication(data: ApplicationForm, id: string) {

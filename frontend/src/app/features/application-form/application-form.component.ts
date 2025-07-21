@@ -14,8 +14,12 @@ import { ActionModalComponent } from '../../components/action-modal/action-modal
 import { Auth } from '../../core/services/authservice/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobService } from '../../core/services/job-service/job.service';
+
+import { ApplicationStatusService } from '../../core/services/application-status/application-status.service';
+
 import { isValidEmail } from '../../shared/utils/validators/common-validators';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
+
 
 @Component({
   selector: 'app-application-form',
@@ -36,6 +40,7 @@ export class ApplicationFormComponent implements OnInit {
   resumeFile: File | null = null;
 
   jobService = inject(JobService);
+  applicationStatusService = inject(ApplicationStatusService);
   fb = inject(FormBuilder);
   form!: FormGroup;
   isHoveringResume = false;
@@ -235,21 +240,35 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   submitForm() {
+
+
+
+
     if (this.form.valid && this.appId) {
       this.invalidmsg = false;
       this.jobService
         .postJobApplication(this.form.value, this.appId)
         .subscribe({
           next: (response) => {
-            console.log('Application submitted successfully:', response);
+
+            
+            // Clear the application status cache to ensure fresh data
+            this.applicationStatusService.clearCache();
+
+
             this.currentStep = 5;
+
           },
           error: (error) => {
             console.error('Error submitting application:', error);
           },
         });
     } else {
+
+      
+
       this.invalidmsg = true;
+
     }
   }
 

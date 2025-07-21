@@ -12,9 +12,10 @@
 
   <p-select
     class="sort-select"
-    [options]="titleOptions"
-    [formControl]="titleControl"
-    placeholder="Title"
+    [options]="sortOptions"
+    [formControl]="sortControl"
+    [group]="true"
+    placeholder="Sort by"
     [showClear]="false"
     styleClass="p-inputtext-sm"
   ></p-select>
