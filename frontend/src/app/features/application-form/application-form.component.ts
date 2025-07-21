@@ -20,7 +20,6 @@ import { ApplicationStatusService } from '../../core/services/application-status
 import { isValidEmail } from '../../shared/utils/validators/common-validators';
 import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 
-
 @Component({
   selector: 'app-application-form',
   imports: [
@@ -241,28 +240,26 @@ export class ApplicationFormComponent implements OnInit {
 
   submitForm() {
     if (this.form.valid && this.appId) {
+      const formValue = this.form.value;
+      const formData = new FormData();
       this.invalidmsg = false;
 
-      // Build FormData
-      const formData = new FormData();
-      formData.append('jobId', this.appId);
-
-      if (this.resumeFile) {
-        formData.append('resume', this.resumeFile);
+      if (formValue.resume) {
+        formData.append('resume', formValue.resume);
       }
-      if (this.coverLetterFile) {
-        formData.append('coverLetter', this.coverLetterFile);
+      if (formValue.coverLetter) {
+        formData.append('coverLetter', formValue.coverLetter);
       }
 
-      // Prepare the rest of the data (experiences, education, contact)
-      const data = {
-        experiences: this.form.value.experiences,
-        education: this.form.value.education,
-        contact: this.form.value.contact,
+      const dataPayload = {
+        experiences: formValue.experiences,
+        education: formValue.education,
+        contact: formValue.contact,
       };
-      formData.append('data', JSON.stringify(data));
 
-      this.jobService.postJobApplication(formData).subscribe({
+      formData.append('data', JSON.stringify(dataPayload));
+
+      this.jobService.postJobApplication(formData, this.appId).subscribe({
         next: (response) => {
           this.applicationStatusService.clearCache();
           this.currentStep = 5;

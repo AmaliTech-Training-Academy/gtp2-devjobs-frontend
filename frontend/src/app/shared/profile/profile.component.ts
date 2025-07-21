@@ -44,22 +44,25 @@ export class ProfileComponent implements OnChanges, OnInit {
   @Output() onSkills = new EventEmitter<void>();
 
   profileForm!: FormGroup;
-  uploadedImage: string | ArrayBuffer | null = null;
+  uploadedImage: string | undefined | null | ArrayBuffer = null;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setprofileForm(this.type);
-    // if (this.type === 'seeker') {
-    //   this.uploadedImage =
-    //     'https://gtp2-devjobs-backend-c6aeaf5b.s3.eu-central-1.amazonaws.com/test-uploads/275c5908-5d9e-4e1f-87b4-360b3f1a77c5.png';
-    // }
+    if (this.type === 'seeker') {
+      this.uploadedImage = this.seekerProfile?.profilePhoto;
+    }
   }
 
   ngOnInit(): void {
     this.setprofileForm(this.type);
     this.generateFieldGroups();
-    // console.log('email object', this.seekerProfile?.email);
+    console.log('email object', this.seekerProfile);
+    this.uploadedImage =
+      this.seekerProfile &&
+      this.seekerProfile.profilePhoto &&
+      this.seekerProfile.profilePhoto;
   }
 
   setprofileForm(type: string) {
@@ -80,7 +83,7 @@ export class ProfileComponent implements OnChanges, OnInit {
           },
         ],
         location: [this.seekerProfile?.location || '', Validators.required],
-        profilePicture: [null],
+        profilePhoto: [null],
       });
     } else {
       this.profileForm = this.fb.group({
@@ -102,7 +105,7 @@ export class ProfileComponent implements OnChanges, OnInit {
         location: [this.employer?.location || '', Validators.required],
         size: [this.employer?.companySize || '', [Validators.required]],
         about: [this.employer?.aboutCompany || '', [Validators.required]],
-        profilePicture: [null], // add file control
+        profilePhoto: [null], // add file control
       });
     }
   }
@@ -110,14 +113,12 @@ export class ProfileComponent implements OnChanges, OnInit {
   onImageUpload(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      console.log('Uploaded file:', file); // log the file for inspection
-
-      this.profileForm.patchValue({ profilePicture: file });
-      this.profileForm.get('profilePicture')?.updateValueAndValidity();
+      this.profileForm.patchValue({ profilePhoto: file });
+      this.profileForm.get('profilePhoto')?.updateValueAndValidity();
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.uploadedImage = reader.result;
+        this.uploadedImage = reader.result as unknown as ArrayBuffer;
       };
       reader.readAsDataURL(file);
     }
@@ -164,37 +165,40 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   onSubmit() {
     if (this.profileForm.invalid) {
-      console.error('Form is invalid');
+      // console.log('Form invalid');
+      // console.log(this.profileForm.value);
       return;
     }
     // Create FormData and prepare the payload
     const formData = new FormData();
-    const profileData: any = {};
-    // Process non-file fields
-    Object.keys(this.profileForm.controls).forEach(key => {
-      if (key !== 'profileImage') {
-        const control = this.profileForm.get(key);
-        if (control && control.valid) {
-          const value = control.value;
-          // Handle disabled controls that might be objects
-          profileData[key] = (value && typeof value === 'object' && 'value' in value)
-            ? value.value
-            : value ?? '';
-        }
+    const data: { [key: string]: any } = {};
+
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      const control = this.profileForm.get(key);
+      if (!control) return;
+
+      const value = control.value;
+
+      if (value instanceof File) {
+        // Append the file separately
+        formData.append(key, value);
+      } else if (value && typeof value === 'object' && 'value' in value) {
+        // Unwrap nested value objects like { value: "some@example.com" }
+        data[key] = value.value;
+      } else {
+        data[key] = value ?? '';
       }
     });
-    // Process file upload - must match backend's expected field name
-    const profileImage = this.profileForm.get('profileImage')?.value;
-    if (profileImage instanceof File) {
-      formData.append('profilePicture', profileImage, profileImage.name);
+
+    // Send non-file fields as JSON string under 'data'
+    formData.append('data', JSON.stringify(data));
+
+    console.log('Submitting FormData:');
+    for (const pair of formData.entries()) {
+      // console.log(pair[0], pair[1]);
     }
-    // Add JSON data - must match backend's expected field name
-    formData.append('data', JSON.stringify(profileData));
-    // Debug: Log FormData contents
-    console.log('FormData contents:');
-    for (const pair of (formData as any).entries()) {
-      console.log(pair[0], pair[1]);
-    }
+
+    // console.log('Logging form data', formData.values);
     this.onSave.emit(formData);
   }
 

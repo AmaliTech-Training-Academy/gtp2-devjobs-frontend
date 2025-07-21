@@ -5,7 +5,7 @@ import { BackButtonComponent } from '../../shared/back-button/back-button.compon
 import { JobService } from '../../core/services/job-service/job.service';
 import { ProfileData } from '../../model/all.jobs';
 import { ToastService } from '../../shared/utils/toast/toast.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-seeker-profile',
@@ -18,6 +18,7 @@ export class SeekerProfileComponent implements OnInit {
   jobService = inject(JobService);
   toast = inject(ToastService);
   profileData!: ProfileData;
+  snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.jobService.getProfileDetails().subscribe({
@@ -33,14 +34,16 @@ export class SeekerProfileComponent implements OnInit {
   }
 
   onSubmit(formData: FormData) {
-    console.log('form data to parent', formData);
+    // console.log('form data to parent', formData);
 
     this.jobService
       .updateProfileDetails(formData, this.profileData.profileId)
       .subscribe({
         next: (response) => {
-          this.toast.success('Profile updated successfully!');
-          console.log(response);
+          this.snackBar.open('Profile has been updated!', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+          });
         },
         error: (err) => {
           this.toast.error('Failed to update profile. Please try again.');

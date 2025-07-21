@@ -47,7 +47,7 @@ export interface ProfileData {
   bio: string | null;
   location: string | null;
   residentialAddress: string | null;
-  profilePicture: string | null;
+  profilePhoto: string | null;
   fullName: string;
   email: string;
 }
