@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchComponent } from '../../../components/search/search.component';
 
-import { RouterLink, RouterLinkActive, RouterOutlet, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+  ActivatedRoute,
+  Router,
+  NavigationEnd,
+} from '@angular/router';
 import { filter, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, combineLatest, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -13,7 +20,13 @@ import { Params } from '@angular/router';
   selector: 'app-seeker-dashboard',
   standalone: true,
 
-  imports: [SearchComponent, SeekerNavComponent, RouterLink, RouterOutlet, AsyncPipe],
+  imports: [
+    SearchComponent,
+    SeekerNavComponent,
+    RouterLink,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 
   templateUrl: './seeker-dashboard.component.html',
   styleUrl: './seeker-dashboard.component.scss',
@@ -22,7 +35,10 @@ export class SeekerDashboardComponent implements OnInit {
   showSearch$: Observable<boolean>;
 
   isApplicationStatus$: Observable<boolean>;
-  searchParams: { title: string; location: string } = { title: '', location: '' };
+  searchParams: { title: string; location: string } = {
+    title: '',
+    location: '',
+  };
 
   page = 1;
   size = 10;
@@ -33,9 +49,8 @@ export class SeekerDashboardComponent implements OnInit {
   search: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
-
     this.showSearch$ = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
+      filter((event) => event instanceof NavigationEnd),
       startWith(null),
       map(() => {
         let child = this.route.firstChild;
@@ -44,12 +59,14 @@ export class SeekerDashboardComponent implements OnInit {
         }
         return child;
       }),
-      switchMap(childRoute => childRoute?.data ?? of({} as Record<string, any>)),
+      switchMap(
+        (childRoute) => childRoute?.data ?? of({} as Record<string, any>)
+      ),
       map((data: Record<string, any>) => data['showSearch'] !== false)
     );
 
     this.isApplicationStatus$ = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
+      filter((event) => event instanceof NavigationEnd),
       startWith(null),
       map(() => {
         let child = this.route.firstChild;
@@ -59,7 +76,6 @@ export class SeekerDashboardComponent implements OnInit {
         return child?.routeConfig?.path === 'application-status';
       })
     );
-
   }
 
   ngOnInit(): void {

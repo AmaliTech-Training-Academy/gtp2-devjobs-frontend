@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-/* Employer CRUD */
-/* Get employer jobs */
 export interface GetEmployerJobsResponse {
   success: boolean;
   message: string;
@@ -15,7 +6,6 @@ export interface GetEmployerJobsResponse {
   error: boolean;
   errors: string[];
 }
-
 
 export interface EmployerJobsData {
   totalPages: number;
@@ -31,12 +21,6 @@ export interface EmployerJobsData {
   empty: boolean;
 }
 
-
-
-
-
-
-
 /* Employer CRUD */
 /* Get employer jobs */
 export interface GetEmployerJobsResponse {
@@ -47,7 +31,6 @@ export interface GetEmployerJobsResponse {
   error: boolean;
   errors: string[];
 }
-
 
 export interface EmployerJobsData {
   totalPages: number;
@@ -62,8 +45,6 @@ export interface EmployerJobsData {
   content: EmployerJob[];
   empty: boolean;
 }
-
-
 
 export interface EmployerJob {
   id: string;
@@ -73,7 +54,7 @@ export interface EmployerJob {
   company: Company;
   title: string;
   description: string;
-  descriptions: JobDescription[],
+  descriptions: JobDescription[];
   location: string;
   employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERN' | string;
   salary: number;
@@ -84,7 +65,6 @@ export interface EmployerJob {
   applicationCount: number;
 }
 
-
 export interface Employer {
   id: string;
   username: string;
@@ -93,14 +73,12 @@ export interface Employer {
   roles: string[]; // e.g. ["ROLE_ADMIN"]
 }
 
-
 export interface Company {
   id: string;
   companyName: string;
   location: string;
   website: string;
 }
-
 
 export interface RequiredSkill {
   skillId: string;
@@ -111,13 +89,11 @@ export interface RequiredSkill {
   addedAt: string;
 }
 
-
 export interface SortInfo {
   empty: boolean;
   sorted: boolean;
   unsorted: boolean;
 }
-
 
 export interface Pageable {
   offset: number;
@@ -128,13 +104,10 @@ export interface Pageable {
   unpaged: boolean;
 }
 
-
 export interface JobDescription {
-  title: string,
-  description: string
+  title: string;
+  description: string;
 }
-
-
 
 /* Post Job Response */
 export interface CreateJobPayload {
@@ -147,7 +120,6 @@ export interface CreateJobPayload {
   currency: 'USD' | 'EUR' | 'GHS' | string;
 }
 
-
 export interface CreatedJobResponse {
   success: boolean;
   message: string;
@@ -156,9 +128,6 @@ export interface CreatedJobResponse {
   error: boolean;
   errors: any;
 }
-
-
-
 
 /* Update Job Response */
 export interface UpdateJobPayload {
@@ -172,7 +141,6 @@ export interface UpdateJobPayload {
   applicationDeadline: string; // ISO string
 }
 
-
 export interface UpdatedJobResponse {
   success: boolean;
   message: string;
@@ -181,9 +149,6 @@ export interface UpdatedJobResponse {
   error: boolean;
   errors: string[];
 }
-
-
-
 
 /* Delete job response */
 export interface DeleteJobResponse {
@@ -195,8 +160,6 @@ export interface DeleteJobResponse {
   errors: string[];
 }
 
-
-
 /* Get a unique job response */
 export interface GetEmployerJobResponse {
   success: boolean;
@@ -206,4 +169,3 @@ export interface GetEmployerJobResponse {
   error: boolean;
   errors: string[];
 }
-
