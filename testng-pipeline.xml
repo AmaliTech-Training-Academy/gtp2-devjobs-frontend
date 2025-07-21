@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="DevJobs Pipeline Tests" parallel="methods" thread-count="2">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="Pipeline Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.devjobs.tests.LandingPageTest"/>
+            <class name="com.devjobs.tests.LoginTest"/>
+            <class name="com.devjobs.tests.SignUpTest"/>
+        </classes>
+    </test>
+
+</suite>

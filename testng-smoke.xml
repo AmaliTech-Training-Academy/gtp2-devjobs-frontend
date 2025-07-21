@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="DevJobs Smoke Tests" parallel="false">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="Smoke Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.devjobs.tests.LandingPageTest">
+                <methods>
+                    <include name="verifyLandingPageLayout"/>
+                </methods>
+            </class>
+            <class name="com.devjobs.tests.LoginTest">
+                <methods>
+                    <include name="verifyLoginPageElements"/>
+                </methods>
+            </class>
+            <class name="com.devjobs.tests.SignUpTest">
+                <methods>
+                    <include name="verifyUserTypeSelection"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
