@@ -8,10 +8,18 @@
 
   <div class="tabs-and-search">
     <div class="tabs">
-      <a [routerLink]="['/seeker/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+      <a
+        [routerLink]="['/seeker/dashboard']"
+        [class.active]="!(isApplicationStatus$ | async)"
+      >
         Job Search
       </a>
-      <a [routerLink]="['/seeker/dashboard/application-status']" routerLinkActive="active">
+      <a
+        [routerLink]="['/seeker/dashboard/application-status']"
+        [class.active]="isApplicationStatus$ | async"
+      >
+
         Application Status
       </a>
     </div>

@@ -122,9 +122,12 @@ export class AccountManagementComponent implements OnInit, OnChanges {
         this.success = false;
       }, 3000);
       this.onSave.emit(this.passwordForm.getRawValue());
-      console.log('values emitted');
+
+
+
     } else {
       this.success = false;
+
     }
   }
 
