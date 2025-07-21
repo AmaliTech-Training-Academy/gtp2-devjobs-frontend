@@ -12,6 +12,41 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Application Status Feature
+
+The Application Status page allows users to view, search, and filter their job applications by status. 
+
+### Features
+- **Status Filtering:** Use the dropdown to filter applications by status (Applied, Rejected, Reviewed, Interviewed, or All). Filtering is case-insensitive and matches the backend status values.
+- **Search:** Use the search box to filter applications by company name, job title, status, or submission date. The search is case-insensitive and works in combination with the status filter.
+- **Pagination:** Results are paginated. Use the pagination controls at the bottom to navigate between pages.
+- **Refresh:** Click the refresh button to reload applications from the backend and clear the cache.
+
+### Implementation
+- The main logic is in `src/app/features/jobs/application-status/application-status.component.ts` and its template `application-status.component.html`.
+- Data is fetched from the backend using `ApplicationStatusService` (`src/app/core/services/application-status/application-status.service.ts`).
+- Filtering and searching are performed client-side for the loaded page of results.
+- Status values are compared in a case-insensitive manner to ensure robust filtering.
+
+## Project Structure
+
+- `src/app/features/jobs/application-status/` - Application status feature (component, template, styles)
+- `src/app/core/services/application-status/` - Service for fetching application status data
+- `src/app/model/` - TypeScript interfaces and models
+- `src/app/shared/` - Shared UI components (pagination, tables, etc.)
+
+## Dependencies & Scripts
+
+Key dependencies:
+- Angular 19.x
+- PrimeNG (UI components)
+- RxJS
+
+Scripts (from `package.json`):
+- `ng serve` - Start development server
+- `ng build` - Build the project
+- `ng test` - Run unit tests
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

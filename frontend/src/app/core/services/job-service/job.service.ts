@@ -110,16 +110,16 @@ export class JobService {
     return this.selectedJob;
   }
 
-  postJobApplication(data: FormData, id: string) {
-    return this.http
-      .post(`${this.BASE_URL_JOB}/api/v1/applications/${id}`, data)
-      .pipe(
-        retry(3),
-        catchError((err: HttpErrorResponse) => {
-          this.errorHandler2.handle(err);
-          return throwError(() => err);
-        })
-      );
+  postJobApplication(formData: FormData) {
+
+
+    return this.http.post(
+      `${this.BASE_URL_JOB}/api/v1/applications`,
+      formData
+    ).pipe(
+      retry(3),
+      catchError((error) => this.errorHandler.handleHttpError(error))
+    );
   }
 
   getProfileDetails(): Observable<AllJobsResponse<ProfileData>> {
