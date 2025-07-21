@@ -15,7 +15,10 @@ import { AuthPublicNavbarComponent } from '../../../../../shared/components/auth
 import { BackButtonComponent } from '../../../../../shared/back-button/back-button.component';
 import { Auth } from '../../../../../core/services/authservice/auth.service';
 import { ToastService } from '../../../../../shared/utils/toast/toast.service';
-import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {
+  MatProgressSpinner,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,8 +33,8 @@ import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/
     MatIcon,
     AuthPublicNavbarComponent,
     BackButtonComponent,
-    MatProgressSpinnerModule
-],
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
