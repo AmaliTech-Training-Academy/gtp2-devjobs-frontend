@@ -16,10 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Fetch QA branch
+      - name: List available branches
         run: |
-          echo "Fetching QA branch..."
-          git fetch origin qa/automation-framework-setup:qa/automation-framework-setup || echo "QA branch not found, continuing with current branch"
+          echo "Listing available remote branches..."
+          git fetch --all
+          git branch -r
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
