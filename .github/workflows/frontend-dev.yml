@@ -32,9 +32,9 @@ jobs:
       - name: Switch to qa branch
         run: |
           echo "Fetching QA branch..."
-          git fetch origin qa/api-test-framework-setup
+          git fetch origin qa/automation-framework-setup
           echo "Switching to QA branch..."
-          git checkout qa/api-test-framework-setup
+          git checkout qa/automation-framework-setup
           echo "Currently on branch: $(git rev-parse --abbrev-ref HEAD)"
           echo "QA branch commit: $(git rev-parse HEAD)"
 

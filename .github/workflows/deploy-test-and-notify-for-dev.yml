@@ -16,11 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: List available branches
-        run: |
-          echo "Listing available remote branches..."
-          git fetch --all
-          git branch -r
+
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
