@@ -16,6 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Fetch QA branch
+        run: |
+          echo "Fetching QA branch..."
+          git fetch origin qa/automation-framework-setup:qa/automation-framework-setup || echo "QA branch not found, continuing with current branch"
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
