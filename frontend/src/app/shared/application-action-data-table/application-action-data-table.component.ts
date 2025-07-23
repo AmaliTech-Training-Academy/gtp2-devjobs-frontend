@@ -30,17 +30,7 @@ export class ApplicationActionDataTableComponent {
   statusOptions = ['Applied', 'Reviewed', 'Interviewed', 'Rejected'];
 
   handleStatusChange(rowData: any, newStatus: string) {
-    // const rowId = rowData.;
-
-    console.log('Selected status:', newStatus);
-    console.log("row data = ", rowData)
-    // console.log('For row ID:', rowId);
-
-    // You can update the status
     rowData['Status'] = newStatus;
-
-    // Optional: Call an API
-    // this.myService.updateStatus(rowId, newStatus).subscribe(...);
   }
 
   getStatusDotClass(status: string): string {
@@ -90,8 +80,6 @@ export class ApplicationActionDataTableComponent {
 
   ngOnInit(): void {
     this.filterArray = this.jobsArray
-    console.log("filter array = ", this.filterArray )
-
     this.handleSearch()
   }
 
@@ -101,7 +89,6 @@ export class ApplicationActionDataTableComponent {
     .pipe( debounceTime( 300 ))
     .subscribe({
       next: ( searchTerm ) => {
-        console.log(searchTerm)
         if(!searchTerm) {
           this.filterArray = this.jobsArray
         }
@@ -117,20 +104,17 @@ export class ApplicationActionDataTableComponent {
 
 
   handleViewClicked(jobData: any) {
-    // console.log(jobData)
     this.openJobDetailsFormModal()
 
   }
 
 
   handleEditClicked(jobData: any) {
-    // console.log(jobData) Midred is my best friend Yaaaaayyyy!! 
     this.openJobCreationModal()
   }
 
 
   handleDeleteClicked(jobData: any) {
-    console.log(jobData)
     this.openDeleteModal.emit( true )
   }
 

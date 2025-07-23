@@ -7,7 +7,7 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 import { EmployerApplicationsResponse } from '../../model/applicationObject';
 import { Application } from '../../model/applicationObject';
-
+import { ErrorService } from '../../core/services/error.service';
 
 
 @Component({
@@ -31,6 +31,8 @@ export class EmployerDashboardComponent implements OnInit {
 
   applicationsArray: any = [];
 
+  errorHandler = inject(ErrorService)
+
   
   ngOnInit(): void {
     this.fetchAllEmployerJobs()
@@ -44,11 +46,10 @@ export class EmployerDashboardComponent implements OnInit {
       next: ( applications: EmployerApplicationsResponse ) => {
         const applicationList = applications.data.content 
         this.calculateRespectiveApplicationsStatusesCount( applicationList )
-        console.log("fetched applications = ", applicationList)
         this.applicationsArray = this.transformApplicationsForDataTable( applicationList )
       },
       error: (err) => {
-        console.log("error while fetching applications ", err)
+        this.errorHandler.handle( err )
       }
     })
   }

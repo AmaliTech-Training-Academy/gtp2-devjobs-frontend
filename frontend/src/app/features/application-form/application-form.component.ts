@@ -298,7 +298,6 @@ export class ApplicationFormComponent implements OnInit {
           this.currentStep = 5;
         },
         error: (error) => {
-          console.error('Error submitting application:', error);
         },
       });
     } else {

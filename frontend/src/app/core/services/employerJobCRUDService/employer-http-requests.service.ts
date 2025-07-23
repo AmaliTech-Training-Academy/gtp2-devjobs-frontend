@@ -97,7 +97,6 @@ export class EmployerHttpRequestsService {
     return this.httpClient.get<EmployerApplicationsResponse>(`${ environment.apiUrl }/api/v1/applications/employer`)
     .pipe(
       catchError(( error: any ) => {
-        console.log('Error fetching job ', error ) 
         this.errorHandler2.handle(error);
         return throwError(() => new Error('Failed to fetch job. Please try again later'))
       })

@@ -56,11 +56,9 @@ export class CreateJobModalComponent implements OnInit {
       this.job = receivedJob
       if(!this.job) {
         this.formRole = 'Create new job'
-        console.log("job received = ", this.job)
       }
       else {
         this.formRole = 'Update job'
-        console.log("job received = ", this.job)
         this.populateFormWithJobData(this.job )
       }
     })
@@ -166,14 +164,9 @@ export class CreateJobModalComponent implements OnInit {
         next: ( newJob ) => {
               this.jobCreated.emit()
               this.closeJobCreationModal()
-              console.log('job created', newJob)  
               this.toastService.success('Job Created!!');      
           }
       })
-
-      // this.employerHttp.updateJob('11bad137-2d13-433e-83d5-0627fda7493a', combinedJobData).subscribe({
-      //   next: ( newJob ) => console.log('job updated', newJob)
-      // })
 
     }
 

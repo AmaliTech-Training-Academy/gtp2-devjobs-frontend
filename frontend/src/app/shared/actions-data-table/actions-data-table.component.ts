@@ -52,7 +52,6 @@ export class ActionsDataTableComponent {
     .pipe( debounceTime( 300 ))
     .subscribe({
       next: ( searchTerm ) => {
-        console.log(searchTerm)
         if(!searchTerm) {
           this.filterArray = this.jobsArray
         }
@@ -81,7 +80,6 @@ export class ActionsDataTableComponent {
 
 
   handleDeleteClicked(jobData: any) {
-    console.log(jobData)
     this.openDeleteModal.emit( true )
   }
 
