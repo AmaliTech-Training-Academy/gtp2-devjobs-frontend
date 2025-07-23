@@ -6,7 +6,7 @@ import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-det
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
 import { EmployerApplicationsResponse } from '../../model/applicationObject';
-import { ApplicationsPagination } from '../../model/applicationObject';
+import { Application } from '../../model/applicationObject';
 
 
 
@@ -24,33 +24,12 @@ export class EmployerDashboardComponent implements OnInit {
   columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
   totalJobsCount: number = 0
+  appliedApplicationsCount = 0
+  reviewedApplicationsCount = 0
+  rejectedApplicationsCount = 0
+  interviewedApplicationsCount = 0
 
-  applicationsArray: any = [
-  // {
-  //   "Job Title": "Frontend Developer",
-  //   "Applicants": 24,
-  //   "Job Type": "FULL_TIME",
-  //   "Action": "View",
-  // },
-  // {
-  //   "Job Title": "Product Manager",
-  //   "Applicants": 38,
-  //   "Job Type": "FULL_TIME",
-  //   "Action": "View",
-  // },
-  // {
-  //   "Job Title": "Product Manager",
-  //   "Applicants": 38,
-  //   "Job Type": "FULL_TIME",
-  //   "Action": "View"
-  // },
-  // {
-  //   "Job Title": "Remote UX Designer",
-  //   "Applicants": 9,
-  //   "Job Type": "REMOTE",
-  //   "Action": "View"
-  // }
-  ];
+  applicationsArray: any = [];
 
   
   ngOnInit(): void {
@@ -64,6 +43,7 @@ export class EmployerDashboardComponent implements OnInit {
     this.employerHttp.getApplications().subscribe({
       next: ( applications: EmployerApplicationsResponse ) => {
         const applicationList = applications.data.content 
+        this.calculateRespectiveApplicationsStatusesCount( applicationList )
         console.log("fetched applications = ", applicationList)
         this.applicationsArray = this.transformApplicationsForDataTable( applicationList )
       },
@@ -89,7 +69,7 @@ export class EmployerDashboardComponent implements OnInit {
       id: application.id,
       "Job Title": application.jobPosting.title,
       "Applicants": fetchedJobs.length,
-      "Job Type": application.jobPosting.employmentType,
+      "Job Type": this.formatEmploymentType(application.jobPosting.employmentType),
       "Action": "View",
     }))
   }
@@ -102,6 +82,23 @@ export class EmployerDashboardComponent implements OnInit {
 
   formatDate(dateStr: string): string {
     return new Date(dateStr).toISOString().split('T')[0]; 
+  }
+
+  calculateRespectiveApplicationsStatusesCount(applications: Application[]) {
+    applications.forEach( application => {
+      if( application.currentStatus === "APPLIED") {
+        this.appliedApplicationsCount +=1
+      }
+      else if( application.currentStatus === "INTERVIEWED") {
+        this.interviewedApplicationsCount += 1
+      }
+      else if ( application.currentStatus === "REVIEWED") {
+        this.reviewedApplicationsCount +=1
+      }
+      else {
+        this.rejectedApplicationsCount +=1
+      }
+    })
   }
   
 

@@ -9,10 +9,8 @@ import { ErrorService } from '../error.service';
 import {
   CreatedJobResponse,
   GetEmployerJobsResponse,
-  UpdatedJobResponse,
   DeleteJobResponse,
   CreateJobPayload,
-  UpdateJobPayload,
 } from '../../../model/job';
 import {
   AllJobsResponse,
@@ -51,7 +49,7 @@ export class EmployerHttpRequestsService {
       })
     )
   }
-  
+
 
   updateJob(
     jobID: string,
