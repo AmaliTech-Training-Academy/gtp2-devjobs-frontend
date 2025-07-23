@@ -32,9 +32,9 @@ jobs:
       - name: Switch to qa branch
         run: |
           echo "Fetching QA branch..."
-          git fetch origin qa/api-test-framework-setup
+          git fetch origin qa/automation-framework-setup
           echo "Switching to QA branch..."
-          git checkout qa/api-test-framework-setup
+          git checkout qa/automation-framework-setup
           echo "Currently on branch: $(git rev-parse --abbrev-ref HEAD)"
           echo "QA branch commit: $(git rev-parse HEAD)"
 
@@ -77,16 +77,38 @@ jobs:
           
           echo "QA test execution completed"
 
+      - name: Check if Allure Results exist
+        id: check_allure_results
+        run: |
+          if [ -d "target/allure-results" ] && [ "$(ls -A target/allure-results 2>/dev/null)" ]; then
+            echo "ALLURE_RESULTS_EXIST=true" >> $GITHUB_ENV
+            echo "Allure results directory exists and is not empty"
+          else
+            echo "ALLURE_RESULTS_EXIST=false" >> $GITHUB_ENV
+            echo "Allure results directory does not exist or is empty"
+          fi
+
       - name: Upload Allure Results
-        if: always()
+        if: env.ALLURE_RESULTS_EXIST == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-${{ github.run_number }}
           path: target/allure-results/
           retention-days: 30
 
+      - name: Check if Allure Report exists
+        id: check_allure_report
+        run: |
+          if [ -d "target/site/allure-maven-plugin" ] && [ "$(ls -A target/site/allure-maven-plugin 2>/dev/null)" ]; then
+            echo "ALLURE_REPORT_EXISTS=true" >> $GITHUB_ENV
+            echo "Allure report directory exists and is not empty"
+          else
+            echo "ALLURE_REPORT_EXISTS=false" >> $GITHUB_ENV
+            echo "Allure report directory does not exist or is empty"
+          fi
+
       - name: Upload Allure Report
-        if: env.ALLURE_REPORT_GENERATED == 'true'
+        if: env.ALLURE_REPORT_GENERATED == 'true' && env.ALLURE_REPORT_EXISTS == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-${{ github.run_number }}

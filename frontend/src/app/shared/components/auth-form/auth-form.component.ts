@@ -41,14 +41,14 @@ import { AuthValidators } from '../../utils/validators/auth-validators.util';
 export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isRegister = false;
   @Input() userType: 'seeker' | 'employer' = 'seeker';
-  @Input() backendErrors: { [key: string]: string } | string[] | null = null;
+  @Input() backendErrors: any = null; // Will receive AuthResponse when there's an error
   @Output() formSubmit = new EventEmitter<any>();
 
   form!: FormGroup;
   hide = true;
 
-  // Store general errors that don't map to specific fields
-  generalErrors: string[] = [];
+  // Store general error message from backend
+  generalErrorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -68,7 +68,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Handle backend errors
     if (changes['backendErrors'] && this.backendErrors) {
-      this.setBackendErrors();
+      this.handleBackendErrors();
     }
   }
 
@@ -133,35 +133,58 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  private setBackendErrors(): void {
+  private handleBackendErrors(): void {
     if (!this.backendErrors) return;
 
-    this.generalErrors = [];
+    // Clear previous errors
+    this.generalErrorMessage = '';
 
-    // If backendErrors is an array
-    if (Array.isArray(this.backendErrors)) {
-      this.generalErrors = [...this.backendErrors];
-      return;
-    }
+    // Clear all existing backend errors from form controls
+    Object.keys(this.form.controls).forEach((key) => {
+      const control = this.form.get(key);
+      if (control && control.errors && control.errors['backend']) {
+        const errors = { ...control.errors };
+        delete errors['backend'];
+        control.setErrors(Object.keys(errors).length > 0 ? errors : null);
+      }
+    });
 
-    // If backendErrors is an object with key-value pairs
-    if (
-      typeof this.backendErrors === 'object' &&
-      !Array.isArray(this.backendErrors)
-    ) {
-      const errorObj = this.backendErrors as { [key: string]: string };
+    // Handle the AuthResponse error structure
+    if (this.backendErrors.error && !this.backendErrors.success) {
+      // Use the main message from the backend
+      this.generalErrorMessage =
+        this.backendErrors.message || 'An error occurred. Please try again.';
 
-      Object.keys(errorObj).forEach((fieldName) => {
-        const control = this.form.get(fieldName);
-        const errorMsg = errorObj[fieldName];
-
-        if (control) {
-          control.setErrors({ backend: errorMsg });
-          control.markAsTouched();
-        } else {
-          this.generalErrors.push(errorMsg);
-        }
-      });
+      // If there are specific field errors in the errors array, handle them
+      if (
+        this.backendErrors.errors &&
+        Array.isArray(this.backendErrors.errors)
+      ) {
+        this.backendErrors.errors.forEach((error: string) => {
+          // Try to map error messages to specific fields if they contain field names
+          if (error.toLowerCase().includes('email')) {
+            const emailControl =
+              this.form.get('email') || this.form.get('companyEmail');
+            if (emailControl) {
+              emailControl.setErrors({ backend: error });
+              emailControl.markAsTouched();
+            }
+          } else if (error.toLowerCase().includes('username')) {
+            const usernameControl = this.form.get('username');
+            if (usernameControl) {
+              usernameControl.setErrors({ backend: error });
+              usernameControl.markAsTouched();
+            }
+          } else if (error.toLowerCase().includes('password')) {
+            const passwordControl = this.form.get('password');
+            if (passwordControl) {
+              passwordControl.setErrors({ backend: error });
+              passwordControl.markAsTouched();
+            }
+          }
+          // If error doesn't match any field, it stays as a general error
+        });
+      }
     }
   }
 
@@ -172,7 +195,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
       return '';
     }
 
-    // Check for backend errors first
+    // Check for backend errors first - these take priority
     if (control.errors['backend']) {
       return control.errors['backend'];
     }
@@ -223,9 +246,11 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
     return messages[fieldName] || `${fieldName} is required`;
   }
 
-  // Clear backend errors when user starts typing and auto-capitalize names
+  // Clear backend errors when user starts typing
   onFieldChange(fieldName: string, event: any): void {
     const control = this.form.get(fieldName);
+
+    // Clear backend errors for this field
     if (control && control.errors && control.errors['backend']) {
       const errors = { ...control.errors };
       delete errors['backend'];
@@ -241,8 +266,10 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
 
-    // Clear general errors when user starts typing
-    this.generalErrors = [];
+    // Clear general error message when user starts typing
+    if (this.generalErrorMessage) {
+      this.generalErrorMessage = '';
+    }
   }
 
   onSubmit(): void {

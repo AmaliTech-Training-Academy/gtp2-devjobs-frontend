@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           // Get user from stored data (extracted from token)
           const user = this.authService.getCurrentUser();
-          
 
           if (user?.roles?.includes('ROLE_EMPLOYER')) {
             this.router.navigate(['/employer/dashboard']);
@@ -85,7 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.loadingService.hide();
-        this.handleErrors(err.error);
+        this.backendErrors = err.error;
         console.error('Login error:', err);
       },
     });

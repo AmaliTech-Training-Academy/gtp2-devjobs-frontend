@@ -114,7 +114,7 @@ export class JobService {
 
 
     return this.http.post(
-      `${this.BASE_URL_JOB}/api/v1/applications`,
+      `${this.BASE_URL_JOB}/api/v1/applications/applications`,
       formData
     ).pipe(
       retry(3),

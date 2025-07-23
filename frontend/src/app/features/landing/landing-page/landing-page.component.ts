@@ -13,6 +13,7 @@ import { LandingJobCategoriesComponent } from '../components/landing-job-categor
   imports: [
     AuthPublicNavbarComponent,
     FooterComponent,
+    RouterOutlet,
     LandingSearchComponent,
     LandingWhatWeDoComponent,
     LandingCardCarouselComponent,
