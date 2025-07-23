@@ -54,7 +54,6 @@ export class EmployerDashboardComponent implements OnInit {
 
   
   ngOnInit(): void {
-    // this.fetchAllEmployerApplications()
     this.fetchAllEmployerJobs()
     this.fetchAllEmployerApplications()
 
@@ -65,8 +64,8 @@ export class EmployerDashboardComponent implements OnInit {
     this.employerHttp.getApplications().subscribe({
       next: ( applications: EmployerApplicationsResponse ) => {
         const applicationList = applications.data.content 
+        console.log("fetched applications = ", applicationList)
         this.applicationsArray = this.transformApplicationsForDataTable( applicationList )
-        console.log("applications array = ", this.applicationsArray)
       },
       error: (err) => {
         console.log("error while fetching applications ", err)
@@ -80,9 +79,6 @@ export class EmployerDashboardComponent implements OnInit {
       next: ( fetchedJobs ) => {
         const jobList = fetchedJobs.data.content
         this.totalJobsCount = jobList.length;
-        console.log("total jobs = ", jobList)
-        // this.jobsArray = this.transformJobsForDataTable(jobList)
-        // console.log("from jobs route, jobs fetched, ", this.jobsArray )
       }
     })
   }
@@ -91,10 +87,10 @@ export class EmployerDashboardComponent implements OnInit {
   transformApplicationsForDataTable( fetchedJobs: any[] ) {
     return fetchedJobs.map( application => ({
       id: application.id,
-      "Job Title": application.title,
-      "Applicants": application.applicants,
-      "Job Type": application.employmentType,
-      "Action": application.action,
+      "Job Title": application.jobPosting.title,
+      "Applicants": fetchedJobs.length,
+      "Job Type": application.jobPosting.employmentType,
+      "Action": "View",
     }))
   }
 

@@ -3,13 +3,16 @@ import { catchError, Observable, throwError, retry } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { EmployerApplicationsResponse } from '../../../model/applicationObject';
+import { ErrorService } from '../error.service';
 
 
 import {
   CreatedJobResponse,
   GetEmployerJobsResponse,
+  UpdatedJobResponse,
   DeleteJobResponse,
   CreateJobPayload,
+  UpdateJobPayload,
 } from '../../../model/job';
 import {
   AllJobsResponse,
@@ -22,7 +25,8 @@ import {
 })
 export class EmployerHttpRequestsService {
   
-  httpClient = inject( HttpClient )
+  httpClient = inject( HttpClient );
+  errorHandler2 = inject(ErrorService);
 
   constructor() { }
 
@@ -31,21 +35,23 @@ export class EmployerHttpRequestsService {
     return this.httpClient.post<CreatedJobResponse>(`${ environment.apiUrl }/api/v1/jobs`, jobData )
     .pipe(
       catchError((error: any) => {
-        // console.error('Job creation failed:', error);
+        this.errorHandler2.handle(error);
         return throwError(() => new Error('Failed to create job. Please try again later.'))
       })
     )
   }
 
+
   getAllJobs(): Observable<GetEmployerJobsResponse> {
     return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/employer/jobs`)
     .pipe(
       catchError(( error: any ) => {
-        // console.log('Error fetching all jobs ', error ) 
+        this.errorHandler2.handle(error);
         return throwError(() => new Error('Failed to fetch all jobs. Please try again later'))
       })
     )
   }
+  
 
   updateJob(
     jobID: string,
@@ -58,7 +64,7 @@ export class EmployerHttpRequestsService {
       )
       .pipe(
         catchError((error: any) => {
-          console.log('Error updating job ', error);
+          this.errorHandler2.handle(error);
           return throwError(
             () => new Error('Failed to update job. Please try again later')
           );
@@ -71,7 +77,7 @@ export class EmployerHttpRequestsService {
       .delete<DeleteJobResponse>(`${environment.apiUrl}/api/v1/jobs/${jobID}`)
       .pipe(
         catchError((error: any) => {
-          console.log('Error updating job ', error);
+        this.errorHandler2.handle(error);
           return throwError(
             () => new Error('Failed to update job. Please try again later')
           );
@@ -83,7 +89,7 @@ export class EmployerHttpRequestsService {
     return this.httpClient.get<GetEmployerJobsResponse>(`${ environment.apiUrl }/api/v1/jobs/${jobID}`)
     .pipe(
       catchError(( error: any ) => {
-        // console.log('Error fetching job ', error ) 
+        this.errorHandler2.handle(error);
         return throwError(() => new Error('Failed to fetch job. Please try again later'))
       })
     )
@@ -94,6 +100,7 @@ export class EmployerHttpRequestsService {
     .pipe(
       catchError(( error: any ) => {
         console.log('Error fetching job ', error ) 
+        this.errorHandler2.handle(error);
         return throwError(() => new Error('Failed to fetch job. Please try again later'))
       })
     )
