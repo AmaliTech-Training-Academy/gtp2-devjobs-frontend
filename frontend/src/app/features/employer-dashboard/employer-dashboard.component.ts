@@ -5,6 +5,9 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
 import { JobDetailsModalComponent } from '../../shared/job-details-modal/job-details-modal.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
+import { EmployerApplicationsResponse } from '../../model/applicationObject';
+import { Application } from '../../model/applicationObject';
+import { ErrorService } from '../../core/services/error.service';
 
 
 @Component({
@@ -20,60 +23,89 @@ export class EmployerDashboardComponent implements OnInit {
 
   columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
 
+  totalJobsCount: number = 0
+  appliedApplicationsCount = 0
+  reviewedApplicationsCount = 0
+  rejectedApplicationsCount = 0
+  interviewedApplicationsCount = 0
 
+  applicationsArray: any = [];
 
-  jobsArray: any = [
-  {
-    "Job Title": "Frontend Developer",
-    "Applicants": 24,
-    "Job Type": "FULL_TIME",
-    "Action": "View",
-  },
-  {
-    "Job Title": "Product Manager",
-    "Applicants": 38,
-    "Job Type": "FULL_TIME",
-    "Action": "View",
-  },
-  {
-    "Job Title": "Product Manager",
-    "Applicants": 38,
-    "Job Type": "FULL_TIME",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Remote UX Designer",
-    "Applicants": 9,
-    "Job Type": "REMOTE",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Contract QA Tester",
-    "Applicants": 12,
-    "Job Type": "CONTRACT",
-    "Action": "View",
-  },
-  {
-    "Job Title": "Marketing Assistant",
-    "Applicants": 6,
-    "Job Type": "PART_TIME",
-    "Action": "View"
-  }
-  ];
+  errorHandler = inject(ErrorService)
 
   
   ngOnInit(): void {
-    this.employerHttp.getAllJobs().subscribe({
-      next: ( jobs: any ) => {
-        console.log("jobs fetched, ", jobs.data.content )
-        this.jobsArray = jobs.data.content
-        console.log("jobs array = ", this.jobsArray)
+    this.fetchAllEmployerJobs()
+    this.fetchAllEmployerApplications()
+
+  }
+
+
+  fetchAllEmployerApplications() {
+    this.employerHttp.getApplications().subscribe({
+      next: ( applications: EmployerApplicationsResponse ) => {
+        const applicationList = applications.data.content 
+        this.calculateRespectiveApplicationsStatusesCount( applicationList )
+        this.applicationsArray = this.transformApplicationsForDataTable( applicationList )
       },
       error: (err) => {
-        console.log("error while fetching jobs ", err)
+        this.errorHandler.handle( err )
+      }
+    })
+  }
+
+
+  fetchAllEmployerJobs() {
+    this.employerHttp.getAllJobs().subscribe({
+      next: ( fetchedJobs ) => {
+        const jobList = fetchedJobs.data.content
+        this.totalJobsCount = jobList.length;
+      }
+    })
+  }
+
+
+  transformApplicationsForDataTable( fetchedJobs: any[] ) {
+    return fetchedJobs.map( application => ({
+      id: application.id,
+      "Job Title": application.jobPosting.title,
+      "Applicants": fetchedJobs.length,
+      "Job Type": this.formatEmploymentType(application.jobPosting.employmentType),
+      "Action": "View",
+    }))
+  }
+
+
+  formatEmploymentType(type: string): string {
+    return type.replace('_', ' ').toUpperCase(); 
+  }
+
+
+  formatDate(dateStr: string): string {
+    return new Date(dateStr).toISOString().split('T')[0]; 
+  }
+
+  calculateRespectiveApplicationsStatusesCount(applications: Application[]) {
+    applications.forEach( application => {
+      if( application.currentStatus === "APPLIED") {
+        this.appliedApplicationsCount +=1
+      }
+      else if( application.currentStatus === "INTERVIEWED") {
+        this.interviewedApplicationsCount += 1
+      }
+      else if ( application.currentStatus === "REVIEWED") {
+        this.reviewedApplicationsCount +=1
+      }
+      else {
+        this.rejectedApplicationsCount +=1
       }
     })
   }
   
 
 }
+
+
+
+
+

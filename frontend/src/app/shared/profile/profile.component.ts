@@ -58,7 +58,6 @@ export class ProfileComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.setprofileForm(this.type);
     this.generateFieldGroups();
-    console.log('email object', this.seekerProfile);
     this.uploadedImage =
       this.seekerProfile &&
       this.seekerProfile.profilePhoto &&
@@ -165,8 +164,6 @@ export class ProfileComponent implements OnChanges, OnInit {
 
   onSubmit() {
     if (this.profileForm.invalid) {
-      // console.log('Form invalid');
-      // console.log(this.profileForm.value);
       return;
     }
     // Create FormData and prepare the payload
@@ -193,7 +190,6 @@ export class ProfileComponent implements OnChanges, OnInit {
     // Send non-file fields as JSON string under 'data'
     formData.append('data', JSON.stringify(data));
 
-    console.log('Submitting FormData:');
     for (const pair of formData.entries()) {
       // console.log(pair[0], pair[1]);
     }

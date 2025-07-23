@@ -19,7 +19,6 @@ export class JobDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.jobSelectionService.selectedJob$.subscribe( receivedJob => {
       this.job = receivedJob
-      console.log("job received = ", this.job)
     })
   }
 

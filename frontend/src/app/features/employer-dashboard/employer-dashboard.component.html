@@ -2,11 +2,11 @@
     <h2 class="page-title">Home</h2>
 
     <section class="stats-grid">
-        <app-stats-card [title]="'Total jobs'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'"  class="card card-1" />
-        <app-stats-card [title]="'Applied'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-2"/>
-        <app-stats-card [title]="'Rejected'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-3"/>
-        <app-stats-card [title]="'Reviewed'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-4"/>
-        <app-stats-card [title]="'Interviewed'" [count]="50" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-5" />
+        <app-stats-card [title]="'Total jobs'" [count]="totalJobsCount" [month]="'+20 This month'" [today]="'+2 Today'"  class="card card-1" />
+        <app-stats-card [title]="'Applied'" [count]="appliedApplicationsCount" [month]="'+20 This month'" [today]="'+5 Today'" class="card card-2"/>
+        <app-stats-card [title]="'Rejected'" [count]="rejectedApplicationsCount" [month]="'+20 This month'" [today]="'+1 Today'" class="card card-3"/>
+        <app-stats-card [title]="'Reviewed'" [count]="reviewedApplicationsCount" [month]="'+20 This month'" [today]="'+2 Today'" class="card card-4"/>
+        <app-stats-card [title]="'Interviewed'" [count]="interviewedApplicationsCount" [month]="'+20 This month'" [today]="'+4 Today'" class="card card-5" />
     </section>
 
 
@@ -16,19 +16,23 @@
     </section>
 
 
-    <section class="table-display">
-        <app-data-table [columns]="columns" [jobsArray]="jobsArray" />
-    </section>
+    @if( applicationsArray.length > 0 ) {
+        <section class="table-display">
+            <app-data-table [columns]="columns" [jobsArray]="applicationsArray" />
+        </section>
+    }
+
+    
+    @if( applicationsArray.length === 0 ) {
+        <section class="table-display">
+            <h3>No applications yet – hang tight, the right candidates may be on their way!</h3>
+        </section>
+    }
 
 
     @if( modalService.showJobDetailsFormModal ) {
         <app-job-details-modal />
     }
-
-
-    <!-- <td (click)="openJobDetailsModalForm()">{{ application.action }}</td> -->
-
-
 
 
 </main>

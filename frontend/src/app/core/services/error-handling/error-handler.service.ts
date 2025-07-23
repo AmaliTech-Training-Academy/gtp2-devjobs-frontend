@@ -14,15 +14,14 @@ export class ErrorHandlingService {
 
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error occurred.
-      console.error('Client-side error:', error.error.message);
       errorMessage = `Client Error: ${error.error.message}`;
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` +
-          `body was: ${JSON.stringify(error.error)}`
-      );
+      // console.error(
+      //   `Backend returned code ${error.status}, ` +
+      //     `body was: ${JSON.stringify(error.error)}`
+      // );
 
       switch (error.status) {
         case 0:

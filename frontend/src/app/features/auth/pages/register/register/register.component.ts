@@ -52,14 +52,14 @@ export class RegisterComponent implements OnInit {
   switchRole(role: 'seeker' | 'employer') {
     this.selectedRole = role;
     this.currentTipIndex = 0;
-    this.validationErrors = []; // Clear errors when switching roles
-    this.backendErrors = []; // Clear backend errors when switching roles
+    this.validationErrors = []; 
+    this.backendErrors = []; 
   }
 
   onFormSubmit(formData: any): void {
     this.loadingService.show();
-    this.validationErrors = []; // Clear previous errors
-    this.backendErrors = []; // Clear previous backend errors
+    this.validationErrors = []; 
+    this.backendErrors = []; 
 
     const isSeeker = this.selectedRole === 'seeker';
     const registerCall = isSeeker
@@ -83,29 +83,26 @@ export class RegisterComponent implements OnInit {
       error: (err) => {
         this.loadingService.hide();
         this.backendErrors = err.error;
-        console.error('Registration error:', err);
       },
     });
   }
 
   private handleErrors(response: any): void {
-    // Handle validation errors from backend
     if (
       response?.errors &&
       Array.isArray(response.errors) &&
       response.errors.length > 0
     ) {
       this.validationErrors = response.errors;
-      this.backendErrors = response.errors; // Set backend errors for the form
+      this.backendErrors = response.errors; 
       this.toast.error(response.errors[0]);
     } else {
-      // Handle single error message
       const isSeeker = this.selectedRole === 'seeker';
       const errorMsg =
         response?.message ||
         `${isSeeker ? 'Seeker' : 'Employer'} registration failed.`;
       this.toast.error(errorMsg);
-      this.backendErrors = [errorMsg]; // Set single error for the form
+      this.backendErrors = [errorMsg]; 
     }
   }
 

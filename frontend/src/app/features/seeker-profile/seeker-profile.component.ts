@@ -24,7 +24,6 @@ export class SeekerProfileComponent implements OnInit {
     this.jobService.getProfileDetails().subscribe({
       next: (data) => {
         this.profileData = data.data;
-        console.log(this.profileData);
       },
     });
   }
@@ -34,8 +33,6 @@ export class SeekerProfileComponent implements OnInit {
   }
 
   onSubmit(formData: FormData) {
-    // console.log('form data to parent', formData);
-
     this.jobService
       .updateProfileDetails(formData, this.profileData.profileId)
       .subscribe({
@@ -47,7 +44,6 @@ export class SeekerProfileComponent implements OnInit {
         },
         error: (err) => {
           this.toast.error('Failed to update profile. Please try again.');
-          console.log(err);
         },
       });
   }

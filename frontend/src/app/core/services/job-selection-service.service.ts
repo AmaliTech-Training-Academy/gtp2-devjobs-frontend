@@ -12,6 +12,5 @@ export class JobSelectionServiceService {
 
   setSelectedJob( job: any ) {
     this.selectedJobSubject.next( job )
-    console.log(job)
   }
 }

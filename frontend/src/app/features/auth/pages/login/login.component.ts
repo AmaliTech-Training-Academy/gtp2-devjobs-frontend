@@ -73,7 +73,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             } else if (hasSeekerRole) {
               this.router.navigate(['/seeker/dashboard']);
             } else {
-              console.warn('No valid role found, redirecting to landing');
               this.router.navigate(['/landing']);
             }
           }
@@ -85,7 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.loadingService.hide();
         this.backendErrors = err.error;
-        console.error('Login error:', err);
       },
     });
   }

@@ -24,7 +24,9 @@
             <ng-template #body let-rowData let-columns="columns">
                 <tr>
                     <td *ngFor="let column of columns" 
-                        [ngClass]="{ 'blue-action': column === 'Action' }">
+                        [ngClass]="{ 'blue-action': column === 'Action' }"
+                        (click)="column === 'Action'? viewApplicationClicked(rowData) : null"
+                        >
                         {{ rowData[ column ]}}
                     </td>
                 </tr>

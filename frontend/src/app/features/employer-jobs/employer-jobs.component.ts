@@ -40,7 +40,6 @@ export class EmployerJobsComponent implements OnInit{
       next: ( fetchedJobs ) => {
         const jobList = fetchedJobs.data.content 
         this.jobs = this.transformJobsForDataTable(jobList)
-        console.log("from jobs route, jobs fetched, ", this.jobs )
       }
     })
   }
@@ -52,7 +51,7 @@ export class EmployerJobsComponent implements OnInit{
       "Job Title": employerJob.title,
       "Job Type": this.formatEmploymentType(employerJob.employmentType),
       "Date": this.formatDate(employerJob.createdAt),
-      // "Salary": `$${employerJob.salary.toLocaleString()}`,
+      "Salary": `$${employerJob.salary.toLocaleString()}`,
       "Location": employerJob.location,
       "Action": "View",
       "Company Name": employerJob.company.companyName,
@@ -63,14 +62,13 @@ export class EmployerJobsComponent implements OnInit{
 
 
 
-  // Optional helper functions
   formatEmploymentType(type: string): string {
     return type.replace('_', ' ').toUpperCase(); 
   }
 
 
   formatDate(dateStr: string): string {
-    return new Date(dateStr).toISOString().split('T')[0]; // e.g. 2025-07-19
+    return new Date(dateStr).toISOString().split('T')[0]; 
   }
   
 
@@ -87,14 +85,11 @@ export class EmployerJobsComponent implements OnInit{
 
 
   handleOpenDeleteModal(event: boolean) {
-    // alert("open delete modal")
-    console.log( event )
     this.showDeleteModal = true
   }
 
 
   handleCloseDeleteModal( event: boolean ) {
-    console.log( event )
     this.showDeleteModal = false
   }
 

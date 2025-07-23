@@ -35,8 +35,6 @@ export class EmployerProfileComponent {
   }
 
   onSubmit(formData: FormData) {
-    console.log('employer details', formData);
-
     this.employerService
       .updateProfileDetails(formData, this.employerProfile.id)
       .subscribe({
