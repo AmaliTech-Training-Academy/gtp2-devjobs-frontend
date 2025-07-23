@@ -1,5 +1,5 @@
 
-import { Component, Input, inject, OnInit } from '@angular/core';
+import { Component, Input, inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
@@ -23,10 +23,9 @@ import { ModalsServiceService } from '../../core/services/modalsService/modals-s
 export class DataTableComponent implements OnInit {
   @Input() columns: any = ["Job Title", "Applicants", "Job Type", "Action"]
   @Input() jobsArray: any = []
-    
-  // @Input() properties: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
   @Input() onOpenModal: any
 
+  @Output() emitApplication = new EventEmitter()
 
   filterArray: any = []
   filterTerm = new FormControl('')
@@ -36,7 +35,6 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterArray = this.jobsArray
-    
     this.handleSearch()
   }
 
@@ -46,7 +44,6 @@ export class DataTableComponent implements OnInit {
     .pipe( debounceTime( 300 ))
     .subscribe({
       next: ( searchTerm ) => {
-        
         if(!searchTerm) {
           this.filterArray = this.jobsArray
         }
@@ -66,13 +63,12 @@ export class DataTableComponent implements OnInit {
   }
 
 
-  viewJob(job: any) {
-    
-    // Optional: close the overlay
+  viewApplicationClicked(application: any) {
+      this.emitApplication.emit( application )
   }
 
 
-  editJob(job: any) {
+  editApplicationClicked(job: any) {
     
     // Optional: close the overlay
   }

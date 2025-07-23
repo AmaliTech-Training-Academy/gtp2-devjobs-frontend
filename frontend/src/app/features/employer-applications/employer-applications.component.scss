@@ -121,6 +121,21 @@
     }
 
 
+    .selected-application {
+        display: flex;
+        width: 18.875rem;
+        justify-content: space-between;
+        margin-bottom: 2.25rem;
+
+
+        h3 {
+            @include header3;
+        }
+
+
+    }
+
+
 
 
 }

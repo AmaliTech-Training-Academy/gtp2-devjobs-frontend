@@ -183,8 +183,6 @@ export class Auth {
         }),
         map((response) => response.success && !response.error),
         catchError((error) => {
-          console.error('Auth check failed:', error);
-          // If the request fails (401, 403, etc.), user is not authenticated
           return new Observable<boolean>((observer) => {
             observer.next(false);
             observer.complete();
@@ -214,7 +212,6 @@ export class Auth {
       .pipe(
         map((response) => response.success && !response.error),
         catchError((error) => {
-          console.error('Quick auth check failed:', error);
           return new Observable<boolean>((observer) => {
             observer.next(false);
             observer.complete();
@@ -242,7 +239,6 @@ export class Auth {
         roles: JwtHelper.getRolesFromToken(token),
       };
     } catch (error) {
-      console.error('Error extracting user from token:', error);
       return null;
     }
   }
@@ -257,8 +253,6 @@ export class Auth {
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('HTTP Error:', error);
-
     const errorResponse: AuthResponse = {
       success: false,
       message: error.error?.message || 'An error occurred',

@@ -1,8 +1,12 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { ApplicationActionDataTableComponent } from '../../shared/application-action-data-table/application-action-data-table.component'
+import { EmployerApplicationsResponse } from '../../model/applicationObject';
+import { EmployerHttpRequestsService } from '../../core/services/employerJobCRUDService/employer-http-requests.service';
+import { ErrorService } from '../../core/services/error.service';
+
 
 
 @Component({
@@ -12,49 +16,13 @@ import { ApplicationActionDataTableComponent } from '../../shared/application-ac
   styleUrl: './employer-applications.component.scss'
 })
 
+
 export class EmployerApplicationsComponent implements OnInit {
-    applications: any[] = [
-  {
-    "Job Title": "Frontend Developer",
-    "Applicants": 24,
-    "Job Type": "FULL_TIME",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Data Analyst Intern",
-    "Applicants": 15,
-    "Job Type": "PART_TIME",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Product Manager",
-    "Applicants": 38,
-    "Job Type": "FULL_TIME",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Remote UX Designer",
-    "Applicants": 9,
-    "Job Type": "REMOTE",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Contract QA Tester",
-    "Applicants": 12,
-    "Job Type": "CONTRACT",
-    "Action": "View"
-  },
-  {
-    "Job Title": "Marketing Assistant",
-    "Applicants": 6,
-    "Job Type": "PART_TIME",
-    "Action": "View"
-  }
-]
+    applications: any[] = [ ]
 
+    employerHttp = inject( EmployerHttpRequestsService )
 
-  
-  
+    errorHandler = inject( ErrorService )
     
     activeTab: 'incoming' | 'statuses' = 'incoming';
 
@@ -65,6 +33,8 @@ export class EmployerApplicationsComponent implements OnInit {
     columns: string [] = ["Job Title", "Applicants", "Job Type", "Action"]
 
     applicationActionsColumn: string [] = ["Applicant", "Applied", "Action", "Status"]
+
+    applicationToViewDetails: any
 
     applicationDetailsArray: any = [
 
@@ -100,27 +70,64 @@ export class EmployerApplicationsComponent implements OnInit {
   }
     ]
 
+
+
+    ngOnInit(): void {
+      this.fetchAllEmployerApplications()
+    }
+
+    fetchAllEmployerApplications() {
+      this.employerHttp.getApplications().subscribe({
+        next: ( applications: EmployerApplicationsResponse ) => {
+          const applicationList = applications.data.content 
+          this.applications = this.transformApplicationsForDataTable( applicationList )
+        },
+        error: (err) => {
+          this.errorHandler.handle( err )
+        }
+      })
+    }
+
+  transformApplicationsForDataTable( fetchedJobs: any[] ) {
+    return fetchedJobs.map( application => ({
+      id: application.id,
+      "Job Title": application.jobPosting.title,
+      "Applicants": fetchedJobs.length,
+      "Job Type": this.formatEmploymentType(application.jobPosting.employmentType),
+      "Action": "View",
+    }))
+  }
+
+
+  formatEmploymentType(type: string): string {
+    return type.replace('_', ' ').toUpperCase(); 
+  }
+
+
+  formatDate(dateStr: string): string {
+    return new Date(dateStr).toISOString().split('T')[0]; 
+  }
+
+
     setActive(tab: 'incoming' | 'statuses') {
       this.activeTab = tab;
       this.toggleSecondActiveTab()
-      // alert( this.activeTab )
-      
     }
 
 
     setSecondActiveTab( tab:'reviewed' | 'interviewed' | 'rejected' ) {
       this.secondActiveTab = tab
-      
     }
 
     toggleSecondActiveTab() {
       this.showSecondActiveTab = !this.showSecondActiveTab
     }
 
-    ngOnInit(): void {
-      
-    }
 
+    handleViewApplicationClicked(event: Event) {
+      this.applicationToViewDetails = event
+      this.setActive('statuses')
+    }
 
 
 }
